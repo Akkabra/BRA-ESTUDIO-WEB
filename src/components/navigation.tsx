@@ -66,7 +66,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="flex-shrink-0 z-50">
-              <BraLogo className="h-14 w-auto" />
+              <BraLogo className="h-16 w-auto" />
             </a>
 
             {/* Desktop Menu (Centered) */}
@@ -89,7 +89,7 @@ const Navigation = () => {
                     onMouseEnter={() => setServicesMenuOpen(true)}
                     onMouseLeave={() => setServicesMenuOpen(false)}
                     onClick={(e) => handleLinkClick(e, '#servicios')}
-                    className="font-headline text-text-desaturated transition-all duration-300 flex items-center gap-1 group cursor-pointer relative pixel-nav-link"
+                    className="font-headline text-text-desaturated transition-all duration-300 flex items-center gap-1 group cursor-pointer relative hover:text-neon-yellow"
                   >
                     <span className="link-text">Servicios</span>
                     <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180" />
