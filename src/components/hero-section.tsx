@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 
