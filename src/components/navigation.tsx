@@ -47,8 +47,8 @@ const Navigation = () => {
             <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="z-50">
               <BraLogo 
                 className={cn(
-                  "h-12 w-auto transition-all duration-300",
-                  isScrolled ? "h-10" : "h-12"
+                  "h-8 w-auto transition-all duration-300",
+                  isScrolled ? "h-8" : "h-8"
                 )}
               />
             </a>
