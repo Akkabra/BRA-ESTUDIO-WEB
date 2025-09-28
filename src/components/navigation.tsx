@@ -66,7 +66,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="flex-shrink-0 z-50">
-              <BraLogo className="h-10 w-auto" />
+              <BraLogo className="h-14 w-auto" />
             </a>
 
             {/* Desktop Menu (Centered) */}
@@ -76,9 +76,9 @@ const Navigation = () => {
                     key={link.name}
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="font-headline text-text-desaturated hover:text-neon-yellow transition-colors duration-300"
+                    className="font-headline text-text-desaturated transition-all duration-300 relative pixel-nav-link"
                   >
-                    {link.name}
+                    <span className="link-text">{link.name}</span>
                   </a>
               ))}
 
@@ -87,14 +87,16 @@ const Navigation = () => {
                   <a
                     href="#servicios"
                     onMouseEnter={() => setServicesMenuOpen(true)}
+                    onMouseLeave={() => setServicesMenuOpen(false)}
                     onClick={(e) => handleLinkClick(e, '#servicios')}
-                    className="font-headline text-text-desaturated hover:text-neon-yellow transition-colors duration-300 flex items-center gap-1 group cursor-pointer"
+                    className="font-headline text-text-desaturated transition-all duration-300 flex items-center gap-1 group cursor-pointer relative pixel-nav-link"
                   >
-                    Servicios
+                    <span className="link-text">Servicios</span>
                     <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180" />
                   </a>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent 
+                  onMouseEnter={() => setServicesMenuOpen(true)}
                   onMouseLeave={() => setServicesMenuOpen(false)}
                   className="w-64 bg-surface-dark/90 border-neon-yellow/30 text-text-desaturated backdrop-blur-xl data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
                 >
@@ -120,9 +122,9 @@ const Navigation = () => {
                     key={link.name}
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="font-headline text-text-desaturated hover:text-neon-yellow transition-colors duration-300"
+                    className="font-headline text-text-desaturated transition-all duration-300 relative pixel-nav-link"
                   >
-                    {link.name}
+                     <span className="link-text">{link.name}</span>
                   </a>
               ))}
             </nav>
