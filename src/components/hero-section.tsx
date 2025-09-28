@@ -21,14 +21,14 @@ const HeroSection = () => {
         <div className="mb-4 flex justify-center">
           <BraLogo 
             className="pixel-hover transition-all duration-300"
-            style={{ height: '150px' }}
+            style={{ height: '170px' }}
           />
         </div>
 
         {/* Animated Title */}
         <div className="relative">
           <h1 
-            className="text-4xl sm:text-6xl lg:text-8xl font-headline font-bold glitch"
+            className="text-3xl sm:text-5xl lg:text-7xl font-headline font-bold glitch"
             data-text="BRA ESTUDIO WEB"
           >
             <span className="text-neon-yellow">BRA ESTUDIO</span>{' '}
