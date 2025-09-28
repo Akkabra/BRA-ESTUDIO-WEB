@@ -1,4 +1,4 @@
-import type {Config} from 'tailwindcss';
+import type { Config } from 'tailwindcss';
 
 export default {
   darkMode: ['class'],
@@ -9,45 +9,45 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
-        code: ['monospace'],
-      },
       colors: {
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        // Cyberpunk specific colors
+        'neon-yellow': "hsl(var(--neon-yellow))",
+        'cyber-black': "hsl(var(--cyber-black))",
+        'surface-dark': "hsl(var(--surface-dark))",
+        'text-desaturated': "hsl(var(--text-desaturated))",
         chart: {
           '1': 'hsl(var(--chart-1))',
           '2': 'hsl(var(--chart-2))',
@@ -66,6 +66,21 @@ export default {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
+      fontFamily: {
+        headline: ['Orbitron', 'monospace'],
+        body: ['Inter', 'sans-serif'],
+        code: ['monospace'],
+      },
+      backgroundImage: {
+        'gradient-neon': 'var(--gradient-neon)',
+        'gradient-surface': 'var(--gradient-surface)',
+        'gradient-overlay': 'var(--gradient-overlay)',
+      },
+      boxShadow: {
+        'neon': 'var(--glow-primary)',
+        'neon-subtle': 'var(--glow-subtle)',
+        'neon-intense': 'var(--glow-intense)',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -73,25 +88,58 @@ export default {
       },
       keyframes: {
         'accordion-down': {
-          from: {
-            height: '0',
-          },
-          to: {
-            height: 'var(--radix-accordion-content-height)',
-          },
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
-          from: {
-            height: 'var(--radix-accordion-content-height)',
-          },
-          to: {
-            height: '0',
-          },
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        "glitch-1": {
+          "0%, 100%": { transform: "translateX(0)" },
+          "10%": { transform: "translateX(-2px)" },
+          "20%": { transform: "translateX(2px)" },
+          "30%": { transform: "translateX(-2px)" },
+          "40%": { transform: "translateX(2px)" },
+          "50%": { transform: "translateX(-2px)" },
+        },
+        "glitch-2": {
+          "0%, 100%": { transform: "translateX(0)" },
+          "10%": { transform: "translateX(2px)" },
+          "20%": { transform: "translateX(-2px)" },
+          "30%": { transform: "translateX(2px)" },
+          "40%": { transform: "translateX(-2px)" },
+          "50%": { transform: "translateX(2px)" },
+        },
+        "pixelate": {
+          "0%": { filter: "blur(0px)", transform: "scale(1)" },
+          "25%": { filter: "blur(1px)", transform: "scale(1.02)" },
+          "50%": { filter: "blur(2px) contrast(1.5)", transform: "scale(0.98)" },
+          "75%": { filter: "blur(1px)", transform: "scale(1.01)" },
+          "100%": { filter: "blur(0px)", transform: "scale(1)" },
+        },
+        "move-stripes": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        "pulse-neon": {
+          "0%": { boxShadow: "var(--glow-subtle)" },
+          "100%": { boxShadow: "var(--glow-intense)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'glitch-1': 'glitch-1 0.3s infinite',
+        'glitch-2': 'glitch-2 0.3s infinite',
+        'pixelate': 'pixelate 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+        'move-stripes': 'move-stripes 2s linear infinite',
+        'pulse-neon': 'pulse-neon 2s ease-in-out infinite alternate',
+        'float': 'float 3s ease-in-out infinite',
       },
     },
   },
