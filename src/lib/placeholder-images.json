@@ -1,6 +1,24 @@
 {
   "placeholderImages": [
     {
+      "id": "hero-carousel-1",
+      "description": "Cyberpunk city street with neon lights",
+      "imageUrl": "https://images.unsplash.com/photo-1544464585-135b376c9535?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjeWJlcnB1bmslMjBuZW9ufGVufDB8fHx8MTc1ODk5MDQwM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyberpunk neon"
+    },
+    {
+      "id": "hero-carousel-2",
+      "description": "Futuristic abstract circuits and data streams",
+      "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwY2lyY3VpdHxlbnwwfHx8fDE3NTg5OTA0NDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic circuit"
+    },
+    {
+      "id": "hero-carousel-3",
+      "description": "Abstract neon lights in a dark environment",
+      "imageUrl": "https://images.unsplash.com/photo-1534279219413-455b68b4317a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhYnN0cmFjdCUyMG5lb258ZW58MHx8fHwxNzU4OTkwNDg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract neon"
+    },
+    {
       "id": "portfolio-ecommerce",
       "description": "E-commerce website",
       "imageUrl": "https://images.unsplash.com/photo-1674027392851-7b34f21b07ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxvbmxpbmUlMjBzdG9yZXxlbnwwfHx8fDE3NTkwMTQ5NTB8MA&ixlib=rb-4.1.0&q=80&w=1080",

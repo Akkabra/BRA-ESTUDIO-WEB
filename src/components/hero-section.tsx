@@ -2,17 +2,59 @@
 
 import { ArrowDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
+import Image from 'next/image';
+import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 
 const HeroSection = () => {
+
+  const heroImages = PlaceHolderImages.filter(img => img.id.startsWith('hero-carousel'));
+
   return (
     <section 
       id="inicio" 
       className="relative min-h-screen flex items-center justify-center cyber-grain scanlines overflow-hidden p-4"
     >
+      {/* Background Carousel */}
+      <Carousel
+        className="absolute inset-0 w-full h-full z-[-2]"
+        opts={{ loop: true }}
+        plugins={[
+          Autoplay({
+            delay: 5000,
+            stopOnInteraction: false,
+          }),
+        ]}
+      >
+        <CarouselContent className="m-0 h-full">
+          {heroImages.map((image, index) => (
+            <CarouselItem key={index} className="p-0 h-full">
+              <Image
+                src={image.imageUrl}
+                alt={image.description}
+                fill
+                data-ai-hint={image.imageHint}
+                className="object-cover"
+                priority={index === 0}
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+      
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-cyber-black/70 z-[-1]"></div>
+
+
       {/* Grid Background */}
       <div className="absolute inset-0 z-0">
         <div 
-          className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
+          className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
         </div>
       </div>
 
