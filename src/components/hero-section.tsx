@@ -28,14 +28,12 @@ const HeroSection = () => {
         {/* Animated Title */}
         <div className="relative">
           <h1 
-            className="text-4xl sm:text-6xl lg:text-8xl font-headline font-bold text-neon-yellow glitch"
-            data-text="FUTURO DIGITAL"
+            className="text-4xl sm:text-6xl lg:text-8xl font-headline font-bold glitch"
+            data-text="BRA ESTUDIO WEB"
           >
-            FUTURO DIGITAL
+            <span className="text-neon-yellow">BRA ESTUDIO</span>{' '}
+            <span className="text-text-desaturated">WEB</span>
           </h1>
-          <h2 className="text-3xl sm:text-5xl lg:text-7xl font-headline text-text-desaturated/80 mt-2">
-            CONSTRUIMOS EL
-          </h2>
         </div>
         
         {/* Subtitle */}
