@@ -38,11 +38,11 @@ const Navigation = () => {
       <header 
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "bg-cyber-black/80 backdrop-blur-lg" : "bg-transparent pt-4"
+          isScrolled ? "bg-cyber-black/80 backdrop-blur-lg" : "bg-transparent pt-2"
         )}
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="z-50">
               <BraLogo 
