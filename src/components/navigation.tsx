@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 import { cn } from '@/lib/utils';
@@ -16,6 +15,8 @@ import {
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isServicesMenuOpen, setServicesMenuOpen] = useState(false);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,7 +28,10 @@ const Navigation = () => {
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
     setIsOpen(false);
   };
   
@@ -35,6 +39,7 @@ const Navigation = () => {
     e.preventDefault();
     document.querySelector('#servicios')?.scrollIntoView({ behavior: 'smooth' });
     setIsOpen(false);
+    setServicesMenuOpen(false);
   };
 
   const mainLinks = [
@@ -58,45 +63,50 @@ const Navigation = () => {
         )}
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="flex-shrink-0 z-50">
-              <BraLogo className="h-6 w-auto" />
+              <BraLogo className="h-10 w-auto" />
             </a>
 
             {/* Desktop Menu (Centered) */}
             <nav className="hidden md:flex flex-1 items-center justify-center gap-x-10">
-              <a
-                href="#inicio"
-                onClick={(e) => handleLinkClick(e, '#inicio')}
-                className="font-headline text-text-desaturated hover:text-neon-yellow transition-colors group"
-              >
-                Inicio
-                <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-neon-yellow"></span>
-              </a>
+              {mainLinks.slice(0, 1).map((link) => (
+                 <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => handleLinkClick(e, link.href)}
+                    className="font-headline text-text-desaturated hover:text-neon-yellow transition-colors duration-300"
+                  >
+                    {link.name}
+                  </a>
+              ))}
 
-              <DropdownMenu>
+              <DropdownMenu open={isServicesMenuOpen} onOpenChange={setServicesMenuOpen}>
                 <DropdownMenuTrigger asChild>
                   <a
                     href="#servicios"
+                    onMouseEnter={() => setServicesMenuOpen(true)}
                     onClick={(e) => handleLinkClick(e, '#servicios')}
-                    className="font-headline text-text-desaturated hover:text-neon-yellow transition-colors flex items-center gap-1 group cursor-pointer"
+                    className="font-headline text-text-desaturated hover:text-neon-yellow transition-colors duration-300 flex items-center gap-1 group cursor-pointer"
                   >
                     Servicios
                     <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180" />
-                     <span className="block max-w-0 group-hover:max-w-full absolute bottom-0 left-0 transition-all duration-500 h-0.5 bg-neon-yellow"></span>
                   </a>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-surface-dark/90 border-neon-yellow/30 text-text-desaturated backdrop-blur-xl">
+                <DropdownMenuContent 
+                  onMouseLeave={() => setServicesMenuOpen(false)}
+                  className="w-64 bg-surface-dark/90 border-neon-yellow/30 text-text-desaturated backdrop-blur-xl data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+                >
                   <DropdownMenuGroup>
                     {services.map((service) => (
                       <DropdownMenuItem 
                         key={service.name}
-                        className="focus:bg-neon-yellow/10 focus:text-neon-yellow cursor-pointer"
+                        className="focus:bg-neon-yellow/10 focus:text-neon-yellow cursor-pointer group/item"
                         onClick={handleServiceClick}
                       >
                         <div className="flex flex-col">
-                          <span className="font-headline">{service.name}</span>
+                          <span className="font-headline group-hover/item:text-neon-yellow transition-colors duration-200">{service.name}</span>
                           <span className="text-xs text-text-desaturated/70">{service.description}</span>
                         </div>
                       </DropdownMenuItem>
@@ -110,10 +120,9 @@ const Navigation = () => {
                     key={link.name}
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="font-headline text-text-desaturated hover:text-neon-yellow transition-colors relative group"
+                    className="font-headline text-text-desaturated hover:text-neon-yellow transition-colors duration-300"
                   >
                     {link.name}
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-neon-yellow group-hover:w-full transition-all duration-300"></span>
                   </a>
               ))}
             </nav>
