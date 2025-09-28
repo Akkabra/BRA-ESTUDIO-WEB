@@ -5,7 +5,7 @@ export const BraLogo = ({ className }: { className?: string }) => {
     return (
         <div className={cn(className)}>
             <Image 
-                src="/bra-logo-shield.png"
+                src="/logoprincipal.png"
                 alt="BRA ESTUDIO WEB Logo"
                 width={100}
                 height={120}
