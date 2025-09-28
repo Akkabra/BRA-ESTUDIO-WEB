@@ -21,7 +21,7 @@ const HeroSection = () => {
         <div className="mb-4 flex justify-center">
           <BraLogo 
             className="pixel-hover transition-all duration-300"
-            style={{ height: '110px' }}
+            style={{ height: '150px' }}
           />
         </div>
 
