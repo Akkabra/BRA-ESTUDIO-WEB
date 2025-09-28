@@ -18,9 +18,10 @@ const HeroSection = () => {
 
       <div className="relative z-10 text-center space-y-8 animate-fade-in-up">
         {/* Logo */}
-        <div className="mb-4">
+        <div className="mb-4 flex justify-center">
           <BraLogo 
-            className="h-[30px] w-auto mx-auto neon-glow-subtle pixel-hover transition-all duration-300"
+            className="pixel-hover transition-all duration-300"
+            style={{ height: '70px' }}
           />
         </div>
 
