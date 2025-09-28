@@ -58,10 +58,10 @@ const Navigation = () => {
         )}
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="flex-shrink-0 z-50">
-              <BraLogo className="h-10 w-auto" />
+              <BraLogo className="h-8 w-auto" />
             </a>
 
             {/* Desktop Menu (Centered) */}

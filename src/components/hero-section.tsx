@@ -21,7 +21,7 @@ const HeroSection = () => {
         {/* Logo */}
         <div className="mb-4">
           <BraLogo 
-            className="h-24 md:h-32 w-auto mx-auto neon-glow-subtle pixel-hover transition-all duration-300"
+            className="h-20 md:h-28 w-auto mx-auto neon-glow-subtle pixel-hover transition-all duration-300"
           />
         </div>
 
