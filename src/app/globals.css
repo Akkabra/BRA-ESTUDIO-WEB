@@ -270,6 +270,7 @@ All colors MUST be HSL.
     overflow: hidden;
     opacity: 0.4;
     mix-blend-mode: screen;
+    z-index: 5;
 }
 
 .neon-rays::before,
@@ -304,3 +305,5 @@ All colors MUST be HSL.
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+
+    
