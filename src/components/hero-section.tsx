@@ -98,26 +98,39 @@ const HeroSection = () => {
             className="
               relative inline-block px-8 py-3 mt-6 
               font-headline font-bold text-lg tracking-widest uppercase 
-              transition-all duration-300 ease-in-out
+              transition-colors duration-200 ease-in-out
               
               // Estilo Base Neón
               text-cyber-black bg-neon-yellow shadow-[0_0_15px_rgba(255,255,0,0.5)] 
+              border-2 border-neon-yellow
               
               // Efecto Hover
-              hover:text-neon-yellow hover:bg-transparent 
-              hover:shadow-[0_0_25px_rgba(255,255,0,0.8),_0_0_60px_rgba(255,255,0,0.5)] 
-              hover:border-neon-yellow border-2 border-neon-yellow
+              hover:text-neon-yellow hover:bg-transparent
+              hover:shadow-[0_0_25px_rgba(255,255,0,1),_0_0_100px_rgba(255,255,0,0.7)] 
               
-              // Efecto 'Glow' en el borde (solo visible al pasar el ratón)
-              before:content-[''] before:absolute before:inset-0 
-              before:border-2 before:border-neon-yellow before:opacity-0
-              hover:before:opacity-100 hover:before:animate-pulse
-              
-              // Efecto Glitch Sutil
-              hover:transform hover:translate-x-[2px] hover:translate-y-[2px]
+              // Contenedor para Pseudoelementos
+              group relative
           "
           >
             INICIAR PROYECTO
+            
+            {/* Capa de Borde Superior/Inferior (Efecto de Línea de Falla) */}
+            <span 
+                className="
+                    absolute inset-0 
+                    border-t-2 border-b-2 border-neon-yellow opacity-0 
+                    group-hover:opacity-100 group-hover:animate-[glitch-line-1_0.2s_infinite]
+                " 
+            ></span>
+            
+            {/* Capa de Borde Izquierdo/Derecho (Efecto de Desplazamiento) */}
+            <span 
+                className="
+                    absolute inset-0 
+                    border-l-2 border-r-2 border-neon-yellow opacity-0 
+                    group-hover:opacity-100 group-hover:animate-[glitch-line-2_0.2s_infinite]
+                " 
+            ></span>
           </a>
         </div>
 
