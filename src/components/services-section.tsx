@@ -131,13 +131,13 @@ const ServicesSection = () => {
                   >
                     <div
                       className={cn(
-                        'relative w-full h-full transition-transform duration-700 ease-in-out',
+                        'relative w-full h-full transition-transform duration-700 ease-in-out group-hover:animate-street-punk-shake',
                         { 'transform [transform:rotateY(180deg)]': flippedStates[index] }
                       )}
                       style={{ transformStyle: 'preserve-3d' }}
                     >
                       {/* Front Face */}
-                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/90 flex flex-col justify-between transition-all duration-300 group-hover:shadow-neon-intense" style={{ backfaceVisibility: 'hidden' }}>
+                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/90 flex flex-col justify-between transition-all duration-300 group-hover:shadow-[0_0_40px_hsl(var(--neon-yellow)/0.9)]" style={{ backfaceVisibility: 'hidden' }}>
                         <div className="absolute inset-0 border border-neon-yellow/30 rounded-lg group-hover:border-neon-yellow transition-colors duration-300"></div>
                         <div className="absolute inset-0 bg-gradient-to-br from-neon-yellow/5 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
 
