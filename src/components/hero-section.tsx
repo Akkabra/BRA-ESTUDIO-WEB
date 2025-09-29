@@ -48,7 +48,7 @@ const HeroSection = () => {
         </CarouselContent>
       </Carousel>
 
-      {/* Container for overlays and content */}
+      {/* Overlay and Content Container */}
       <div className="relative z-10 flex h-screen flex-col items-center justify-center p-4">
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-cyber-black/70"></div>
@@ -61,10 +61,10 @@ const HeroSection = () => {
         </div>
 
         {/* Main Content */}
-        <div className="relative z-20 text-center space-y-8 animate-fade-in-up">
+        <div className="relative text-center space-y-8 animate-fade-in-up">
           <div className="mb-4 flex justify-center">
             <BraLogo
-              className="pixel-hover transition-all duration-300 h-[60px] w-auto"
+              className="pixel-hover transition-all duration-300 h-[100px] w-auto"
             />
           </div>
 
@@ -86,7 +86,7 @@ const HeroSection = () => {
         </div>
 
         {/* Scroll Down Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
           <a href="#servicios" aria-label="Ir a servicios" className="animate-bounce block">
             <div className="w-10 h-10 border-2 border-neon-yellow/50 rounded-full flex items-center justify-center text-neon-yellow hover:bg-neon-yellow/10 transition-colors">
               <ArrowDown className="w-6 h-6" />
