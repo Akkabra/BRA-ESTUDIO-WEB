@@ -71,6 +71,7 @@ export default {
         body: ['Inter', 'sans-serif'],
         code: ['monospace'],
         cyberjunkies: ['Cyberjunkies', 'sans-serif'],
+        'bank-gothic': ['Bank Gothic', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-neon': 'var(--gradient-neon)',
@@ -205,5 +206,3 @@ export default {
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
-
-    
