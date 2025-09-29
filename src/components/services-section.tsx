@@ -6,6 +6,14 @@ import { CheckCircle, Code, Gem, Package } from 'lucide-react';
 
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
+  const [flippedStates, setFlippedStates] = useState<Record<number, boolean>>({});
+
+  const handleCardClick = (index: number) => {
+    setFlippedStates(prev => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
 
   const serviceTypes = [
     { key: 'web', label: 'Desarrollo Web' },
@@ -69,7 +77,6 @@ const ServicesSection = () => {
 
   return (
     <section id="servicios" className="py-20 cyber-grain relative overflow-hidden">
-      {/* Background decoration */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-10 w-32 h-32 border border-neon-yellow rotate-45"></div>
         <div className="absolute bottom-20 right-10 w-24 h-24 border border-neon-yellow rotate-12"></div>
@@ -77,7 +84,6 @@ const ServicesSection = () => {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_100%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-headline font-bold text-neon-yellow mb-6 cyber-title">
             NUESTROS SERVICIOS
@@ -87,7 +93,6 @@ const ServicesSection = () => {
           </p>
         </div>
 
-        {/* Service Selector Tabs */}
         <div className="flex justify-center mb-12">
           <div className="flex space-x-2 p-1 bg-black/50 border border-neon-yellow/20 rounded-lg">
             {serviceTypes.map(service => (
@@ -110,21 +115,38 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        {/* Services Content */}
-        <div className="relative min-h-[550px]" style={{ perspective: '1200px' }}>
+        <div className="relative min-h-[550px]">
           {activeService === 'web' && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {mainServices.web.map((plan, index) => {
                 const Icon = plan.icon;
+                const isFlipped = !!flippedStates[index];
                 return (
-                  <div key={index} className="group relative h-[500px] w-full">
-                    {/* Card container */}
-                    <div className="relative h-full w-full transition-transform duration-700 ease-in-out">
+                  <div
+                    key={index}
+                    className="group cursor-pointer"
+                    style={{ perspective: '1200px' }}
+                    onClick={() => handleCardClick(index)}
+                  >
+                    <div
+                      className={cn(
+                        "relative h-[500px] w-full transition-transform duration-700 ease-in-out",
+                        "[transform-style:preserve-3d]",
+                        // Click animation for mobile
+                        isFlipped ? '[transform:rotateX(180deg)]' : '',
+                        // Hover animation for desktop
+                        "md:group-hover:opacity-100" // Keep this for desktop hover logic
+                      )}
+                    >
                       {/* Front Face */}
                       <div
-                        className="absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:blur-lg"
+                        className={cn(
+                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md transition-all duration-500 ease-in-out [backface-visibility:hidden]",
+                           // Desktop hover effect
+                           "md:group-hover:opacity-0 md:group-hover:blur-lg"
+                        )}
                       >
-                        <div className="absolute inset-0 rounded-lg border border-neon-yellow/30 transition-colors group-hover:border-neon-yellow"></div>
+                        <div className="absolute inset-0 rounded-lg border border-neon-yellow/30 md:group-hover:border-neon-yellow"></div>
                         <div>
                           <div className="mb-4 flex items-start justify-between">
                             <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
@@ -147,8 +169,9 @@ const ServicesSection = () => {
                             ))}
                           </ul>
                           <div className="mt-6 text-center">
-                            <p className="text-xs font-body text-neon-yellow/70 transition-opacity duration-200 group-hover:opacity-0">
-                              Pasa el cursor para ver más
+                            <p className="text-xs font-body text-neon-yellow/70 transition-opacity duration-200 md:group-hover:opacity-0">
+                                <span className='md:hidden'>Toca para ver más</span>
+                                <span className='hidden md:inline'>Pasa el cursor para ver más</span>
                             </p>
                           </div>
                         </div>
@@ -156,7 +179,15 @@ const ServicesSection = () => {
 
                       {/* Back Face */}
                       <div
-                        className="absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/95 p-6 opacity-0 shadow-neon-intense transition-all duration-500 ease-in-out group-hover:scale-100 group-hover:opacity-100 group-hover:blur-0 blur-lg scale-95"
+                        className={cn(
+                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/95 p-6 shadow-neon-intense [backface-visibility:hidden]",
+                          // Initial state for both mobile and desktop
+                          "opacity-0 blur-lg scale-95 [transform:rotateX(180deg)]",
+                           // Desktop hover effect
+                           "transition-all duration-500 ease-in-out md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100",
+                           // Mobile click effect
+                           isFlipped ? 'opacity-100 blur-0 scale-100' : ''
+                        )}
                       >
                         <div className="absolute inset-0 rounded-lg border border-neon-cyan/50"></div>
                         <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent"></div>
@@ -164,15 +195,15 @@ const ServicesSection = () => {
                           <h4 className="mb-4 text-xl font-headline text-neon-cyan">
                             Más detalles del {plan.title}
                           </h4>
-
                           <p className="font-body text-sm leading-relaxed text-text-desaturated/90">{plan.details}</p>
                         </div>
                         <Button
                           variant="cyberpunk"
                           size="lg"
                           className="mt-6 w-full border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-cyber-black"
-                          onClick={() => {
-                            document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
+                          onClick={(e) => {
+                              e.stopPropagation();
+                              document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
                           }}
                         >
                           Contratar Plan
@@ -184,7 +215,6 @@ const ServicesSection = () => {
               })}
             </div>
           )}
-          {/* Placeholder for other services */}
           {activeService !== 'web' && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-text-desaturated py-16">
