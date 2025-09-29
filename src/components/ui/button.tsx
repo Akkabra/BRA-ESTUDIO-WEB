@@ -18,7 +18,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-primary text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.6)] hover:bg-primary/90 hover:shadow-[0_0_30px_hsl(var(--primary)/0.8)] transition-all",
+        hero: "bg-gradient-neon text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.6)] hover:bg-primary/90 hover:shadow-[0_0_30px_hsl(var(--primary)/0.8)] transition-all",
         neon: "bg-primary text-primary-foreground shadow-[0_0_10px_hsl(var(--primary)/0.3)] hover:bg-primary/90 hover:shadow-[0_0_20px_hsl(var(--primary)/0.6)] transition-all",
         cyberpunk: "bg-transparent border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors",
       },

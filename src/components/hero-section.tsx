@@ -5,6 +5,7 @@ import { ArrowDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Button } from '@/components/ui/button';
 
 const HeroSection = () => {
   const heroImages = PlaceHolderImages.filter(img =>
@@ -101,8 +102,8 @@ const HeroSection = () => {
           <a 
               href="#contacto"
               className="
-                  group relative inline-block px-8 py-4 mt-6 
-                  font-cyberjunkies font-bold text-xl tracking-widest uppercase 
+                  group relative inline-block px-6 py-3 mt-6 
+                  font-cyberjunkies font-bold text-lg tracking-widest uppercase 
                   transition-colors duration-200 ease-in-out
                   
                   // Estilo Base Neón
