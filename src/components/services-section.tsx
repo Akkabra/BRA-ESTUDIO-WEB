@@ -116,7 +116,7 @@ const ServicesSection = () => {
                 return (
                   <div
                     key={index}
-                    className="group w-full h-[500px] cursor-pointer"
+                    className="group w-full h-[500px]"
                   >
                     <div
                       className={cn(
