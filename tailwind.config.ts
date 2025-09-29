@@ -148,7 +148,11 @@ export default {
         'cyber-pulse': {
           '0%, 100%': { transform: 'scale(1.5) rotate(0deg)', opacity: '0.7' },
           '50%': { transform: 'scale(1.6) rotate(1deg)', opacity: '1' },
-        }
+        },
+        'loading-fill': {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -163,6 +167,7 @@ export default {
         'glitch-line-1': 'glitch-line-1 0.2s infinite',
         'glitch-line-2': 'glitch-line-2 0.2s infinite',
         'cyber-pulse': 'cyber-pulse 8s ease-in-out infinite alternate',
+        'loading-fill': 'loading-fill 5s ease-in-out forwards',
       },
     },
   },

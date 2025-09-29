@@ -147,6 +147,25 @@ All colors MUST be HSL.
   }
 
   /* Glitch Effects */
+  .glitch-text {
+    @apply text-neon-yellow;
+    text-shadow: 
+        0 0 2px hsl(var(--neon-yellow) / 0.5),
+        0 0 5px hsl(var(--neon-yellow) / 0.3),
+        1px 1px 0px hsl(var(--neon-cyan) / 0.7),
+        -1px -1px 0px hsl(10 89% 53% / 0.7);
+    animation: glitch-subtle 0.5s infinite alternate;
+  }
+
+  @keyframes glitch-subtle {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(1px, -1px); }
+    50% { transform: translate(-1px, 1px); }
+    75% { transform: translate(1px, 0); }
+    100% { transform: translate(0,0); }
+  }
+
+
   .glitch {
     position: relative;
   }
@@ -274,8 +293,10 @@ All colors MUST be HSL.
   }
 
   .mobile-menu-gradient {
-    background-image: radial-gradient(circle at top, hsl(var(--surface-dark) / 0.1), transparent 70%);
+    background-image: radial-gradient(circle at top, hsl(var(--surface-dark) / 0.1), transparent 70%), 
+                      radial-gradient(at top, hsla(215, 41%, 15%, 0.4), transparent 70%);
   }
+  
 
   /* Neon Particles */
   @keyframes neon-particles-anim {
@@ -315,5 +336,16 @@ All colors MUST be HSL.
     background-image: var(--particle-image-1), var(--particle-image-2);
     background-size: var(--particle-bg-size);
     animation: neon-particles-anim 15s linear infinite;
+  }
+
+  @keyframes cyber-pulse {
+    0%, 100% {
+      transform: scale(1.5) rotate(0deg);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.6) rotate(1deg);
+      opacity: 1;
+    }
   }
 }
