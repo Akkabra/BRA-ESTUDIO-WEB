@@ -343,7 +343,7 @@ All colors MUST be HSL.
 
   :root {
     --particle-image-1: radial-gradient(circle, hsl(var(--neon-yellow)) 1px, transparent 1px);
-    --particle-image-2: radial-gradient(circle, hsl(var(--neon-cyan)) 1px, transparent 1px);
+    --particle-image-2: radial-gradient(circle, hsl(var(--neon-orange)) 1px, transparent 1px);
     --particle-bg-size: 50px 50px, 70px 70px;
   }
   .neon-particles {
@@ -363,7 +363,3 @@ All colors MUST be HSL.
     }
   }
 }
-
-    
-
-    

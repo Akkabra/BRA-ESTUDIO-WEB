@@ -20,7 +20,7 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
 
         {/* Scanline */}
         <div className="absolute top-0 left-0 w-full h-full animate-scan opacity-40">
-          <div className="h-1 bg-gradient-to-r from-transparent via-neon-cyan/80 to-transparent"></div>
+          <div className="h-1 bg-gradient-to-r from-transparent via-neon-orange/80 to-transparent"></div>
         </div>
         
         {/* Grid Background */}
@@ -35,7 +35,7 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
             background: `
               radial-gradient(circle at center, 
                 hsl(var(--neon-yellow) / 0.15) 0%, 
-                hsl(var(--neon-cyan) / 0.1) 30%, 
+                hsl(var(--neon-orange) / 0.1) 30%, 
                 transparent 70%
               )
             `,
@@ -54,7 +54,7 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
           </div>
         </div>
 
-        <p className="text-sm md:text-base text-neon-yellow font-headline tracking-widest animate-text-flicker relative h-5 w-64 text-center overflow-hidden">
+        <p className="font-headline text-sm md:text-base text-neon-yellow tracking-widest animate-text-flicker relative h-5 w-64 text-center overflow-hidden">
           <span className="animate-binary-glitch absolute inset-0"></span>
         </p>
       </div>
