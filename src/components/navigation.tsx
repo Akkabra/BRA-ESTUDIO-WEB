@@ -49,7 +49,7 @@ const NavigationContent = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="flex-shrink-0 z-50">
+          <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="hidden md:inline-block flex-shrink-0 z-50">
             <BraLogo className="h-16 w-auto" style={{ height: '55px'}}/>
           </a>
 
@@ -112,12 +112,13 @@ const NavigationContent = () => {
           </nav>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex-shrink-0 z-50">
+          <div className="md:hidden flex items-center justify-end flex-1 z-50">
             <button
-              className="text-text-desaturated hover:text-neon-yellow transition-colors"
+              className="text-text-desaturated hover:text-neon-yellow transition-colors relative h-8 w-8"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+              <Menu size={28} className={cn('absolute transition-transform duration-300 ease-in-out', isOpen ? 'rotate-90 scale-0' : 'rotate-0 scale-100')} />
+              <X size={28} className={cn('absolute transition-transform duration-300 ease-in-out', isOpen ? 'rotate-0 scale-100' : '-rotate-90 scale-0')} />
             </button>
           </div>
         </div>
@@ -125,13 +126,13 @@ const NavigationContent = () => {
       {/* Mobile Menu Overlay */}
       <div
         className={cn(
-          'fixed inset-0 z-40 bg-cyber-black/95 backdrop-blur-xl transition-transform duration-500 ease-in-out md:hidden h-screen',
+          'fixed inset-0 z-40 bg-cyber-black/80 backdrop-blur-lg mobile-menu-gradient transition-transform duration-500 ease-in-out md:hidden h-screen',
           isOpen ? 'translate-y-0' : '-translate-y-full'
         )}
       >
         <div className="flex h-full flex-col items-center justify-center space-y-10 text-center">
             <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="absolute top-5">
-              <BraLogo className="h-16 w-auto" style={{ height: '55px'}}/>
+              <BraLogo className="h-20 w-auto"/>
             </a>
           <nav className="flex flex-col items-center space-y-8">
             {[...mainLinks.slice(0,1), {name: 'Servicios', href: '#servicios'}, ...mainLinks.slice(1)].map((link, index) => (

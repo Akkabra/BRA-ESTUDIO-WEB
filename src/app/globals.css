@@ -272,4 +272,8 @@ All colors MUST be HSL.
       transform: translateY(0);
     }
   }
+
+  .mobile-menu-gradient {
+    background-image: radial-gradient(circle at top, hsl(var(--surface-dark) / 0.1), transparent 70%);
+  }
 }
