@@ -19,7 +19,7 @@ const HeroSection = () => {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen w-full overflow-hidden"
+      className="relative min-h-screen w-full overflow-hidden "
     >
       <Carousel
         className="absolute inset-0 z-0"
@@ -64,7 +64,7 @@ const HeroSection = () => {
           <div className="mb-4 flex justify-center">
             <BraLogo
               className="pixel-hover transition-all duration-300"
-              style={{ height: '70px' }}
+              style={{ height: '100px' }}
             />
           </div>
 
