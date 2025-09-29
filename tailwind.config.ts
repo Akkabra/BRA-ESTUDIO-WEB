@@ -131,16 +131,6 @@ export default {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
         },
-        'glitch-line-1': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '25%': { transform: 'translateY(-1px)' },
-          '75%': { transform: 'translateY(1px)' },
-        },
-        'glitch-line-2': {
-          '0%, 100%': { transform: 'translateX(0)' },
-          '33%': { transform: 'translateX(1px)' },
-          '66%': { transform: 'translateX(-1px)' },
-        },
         'fade-in-up': {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
@@ -155,8 +145,6 @@ export default {
         'move-stripes': 'move-stripes 2s linear infinite',
         'pulse-neon': 'pulse-neon 2s ease-in-out infinite alternate',
         'float': 'float 3s ease-in-out infinite',
-        'glitch-line-1': 'glitch-line-1 0.2s infinite',
-        'glitch-line-2': 'glitch-line-2 0.2s infinite',
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
       },
     },

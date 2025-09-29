@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, ArrowRight } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -98,44 +98,11 @@ const HeroSection = () => {
             
           </p>
 
-          <a 
-              href="#contacto"
-              className="
-                  relative inline-block px-6 py-2 md:px-8 md:py-3 mt-6 
-                  font-cyberjunkies font-bold text-base md:text-lg tracking-widest uppercase 
-                  transition-colors duration-200 ease-in-out
-                  
-                  // Estilo Base Neón
-                  text-cyber-black bg-neon-yellow shadow-[0_0_15px_rgba(255,255,0,0.5)] 
-                  border-2 border-neon-yellow
-                  
-                  // Efecto Hover
-                  hover:text-neon-yellow hover:bg-transparent
-                  hover:shadow-[0_0_25px_rgba(255,255,0,1),_0_0_100px_rgba(255,255,0,0.7)] 
-                  
-                  // Contenedor para Pseudoelementos
-                  group relative
-              "
-          >
-              INICIAR PROYECTO
-              
-              {/* Capa de Borde Superior/Inferior (Efecto de Línea de Falla) */}
-              <span 
-                  className="
-                      absolute inset-0 
-                      border-t-2 border-b-2 border-neon-yellow opacity-0 
-                      group-hover:opacity-100 group-hover:animate-[glitch-line-1_0.2s_infinite]
-                  " 
-              ></span>
-              
-              {/* Capa de Borde Izquierdo/Derecho (Efecto de Desplazamiento) */}
-              <span 
-                  className="
-                      absolute inset-0 
-                      border-l-2 border-r-2 border-neon-yellow opacity-0 
-                      group-hover:opacity-100 group-hover:animate-[glitch-line-2_0.2s_infinite]
-                  " 
-              ></span>
+          <a href="#contacto" className="inline-block group">
+            <div className="flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-body font-semibold transition-transform duration-300 group-hover:scale-105">
+              <span>Iniciar Proyecto</span>
+              <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </div>
           </a>
         </div>
 
