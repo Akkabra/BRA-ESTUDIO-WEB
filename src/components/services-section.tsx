@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Check, Star, Zap, Crown } from 'lucide-react';
+import { Check, Star, Zap, Crown, ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
@@ -22,7 +23,8 @@ const ServicesSection = () => {
             'Formulario de contacto',
             'SSL incluido',
             '1 mes de soporte'
-          ]
+          ],
+          details: 'Ideal para startups y proyectos personales que necesitan una presencia online profesional y efectiva desde el primer día.'
         },
         {
           name: 'Normal',
@@ -37,7 +39,8 @@ const ServicesSection = () => {
             'Blog funcional',
             '3 meses de soporte'
           ],
-          popular: true
+          popular: true,
+          details: 'La solución perfecta para empresas en crecimiento que buscan una web potente, autogestionable y con herramientas de marketing.'
         },
         {
           name: 'Premium',
@@ -51,7 +54,8 @@ const ServicesSection = () => {
             'API personalizada',
             'Diseño UX/UI premium',
             '6 meses de soporte'
-          ]
+          ],
+          details: 'Para proyectos a gran escala y e-commerce que requieren funcionalidades a medida, un diseño excepcional y el máximo rendimiento.'
         }
       ]
     },
@@ -68,7 +72,8 @@ const ServicesSection = () => {
             'Tipografías',
             '2 revisiones',
             'Archivos en alta resolución'
-          ]
+          ],
+          details: 'El punto de partida para cualquier nueva marca. Creamos un logo memorable y una paleta de colores que te represente.'
         },
         {
           name: 'Identidad Completa',
@@ -82,7 +87,8 @@ const ServicesSection = () => {
             'Mockups incluidos',
             '5 revisiones'
           ],
-          popular: true
+          popular: true,
+          details: 'Un paquete integral para establecer una identidad de marca sólida y coherente en todos los puntos de contacto.'
         },
         {
           name: 'Branding 360°',
@@ -95,7 +101,8 @@ const ServicesSection = () => {
             'Merchandising',
             'Redes sociales templates',
             'Revisiones ilimitadas'
-          ]
+          ],
+          details: 'La solución definitiva para marcas que buscan dominar su mercado con una estrategia y una identidad visual de alto impacto.'
         }
       ]
     },
@@ -112,7 +119,8 @@ const ServicesSection = () => {
             'Diseño responsive',
             'Play Store/App Store',
             '2 meses de soporte'
-          ]
+          ],
+          details: 'Lanza tu idea al mercado móvil rápidamente con una aplicación funcional y bien diseñada para iOS y Android.'
         },
         {
           name: 'App Avanzada',
@@ -126,7 +134,8 @@ const ServicesSection = () => {
             'Autenticación usuarios',
             '4 meses de soporte'
           ],
-          popular: true
+          popular: true,
+          details: 'Para aplicaciones que requieren mayor rendimiento, funcionalidades complejas y una experiencia de usuario superior.'
         },
         {
           name: 'App Enterprise',
@@ -139,67 +148,41 @@ const ServicesSection = () => {
             'Analytics avanzado',
             'Mantenimiento 1 año',
             'Soporte prioritario'
-          ]
+          ],
+          details: 'Soluciones móviles a nivel empresarial, diseñadas para la escalabilidad, la seguridad y la integración con sistemas existentes.'
         }
       ]
     }
   };
 
   const serviceTypes = [
-    { key: 'web', label: 'Desarrollo Web', icon: '🌐' },
-    { key: 'branding', label: 'Branding', icon: '🎨' },
-    { key: 'apps', label: 'Apps Móviles', icon: '📱' }
+    { key: 'web', label: 'Desarrollo Web' },
+    { key: 'branding', label: 'Branding' },
+    { key: 'apps', label: 'Apps Móviles' }
   ];
 
-  return (
-    <section id="servicios" className="py-20 cyber-grain relative">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-10 w-32 h-32 border border-neon-yellow rotate-45"></div>
-        <div className="absolute bottom-20 right-10 w-24 h-24 border border-neon-yellow rotate-12"></div>
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-headline font-bold text-neon-yellow mb-6 cyber-title">
-            NUESTROS SERVICIOS
-          </h2>
-          <p className="text-xl text-text-desaturated max-w-3xl mx-auto font-body">
-            Soluciones digitales personalizadas que transforman tu visión en realidad
-          </p>
-        </div>
-
-        {/* Service Selector */}
-        <div className="flex justify-center mb-12">
-          <div className="flex flex-wrap gap-4 p-2 bg-surface-dark/50 rounded-lg border border-neon-yellow/20">
-            {serviceTypes.map((service) => (
-              <button
-                key={service.key}
-                onClick={() => setActiveService(service.key)}
-                className={`px-6 py-3 rounded-md font-body font-semibold transition-all duration-300 ${
-                  activeService === service.key
-                    ? 'bg-neon-yellow text-cyber-black shadow-neon'
-                    : 'text-text-desaturated hover:text-neon-yellow hover:bg-neon-yellow/10'
-                }`}
-              >
-                <span className="mr-2">{service.icon}</span>
-                {service.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Service Packages */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {mainServices[activeService as keyof typeof mainServices].packages.map((pkg, index) => (
+  const FlippableCard = ({ pkg, index }: { pkg: any, index: number }) => {
+    const [isFlipped, setIsFlipped] = useState(false);
+  
+    return (
+      <div 
+        className="group [perspective:1000px]"
+        onClick={() => setIsFlipped(!isFlipped)}
+      >
+        <div 
+          className={cn(
+            "relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d]",
+            isFlipped ? '[transform:rotateY(180deg)]' : ''
+          )}
+        >
+          {/* Front of the card */}
+          <div className="absolute w-full h-full [backface-visibility:hidden]">
             <Card 
-              key={index}
-              className={`
-                relative bg-surface-dark/90 border-2 transition-all duration-500 hover:scale-105 hover:shadow-neon
-                ${pkg.popular ? 'border-neon-yellow shadow-neon-subtle' : 'border-neon-yellow/30 hover:border-neon-yellow/60'}
-                group cursor-pointer
-              `}
+              className={cn(
+                'h-full flex flex-col justify-between bg-surface-dark/90 border-2 transition-all duration-300 group-hover:[transform:translateZ(20px)_rotateX(5deg)] group-hover:shadow-[0_0_20px_#00FFFF,0_0_30px_#00FFFF40]',
+                pkg.popular ? 'border-neon-yellow shadow-neon-subtle' : 'border-neon-cyan/30 group-hover:border-neon-cyan',
+                'cursor-pointer'
+              )}
             >
               {pkg.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
@@ -223,31 +206,110 @@ const ServicesSection = () => {
                 </div>
               </CardHeader>
 
-              <CardContent className="space-y-4">
-                {pkg.features.map((feature, featureIndex) => (
+              <CardContent className="flex-grow space-y-4">
+                {pkg.features.map((feature: string, featureIndex: number) => (
                   <div key={featureIndex} className="flex items-center space-x-3">
                     <Check className="w-5 h-5 text-neon-yellow flex-shrink-0" />
                     <span className="text-text-desaturated font-body">{feature}</span>
                   </div>
                 ))}
-
-                <div className="pt-6">
-                  <Button 
-                    variant={pkg.popular ? "neon" : "cyberpunk"} 
-                    className="w-full"
-                    onClick={() => {
-                      const element = document.getElementById('contacto');
-                      element?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                  >
-                    CONTRATAR
-                  </Button>
-                </div>
               </CardContent>
-
-              {/* 3D hover effect overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-neon-yellow/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg pointer-events-none"></div>
+              <div className="p-6 pt-0">
+                  <Button variant="cyberpunk" className="w-full">
+                    GIRAR PARA VER MÁS <ArrowRight className="ml-2"/>
+                  </Button>
+              </div>
             </Card>
+          </div>
+
+          {/* Back of the card */}
+          <div className="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+             <Card 
+              className={cn(
+                'h-full flex flex-col justify-between bg-surface-dark border-2',
+                 pkg.popular ? 'border-neon-yellow' : 'border-neon-cyan',
+                'cursor-pointer p-6'
+              )}
+            >
+                <CardHeader className="p-0 text-center">
+                    <CardTitle className="text-2xl font-headline text-neon-yellow mb-4">
+                        {pkg.name}
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="p-0 flex-grow flex items-center">
+                    <p className="text-text-desaturated text-center font-body text-lg leading-relaxed">
+                        {pkg.details}
+                    </p>
+                </CardContent>
+                <div className="pt-6">
+                    <Button 
+                        variant={pkg.popular ? "neon" : "cyberpunk"} 
+                        className="w-full"
+                        onClick={(e) => {
+                            e.stopPropagation(); // Prevent card from flipping back
+                            const element = document.getElementById('contacto');
+                            element?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                    >
+                        CONTRATAR ESTE PLAN
+                    </Button>
+                </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <section id="servicios" className="py-20 cyber-grain relative">
+      {/* Background decoration */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-20 left-10 w-32 h-32 border border-neon-yellow rotate-45"></div>
+        <div className="absolute bottom-20 right-10 w-24 h-24 border border-neon-yellow rotate-12"></div>
+      </div>
+       <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_100%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+
+
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-6xl font-headline font-bold text-neon-yellow mb-6 cyber-title">
+            NUESTROS SERVICIOS
+          </h2>
+          <p className="text-xl text-text-desaturated max-w-3xl mx-auto font-body">
+            Soluciones digitales personalizadas que transforman tu visión en realidad
+          </p>
+        </div>
+
+        {/* Service Selector Tabs */}
+        <div className="flex justify-center mb-12">
+            <div className="flex space-x-2 p-1 bg-black/50 border border-neon-yellow/20 rounded-lg">
+                {serviceTypes.map((service) => (
+                <button
+                    key={service.key}
+                    onClick={() => setActiveService(service.key)}
+                    className={cn(
+                    "px-6 py-2 rounded-md font-headline text-sm transition-all duration-300 relative",
+                    activeService === service.key
+                        ? "text-neon-yellow"
+                        : "text-text-desaturated/70 hover:text-neon-yellow/80 hover:bg-white/5"
+                    )}
+                >
+                    {service.label}
+                    {activeService === service.key && (
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-neon-yellow animate-pulse shadow-neon-subtle"></div>
+                    )}
+                </button>
+                ))}
+            </div>
+        </div>
+
+
+        {/* Service Packages */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {mainServices[activeService as keyof typeof mainServices].packages.map((pkg, index) => (
+              <FlippableCard key={index} pkg={pkg} index={index} />
           ))}
         </div>
 
@@ -270,5 +332,3 @@ const ServicesSection = () => {
 };
 
 export default ServicesSection;
-
-    
