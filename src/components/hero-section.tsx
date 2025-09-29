@@ -33,7 +33,7 @@ const HeroSection = () => {
       >
         <CarouselContent className="m-0 h-full">
           {heroImages.map((image, index) => (
-            <CarouselItem key={index} className="relative h-full p-0">
+            <CarouselItem key={index} className="relative h-full w-full p-0">
               <Image
                 src={image.imageUrl}
                 alt={image.description}
