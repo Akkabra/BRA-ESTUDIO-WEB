@@ -64,7 +64,7 @@ const HeroSection = () => {
         <div className="relative z-10 text-center space-y-8 animate-fade-in-up">
           <div className="mb-4 flex justify-center">
             <BraLogo
-              className="pixel-hover transition-all duration-300 h-[60px] w-auto"
+              className="pixel-hover transition-all duration-300 h-[230px] w-auto"
             />
           </div>
 
@@ -81,7 +81,7 @@ const HeroSection = () => {
           <p className="text-base md:text-xl text-text-desaturated font-body max-w-2xl mx-auto leading-relaxed">
             Transformamos ideas en experiencias web inmersivas.
             <br />
-            Tu visión, nuestro código.
+            
           </p>
         </div>
 
@@ -105,5 +105,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-
-    
