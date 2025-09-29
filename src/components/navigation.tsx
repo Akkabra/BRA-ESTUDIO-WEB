@@ -39,9 +39,9 @@ const NavigationContent = () => {
   ];
 
   const services = [
-    { name: 'Desarrollo Web', description: 'Soluciones web a medida' },
-    { name: 'Branding', description: 'Identidad y estrategia de marca' },
-    { name: 'Apps Móviles', description: 'Aplicaciones para iOS y Android' },
+    { name: 'Desarrollo Web', description: 'Soluciones web a medida', animation: 'animate-module-enter-1' },
+    { name: 'Branding', description: 'Identidad y estrategia de marca', animation: 'animate-module-enter-2' },
+    { name: 'Apps Móviles', description: 'Aplicaciones para iOS y Android', animation: 'animate-module-enter-3' },
   ];
 
   return (
@@ -70,7 +70,7 @@ const NavigationContent = () => {
               <DropdownMenuTrigger asChild>
                 <button
                   onMouseEnter={() => setServicesMenuOpen(true)}
-                  onClick={() => setServicesMenuOpen(!isServicesMenuOpen)}
+                  onMouseLeave={() => setServicesMenuOpen(false)}
                   className="font-headline text-text-desaturated transition-all duration-300 flex items-center gap-1 group cursor-pointer relative hover:text-neon-yellow focus:outline-none"
                 >
                   <span>Servicios</span>
@@ -78,19 +78,26 @@ const NavigationContent = () => {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent 
+                onMouseEnter={() => setServicesMenuOpen(true)}
                 onMouseLeave={() => setServicesMenuOpen(false)}
-                className="w-64 bg-surface-dark border-2 border-neon-yellow/50 text-text-desaturated shadow-neon-subtle data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+                className="bg-transparent border-none shadow-none w-64 mt-2"
               >
-                <DropdownMenuGroup>
+                <DropdownMenuGroup className="flex flex-col gap-2">
                   {services.map((service) => (
                     <DropdownMenuItem 
                       key={service.name}
-                      className="focus:bg-neon-yellow/10 cursor-pointer group/item"
+                      className={cn(
+                        "p-0 focus:bg-transparent data-[highlighted]:bg-transparent",
+                        service.animation
+                      )}
                       onClick={handleServiceClick}
+                      style={{ animationFillMode: 'backwards' }}
                     >
-                      <div className="flex flex-col">
-                        <span className="font-headline text-neon-yellow group-hover/item:text-neon-yellow/80 transition-colors duration-200">{service.name}</span>
-                        <span className="text-xs text-text-desaturated/70">{service.description}</span>
+                      <div className="w-full p-3 bg-black/70 border border-neon-cyan/80 rounded-md transition-all duration-300 hover:bg-surface-dark hover:border-neon-yellow hover:shadow-neon-subtle cursor-pointer group/item">
+                        <div className="flex flex-col">
+                          <span className="font-headline text-neon-yellow group-hover/item:text-neon-yellow transition-colors duration-200">{service.name}</span>
+                          <span className="text-xs text-text-desaturated/70">{service.description}</span>
+                        </div>
                       </div>
                     </DropdownMenuItem>
                   ))}
