@@ -44,9 +44,14 @@ const HeroSection = () => {
         ))}
       </div>
       
+      {/* Neon Particles */}
+      <div className="absolute inset-0 z-[1] h-full w-full overflow-hidden">
+        <div className="neon-particles"></div>
+      </div>
+
       {/* LaserRayGlow Effect */}
       <div
-        className="absolute inset-0 z-[5] pointer-events-none bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] blur-3xl opacity-40"
+        className="absolute inset-0 z-[5] pointer-events-none blur-3xl opacity-40"
         style={{
           background: `
             radial-gradient(at 50% 100%, hsl(var(--neon-yellow) / 0.2), transparent 50%),
