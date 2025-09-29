@@ -1,13 +1,8 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from '@/components/ui/carousel';
-import Autoplay from 'embla-carousel-autoplay';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 
@@ -15,37 +10,39 @@ const HeroSection = () => {
   const heroImages = PlaceHolderImages.filter(img =>
     img.id.startsWith('hero-carousel')
   );
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex(prevIndex =>
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, [heroImages.length]);
 
   return (
     <section
       id="inicio"
       className="relative min-h-screen w-full overflow-hidden"
     >
-      <Carousel
-        className="absolute inset-0 z-0 h-screen"
-        opts={{ loop: true }}
-        plugins={[
-          Autoplay({
-            delay: 5000,
-            stopOnInteraction: false,
-          }),
-        ]}
-      >
-        <CarouselContent className="m-0 h-full">
-          {heroImages.map((image, index) => (
-            <CarouselItem key={index} className="relative h-full w-full p-0">
-              <Image
-                src={image.imageUrl}
-                alt={image.description}
-                fill
-                data-ai-hint={image.imageHint}
-                className="object-cover"
-                priority={index === 0}
-              />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
+      {/* Background Image Carousel */}
+      <div className="absolute inset-0 z-0 h-screen w-full">
+        {heroImages.map((image, index) => (
+          <Image
+            key={image.id}
+            src={image.imageUrl}
+            alt={image.description}
+            fill
+            data-ai-hint={image.imageHint}
+            className={`object-cover transition-opacity duration-1000 ease-in-out ${
+              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+            priority={index === 0}
+          />
+        ))}
+      </div>
 
       {/* Overlay and Content Container */}
       <div className="relative z-10 flex h-screen flex-col items-center justify-center p-4">
