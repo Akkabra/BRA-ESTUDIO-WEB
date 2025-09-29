@@ -7,8 +7,8 @@ export const BraLogo = ({ className, style }: { className?: string, style?: Reac
             <Image 
                 src="/logoprincipal.png"
                 alt="BRA ESTUDIO WEB Logo"
-                width={100}
-                height={30}
+                width={700}
+                height={10}
                 className="w-auto h-full"
                 priority
             />

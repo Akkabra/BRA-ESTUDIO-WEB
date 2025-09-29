@@ -48,22 +48,21 @@ const HeroSection = () => {
       </Carousel>
       
       {/* Overlay */}
-      <div className="absolute inset-0 bg-cyber-black/70 z-10"></div>
+<div className="absolute inset-0 bg-cyber-black/70 z-[5]"></div>
 
+{/* Grid Background */}
+<div className="absolute inset-0 z-[6] scanlines cyber-grain">
+  <div 
+    className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
+  </div>
+</div>
 
-      {/* Grid Background */}
-      <div className="absolute inset-0 z-10 scanlines cyber-grain">
-        <div 
-          className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
-        </div>
-      </div>
-
-      <div className="relative z-20 text-center space-y-8 animate-fade-in-up">
+      <div className="relative z-[10] text-center space-y-8 animate-fade-in-up">
         {/* Logo */}
         <div className="mb-4 flex justify-center">
           <BraLogo 
             className="pixel-hover transition-all duration-300"
-            style={{ height: '250px' }}
+            style={{ height: '110px' }}
           />
         </div>
 
