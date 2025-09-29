@@ -16,7 +16,7 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
 
         <div className="w-64 md:w-96">
           <div className="h-2 w-full bg-neon-yellow/10 rounded-full overflow-hidden border border-neon-yellow/20">
-            <div className="h-full bg-gradient-to-r from-neon-yellow via-amber-400 to-yellow-500 rounded-full animate-loading-fill shadow-neon-subtle"></div>
+            <div className="h-full bg-gradient-neon rounded-full animate-loading-fill shadow-neon-subtle"></div>
           </div>
         </div>
 
