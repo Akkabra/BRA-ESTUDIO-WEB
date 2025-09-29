@@ -121,7 +121,7 @@ const ServicesSection = () => {
                     <div
                       className={cn(
                         'relative w-full h-full transition-transform duration-700 ease-in-out [transform-style:preserve-3d]',
-                        'group-hover:[transform:rotateY(180deg)_scale(1.05)]'
+                        'group-hover:[transform:rotateX(180deg)_rotateY(180deg)_scale(1.05)]'
                       )}
                     >
                       {/* Front Face */}
@@ -150,7 +150,7 @@ const ServicesSection = () => {
                           </ul>
                         </div>
                          <div className="text-center mt-6">
-                           <p className="text-xs font-body text-neon-yellow/70 animate-pulse">
+                           <p className="text-xs font-body text-neon-yellow/70 group-hover:opacity-0 transition-opacity duration-200">
                             Pasa el cursor para ver más
                           </p>
                         </div>
