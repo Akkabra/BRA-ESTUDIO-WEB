@@ -50,7 +50,7 @@ const HeroSection = () => {
       {/* Overlays and Content Container */}
       <div className="relative z-10 flex h-screen flex-col items-center justify-center p-4">
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-transparent"></div>
+        <div className="absolute inset-0 bg-cyber-black/70"></div>
         
         {/* Grid Background */}
         <div className="absolute inset-0 scanlines cyber-grain">
