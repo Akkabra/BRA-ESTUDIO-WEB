@@ -20,7 +20,7 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
           </div>
         </div>
 
-        <p className="text-sm md:text-base text-neon-yellow font-code tracking-widest animate-text-flicker">
+        <p className="text-sm md:text-base text-neon-yellow font-headline tracking-widest animate-text-flicker">
           INICIANDO SISTEMA...
         </p>
       </div>
@@ -29,5 +29,3 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
 };
 
 export default LoadingScreen;
-
-    
