@@ -1,12 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Code, Gem, Package } from 'lucide-react';
 
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
-  const [flippedStates, setFlippedStates] = useState<boolean[]>([]);
 
   const serviceTypes = [
     { key: 'web', label: 'Desarrollo Web' },
@@ -64,19 +63,6 @@ const ServicesSection = () => {
     branding: [], // Placeholder for future content
     apps: [], // Placeholder for future content
   };
-  
-  useEffect(() => {
-    setFlippedStates(Array(mainServices.web.length).fill(false));
-  }, [mainServices.web.length]);
-
-
-  const handleCardClick = (index: number) => {
-    setFlippedStates(prev => {
-      const newStates = [...prev];
-      newStates[index] = !newStates[index];
-      return newStates;
-    });
-  };
 
   return (
     <section id="servicios" className="py-20 cyber-grain relative overflow-hidden">
@@ -131,13 +117,11 @@ const ServicesSection = () => {
                   <div
                     key={index}
                     className="group w-full h-[500px] cursor-pointer"
-                    onClick={() => handleCardClick(index)}
                   >
                     <div
                       className={cn(
                         'relative w-full h-full transition-transform duration-700 ease-in-out [transform-style:preserve-3d]',
-                        'group-hover:[transform:rotateX(10deg)_translateY(-20px)]',
-                        { '[transform:rotateY(180deg)]': flippedStates[index] }
+                        'group-hover:[transform:rotateY(180deg)]',
                       )}
                     >
                       {/* Front Face */}
@@ -167,7 +151,7 @@ const ServicesSection = () => {
                         </div>
                          <div className="text-center mt-6">
                            <p className="text-xs font-body text-neon-yellow/70 animate-pulse">
-                            Haz clic para ver más
+                            Pasa el cursor para ver más
                           </p>
                         </div>
                       </div>
