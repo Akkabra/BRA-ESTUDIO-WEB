@@ -93,7 +93,7 @@ const NavigationContent = () => {
                       onClick={handleServiceClick}
                       style={{ animationFillMode: 'backwards' }}
                     >
-                      <div className="w-full p-3 bg-black/70 border border-neon-cyan/80 rounded-md transition-all duration-300 hover:bg-surface-dark hover:border-neon-yellow hover:shadow-neon-subtle cursor-pointer group/item">
+                      <div className="w-full p-3 bg-black/70 border border-neon-yellow/30 rounded-md transition-all duration-300 hover:bg-surface-dark hover:border-neon-yellow hover:shadow-neon-subtle cursor-pointer group/item">
                         <div className="flex flex-col">
                           <span className="font-headline text-neon-yellow group-hover/item:text-neon-yellow transition-colors duration-200">{service.name}</span>
                           <span className="text-xs text-text-desaturated/70">{service.description}</span>
