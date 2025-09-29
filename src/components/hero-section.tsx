@@ -21,9 +21,8 @@ const HeroSection = () => {
       id="inicio"
       className="relative min-h-screen w-full overflow-hidden"
     >
-      {/* Carousel as background */}
       <Carousel
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 h-screen"
         opts={{ loop: true }}
         plugins={[
           Autoplay({
