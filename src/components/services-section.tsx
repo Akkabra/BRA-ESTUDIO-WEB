@@ -126,51 +126,62 @@ const ServicesSection = () => {
                 return (
                   <div
                     key={index}
-                    className={cn(
-                      'relative transition-transform duration-700 w-full h-[500px]',
-                      { 'transform [transform:rotateY(180deg)]': flippedStates[index] }
-                    )}
-                    style={{ transformStyle: 'preserve-3d' }}
+                    className="group w-full h-[500px] cursor-pointer"
                     onClick={() => handleCardFlip(index)}
                   >
-                    {/* Front Face */}
-                    <div className="absolute w-full h-full p-6 rounded-lg border border-neon-yellow/30 bg-surface-dark/90 shadow-lg flex flex-col justify-between transition-shadow duration-300 hover:shadow-neon-intense group cursor-pointer" style={{ backfaceVisibility: 'hidden' }}>
-                      <div>
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
-                          <Icon className="w-8 h-8 text-neon-yellow/70" />
-                        </div>
-                        <div className="mb-6">
-                          <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
-                          <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
-                        </div>
-                        <ul className="space-y-3 font-body">
-                          {plan.features.map((feature, fIndex) => (
-                            <li key={fIndex} className="flex items-center">
-                              <CheckCircle className="w-4 h-4 text-neon-yellow mr-3 flex-shrink-0" />
-                              <span className="text-text-desaturated text-sm">{feature}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                       <div className="text-center mt-6">
-                        <p className="text-xs font-body text-neon-yellow/70 animate-pulse">
-                          Haz clic para ver más
-                        </p>
-                      </div>
-                    </div>
+                    <div
+                      className={cn(
+                        'relative w-full h-full transition-transform duration-700 ease-in-out',
+                        { 'transform [transform:rotateY(180deg)]': flippedStates[index] }
+                      )}
+                      style={{ transformStyle: 'preserve-3d' }}
+                    >
+                      {/* Front Face */}
+                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/90 flex flex-col justify-between transition-all duration-300 group-hover:shadow-neon-intense" style={{ backfaceVisibility: 'hidden' }}>
+                        <div className="absolute inset-0 border border-neon-yellow/30 rounded-lg group-hover:border-neon-yellow transition-colors duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-neon-yellow/5 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                    {/* Back Face */}
-                    <div className="absolute w-full h-full p-6 rounded-lg border border-neon-cyan/50 bg-surface-dark/95 shadow-lg flex flex-col justify-between" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
-                       <div>
-                        <h4 className="text-xl font-headline text-neon-cyan mb-4">Más detalles del {plan.title}</h4>
-                        <p className="font-body text-text-desaturated/90 text-sm leading-relaxed">
-                          {plan.details}
-                        </p>
+                        <div>
+                          <div className="flex items-start justify-between mb-4 relative">
+                            <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
+                            <div className="p-2 bg-cyber-black/50 border border-neon-yellow/30 rounded-bl-lg">
+                                <Icon className="w-6 h-6 text-neon-yellow/70" />
+                            </div>
+                          </div>
+                          <div className="mb-6">
+                            <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
+                            <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
+                          </div>
+                          <ul className="space-y-3 font-body">
+                            {plan.features.map((feature, fIndex) => (
+                              <li key={fIndex} className="flex items-center">
+                                <CheckCircle className="w-4 h-4 text-neon-yellow mr-3 flex-shrink-0" />
+                                <span className="text-text-desaturated text-sm">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                         <div className="text-center mt-6">
+                          <p className="text-xs font-body text-neon-yellow/70 animate-pulse">
+                            Haz clic para ver más
+                          </p>
+                        </div>
                       </div>
-                       <Button variant="cyberpunk" size="lg" className="w-full mt-6 border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-cyber-black" onClick={(e) => { e.stopPropagation(); document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                        Contratar Plan
-                      </Button>
+
+                      {/* Back Face */}
+                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/95 flex flex-col justify-between" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                         <div className="absolute inset-0 border border-neon-cyan/50 rounded-lg"></div>
+                         <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent"></div>
+                         <div>
+                          <h4 className="text-xl font-headline text-neon-cyan mb-4">Más detalles del {plan.title}</h4>
+                          <p className="font-body text-text-desaturated/90 text-sm leading-relaxed">
+                            {plan.details}
+                          </p>
+                        </div>
+                         <Button variant="cyberpunk" size="lg" className="w-full mt-6 border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-cyber-black" onClick={(e) => { e.stopPropagation(); document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' }); }}>
+                          Contratar Plan
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 );
