@@ -125,44 +125,26 @@ const NavigationContent = () => {
       {/* Mobile Menu Overlay */}
       <div
         className={cn(
-          'fixed inset-0 z-40 bg-cyber-black/95 backdrop-blur-xl transition-transform duration-500 ease-in-out md:hidden',
+          'fixed inset-0 z-40 bg-cyber-black/95 backdrop-blur-xl transition-transform duration-500 ease-in-out md:hidden h-screen',
           isOpen ? 'translate-y-0' : '-translate-y-full'
         )}
       >
-        <div className="flex h-full flex-col items-center justify-center space-y-10 pt-20">
+        <div className="flex h-full flex-col items-center justify-center space-y-10 text-center">
+            <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="absolute top-5">
+              <BraLogo className="h-16 w-auto" style={{ height: '55px'}}/>
+            </a>
           <nav className="flex flex-col items-center space-y-8">
-            <a
-              href="#inicio"
-              onClick={(e) => handleLinkClick(e, '#inicio')}
-              className="text-3xl font-headline text-text-desaturated hover:text-neon-yellow transition-transform duration-300 hover:scale-110"
-            >
-              Inicio
-            </a>
-            
-            <a
-              href="#servicios"
-              onClick={(e) => handleLinkClick(e, '#servicios')}
-              className="text-3xl font-headline text-text-desaturated hover:text-neon-yellow transition-transform duration-300 hover:scale-110"
-            >
-              Servicios
-            </a>
-
-            <a
-              href="#portafolio"
-              onClick={(e) => handleLinkClick(e, '#portafolio')}
-              className="text-3xl font-headline text-text-desaturated hover:text-neon-yellow transition-transform duration-300 hover:scale-110"
-            >
-              Portafolio
-            </a>
-
-            <a
-              href="#contacto"
-              onClick={(e) => handleLinkClick(e, '#contacto')}
-              className="text-3xl font-headline text-text-desaturated hover:text-neon-yellow transition-transform duration-300 hover:scale-110"
-            >
-              Contacto
-            </a>
-
+            {[...mainLinks.slice(0,1), {name: 'Servicios', href: '#servicios'}, ...mainLinks.slice(1)].map((link, index) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => handleLinkClick(e, link.href)}
+                className="text-3xl font-headline text-text-desaturated hover:text-neon-yellow transition-transform duration-300 hover:scale-110 animate-fade-in-up"
+                style={{ animationDelay: `${index * 100 + 300}ms`, animationFillMode: 'backwards' }}
+              >
+                {link.name}
+              </a>
+            ))}
           </nav>
         </div>
       </div>
