@@ -174,13 +174,6 @@ export default {
           from: { opacity: '0', transform: 'translateX(-20px) skewX(-15deg)' },
           to: { opacity: '1', transform: 'translateX(0) skewX(0)' },
         },
-        'street-punk-shake': {
-          '0%, 100%': { transform: 'rotateX(0deg) translateY(0) rotateY(0deg)' },
-          '20%': { transform: 'rotateX(5deg) translateY(-5px) rotateY(-3deg)' },
-          '40%': { transform: 'rotateX(-5deg) translateY(-5px) rotateY(3deg)' },
-          '60%': { transform: 'rotateX(3deg) translateY(0) rotateY(-2deg)' },
-          '80%': { transform: 'rotateX(-3deg) translateY(0) rotateY(2deg)' },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -201,7 +194,6 @@ export default {
         'module-enter-1': 'module-enter 0.2s ease-out 0.05s',
         'module-enter-2': 'module-enter 0.2s ease-out 0.1s',
         'module-enter-3': 'module-enter 0.2s ease-out 0.15s',
-        'street-punk-shake': 'street-punk-shake 0.4s ease-in-out both',
       },
     },
   },
