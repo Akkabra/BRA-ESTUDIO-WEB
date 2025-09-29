@@ -114,25 +114,30 @@ const ServicesSection = () => {
               {mainServices.web.map((plan, index) => {
                 const Icon = plan.icon;
                 return (
-                  <div
-                    key={index}
-                    className="group w-full h-[500px]"
-                  >
-                    <div
-                      className={cn(
-                        'relative w-full h-full transition-transform duration-700 ease-in-out [transform-style:preserve-3d]',
-                        'group-hover:[transform:rotateX(180deg)_rotateY(180deg)_scale(1.05)]'
-                      )}
-                    >
-                      {/* Front Face */}
-                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/90 flex flex-col justify-between transition-all duration-300 group-hover:shadow-[0_0_40px_hsl(var(--neon-yellow)/0.3)] [backface-visibility:hidden]">
-                        <div className="absolute inset-0 border border-neon-yellow/30 rounded-lg group-hover:border-neon-yellow transition-colors duration-300"></div>
-                        <div className="absolute inset-0 bg-gradient-to-br from-neon-yellow/5 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div key={index} className="group w-full h-[500px] relative">
+                    {/* Back Face - always visible underneath */}
+                    <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/95 flex flex-col justify-between transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 group-hover:scale-105">
+                      <div className="absolute inset-0 border border-neon-cyan/50 rounded-lg"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent"></div>
+                      <div>
+                        <h4 className="text-xl font-headline text-neon-cyan mb-4">Más detalles del {plan.title}</h4>
+                        <p className="font-body text-text-desaturated/90 text-sm leading-relaxed">
+                          {plan.details}
+                        </p>
+                      </div>
+                      <Button variant="cyberpunk" size="lg" className="w-full mt-6 border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-cyber-black" onClick={(e) => { e.stopPropagation(); document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' }); }}>
+                        Contratar Plan
+                      </Button>
+                    </div>
 
-                        <div>
-                          <div className="flex items-start justify-between mb-4 relative">
+                    {/* Front Face - Splits on hover */}
+                    <div className="absolute w-full h-full rounded-lg overflow-hidden pointer-events-none">
+                      <div className="absolute w-full h-1/2 top-0 left-0 bg-surface-dark/90 transition-all duration-500 ease-in-out group-hover:-translate-y-full group-hover:opacity-50">
+                        <div className="absolute inset-0 border-t border-x border-neon-yellow/30 rounded-t-lg group-hover:border-neon-yellow"></div>
+                        <div className="p-6">
+                           <div className="flex items-start justify-between mb-4 relative">
                             <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
-                            <div className="p-2 bg-cyber-black/50 border border-neon-yellow/30 rounded-full">
+                             <div className="p-2 bg-cyber-black/50 border border-neon-yellow/30 rounded-full">
                                 <Icon className="w-6 h-6 text-neon-yellow/70" />
                             </div>
                           </div>
@@ -140,7 +145,12 @@ const ServicesSection = () => {
                             <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
                             <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
                           </div>
-                          <ul className="space-y-3 font-body">
+                        </div>
+                      </div>
+                      <div className="absolute w-full h-1/2 bottom-0 left-0 bg-surface-dark/90 transition-all duration-500 ease-in-out group-hover:translate-y-full group-hover:opacity-50">
+                         <div className="absolute inset-0 border-b border-x border-neon-yellow/30 rounded-b-lg group-hover:border-neon-yellow"></div>
+                         <div className="p-6 -translate-y-full h-full flex flex-col justify-end">
+                           <ul className="space-y-3 font-body">
                             {plan.features.map((feature, fIndex) => (
                               <li key={fIndex} className="flex items-center">
                                 <CheckCircle className="w-4 h-4 text-neon-yellow mr-3 flex-shrink-0" />
@@ -148,27 +158,12 @@ const ServicesSection = () => {
                               </li>
                             ))}
                           </ul>
-                        </div>
-                         <div className="text-center mt-6">
-                           <p className="text-xs font-body text-neon-yellow/70 group-hover:opacity-0 transition-opacity duration-200">
-                            Pasa el cursor para ver más
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Back Face */}
-                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/95 flex flex-col justify-between [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                         <div className="absolute inset-0 border border-neon-cyan/50 rounded-lg"></div>
-                         <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent"></div>
-                         <div>
-                          <h4 className="text-xl font-headline text-neon-cyan mb-4">Más detalles del {plan.title}</h4>
-                          <p className="font-body text-text-desaturated/90 text-sm leading-relaxed">
-                            {plan.details}
-                          </p>
-                        </div>
-                         <Button variant="cyberpunk" size="lg" className="w-full mt-6 border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-cyber-black" onClick={(e) => { e.stopPropagation(); document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                          Contratar Plan
-                        </Button>
+                          <div className="text-center mt-6">
+                            <p className="text-xs font-body text-neon-yellow/70 opacity-100 group-hover:opacity-0 transition-opacity duration-200">
+                              Pasa el cursor para ver más
+                            </p>
+                          </div>
+                         </div>
                       </div>
                     </div>
                   </div>
