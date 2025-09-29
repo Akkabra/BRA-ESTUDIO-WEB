@@ -48,29 +48,29 @@ const HeroSection = () => {
       </Carousel>
       
       {/* Overlay */}
-      <div className="absolute inset-0 bg-cyber-black/70 z-1"></div>
+      <div className="absolute inset-0 bg-cyber-black/70 z-10"></div>
 
 
       {/* Grid Background */}
-      <div className="absolute inset-0 z-2 scanlines cyber-grain">
+      <div className="absolute inset-0 z-10 scanlines cyber-grain">
         <div 
           className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
         </div>
       </div>
 
-      <div className="relative z-10 text-center space-y-8 animate-fade-in-up">
+      <div className="relative z-20 text-center space-y-8 animate-fade-in-up">
         {/* Logo */}
         <div className="mb-4 flex justify-center">
           <BraLogo 
             className="pixel-hover transition-all duration-300"
-            style={{ height: '330px' }}
+            style={{ height: '390px' }}
           />
         </div>
 
         {/* Animated Title */}
         <div className="relative">
           <h1 
-            className="text-3xl sm:text-5xl lg:text-6xl font-headline font-bold glitch"
+            className="text-3xl sm:text-4xl lg:text-5xl font-headline font-bold glitch"
             data-text="BRA ESTUDIO WEB"
           >
             <span className="text-neon-yellow">BRA ESTUDIO</span>{' '}
@@ -96,10 +96,10 @@ const HeroSection = () => {
       </div>
 
       {/* Corner Brackets */}
-      <div className="absolute top-4 left-4 w-12 h-12 border-l-2 border-t-2 border-neon-yellow/30 transition-all duration-300 group-hover:w-16 group-hover:h-16 z-10"></div>
-      <div className="absolute top-4 right-4 w-12 h-12 border-r-2 border-t-2 border-neon-yellow/30 transition-all duration-300 group-hover:w-16 group-hover:h-16 z-10"></div>
-      <div className="absolute bottom-4 left-4 w-12 h-12 border-l-2 border-b-2 border-neon-yellow/30 transition-all duration-300 group-hover:w-16 group-hover:h-16 z-10"></div>
-      <div className="absolute bottom-4 right-4 w-12 h-12 border-r-2 border-b-2 border-neon-yellow/30 transition-all duration-300 group-hover:w-16 group-hover:h-16 z-10"></div>
+      <div className="absolute top-4 left-4 w-12 h-12 border-l-2 border-t-2 border-neon-yellow/30 transition-all duration-300 group-hover:w-16 group-hover:h-16 z-20"></div>
+      <div className="absolute top-4 right-4 w-12 h-12 border-r-2 border-t-2 border-neon-yellow/30 transition-all duration-300 group-hover:w-16 group-hover:h-16 z-20"></div>
+      <div className="absolute bottom-4 left-4 w-12 h-12 border-l-2 border-b-2 border-neon-yellow/30 transition-all duration-300 group-hover:w-16 group-hover:h-16 z-20"></div>
+      <div className="absolute bottom-4 right-4 w-12 h-12 border-r-2 border-b-2 border-neon-yellow/30 transition-all duration-300 group-hover:w-16 group-hover:h-16 z-20"></div>
     </section>
   );
 };
