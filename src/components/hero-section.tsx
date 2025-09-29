@@ -19,8 +19,9 @@ const HeroSection = () => {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen w-full overflow-hidden "
+      className="relative min-h-screen w-full overflow-hidden"
     >
+      {/* Carousel as background */}
       <Carousel
         className="absolute inset-0 z-0"
         opts={{ loop: true }}
@@ -47,7 +48,7 @@ const HeroSection = () => {
         </CarouselContent>
       </Carousel>
 
-      {/* Overlays and Content Container */}
+      {/* Container for overlays and content */}
       <div className="relative z-10 flex h-screen flex-col items-center justify-center p-4">
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-cyber-black/70"></div>
@@ -63,8 +64,7 @@ const HeroSection = () => {
         <div className="relative z-20 text-center space-y-8 animate-fade-in-up">
           <div className="mb-4 flex justify-center">
             <BraLogo
-              className="pixel-hover transition-all duration-300"
-              style={{ height: '100px' }}
+              className="pixel-hover transition-all duration-300 h-[60px] w-auto"
             />
           </div>
 
@@ -95,7 +95,7 @@ const HeroSection = () => {
         </div>
       </div>
       
-      {/* Corner Brackets need to be outside the inner relative container to be positioned correctly */}
+      {/* Corner Brackets */}
       <div className="absolute top-4 left-4 w-12 h-12 border-l-2 border-t-2 border-neon-yellow/30 z-20"></div>
       <div className="absolute top-4 right-4 w-12 h-12 border-r-2 border-t-2 border-neon-yellow/30 z-20"></div>
       <div className="absolute bottom-4 left-4 w-12 h-12 border-l-2 border-b-2 border-neon-yellow/30 z-20"></div>
