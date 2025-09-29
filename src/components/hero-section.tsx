@@ -106,44 +106,45 @@ const HeroSection = () => {
               <br />
             </p>
 
-            <a 
-              href="#contacto"
+            <a
+              href="https://wa.me/573145527342"
+              target="_blank"
+              rel="noopener noreferrer"
               className="
-                  relative inline-block px-6 py-3 mt-6 
-                  font-cyberjunkies text-lg tracking-widest uppercase 
-                  transition-colors duration-200 ease-in-out
-                  
-                  // Estilo Base Neón
-                  text-cyber-black bg-gradient-neon shadow-[0_0_15px_rgba(255,255,0,0.5)] 
-                  border-2 border-neon-yellow
-                  
-                  // Efecto Hover
-                  hover:text-neon-yellow hover:bg-transparent
-                  hover:shadow-[0_0_25px_rgba(255,255,0,1),_0_0_100px_rgba(255,255,0,0.7)] 
-                  
-                  // Contenedor para Pseudoelementos
-                  group
+                relative inline-block px-6 py-3 mt-6 
+                font-cyberjunkies text-lg font-bold tracking-widest uppercase 
+                transition-colors duration-200 ease-in-out
+                
+                // Estilo Base Neón
+                text-cyber-black bg-gradient-neon shadow-[0_0_15px_rgba(255,255,0,0.5)] 
+                border-2 border-neon-yellow
+                
+                // Efecto Hover
+                hover:shadow-[0_0_25px_rgba(255,255,0,1),_0_0_100px_rgba(255,255,0,0.7)] 
+                
+                // Contenedor para Pseudoelementos
+                group
               "
             >
-                INICIAR PROYECTO
-                
-                {/* Capa de Borde Superior/Inferior (Efecto de Línea de Falla) */}
-                <span 
-                    className="
-                        absolute inset-0 
-                        border-t-2 border-b-2 border-neon-yellow opacity-0 
-                        group-hover:opacity-100 group-hover:animate-[glitch-line-1_0.2s_infinite]
-                    " 
-                ></span>
-                
-                {/* Capa de Borde Izquierdo/Derecho (Efecto de Desplazamiento) */}
-                <span 
-                    className="
-                        absolute inset-0 
-                        border-l-2 border-r-2 border-neon-yellow opacity-0 
-                        group-hover:opacity-100 group-hover:animate-[glitch-line-2_0.2s_infinite]
-                    " 
-                ></span>
+              INICIAR PROYECTO
+              
+              {/* Capa de Borde Superior/Inferior (Efecto de Línea de Falla) */}
+              <span 
+                  className="
+                      absolute inset-0 
+                      border-t-2 border-b-2 border-neon-yellow opacity-0 
+                      group-hover:opacity-100 group-hover:animate-[glitch-line-1_0.2s_infinite]
+                  " 
+              ></span>
+              
+              {/* Capa de Borde Izquierdo/Derecho (Efecto de Desplazamiento) */}
+              <span 
+                  className="
+                      absolute inset-0 
+                      border-l-2 border-r-2 border-neon-yellow opacity-0 
+                      group-hover:opacity-100 group-hover:animate-[glitch-line-2_0.2s_infinite]
+                  " 
+              ></span>
             </a>
           </div>
         </div>
