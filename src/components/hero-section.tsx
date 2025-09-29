@@ -92,6 +92,33 @@ const HeroSection = () => {
             <br />
             
           </p>
+
+          <a
+            href="#contacto"
+            className="
+              relative inline-block px-8 py-3 mt-6 
+              font-headline font-bold text-lg tracking-widest uppercase 
+              transition-all duration-300 ease-in-out
+              
+              // Estilo Base Neón
+              text-cyber-black bg-neon-yellow shadow-[0_0_15px_rgba(255,255,0,0.5)] 
+              
+              // Efecto Hover
+              hover:text-neon-yellow hover:bg-transparent 
+              hover:shadow-[0_0_25px_rgba(255,255,0,0.8),_0_0_60px_rgba(255,255,0,0.5)] 
+              hover:border-neon-yellow border-2 border-neon-yellow
+              
+              // Efecto 'Glow' en el borde (solo visible al pasar el ratón)
+              before:content-[''] before:absolute before:inset-0 
+              before:border-2 before:border-neon-yellow before:opacity-0
+              hover:before:opacity-100 hover:before:animate-pulse
+              
+              // Efecto Glitch Sutil
+              hover:transform hover:translate-x-[2px] hover:translate-y-[2px]
+          "
+          >
+            INICIAR PROYECTO
+          </a>
         </div>
 
         {/* Scroll Down Indicator */}
