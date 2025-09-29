@@ -6,6 +6,7 @@ import { CheckCircle, Code, Gem, Package } from 'lucide-react';
 
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
+  const [flippedStates, setFlippedStates] = useState<boolean[]>([]);
 
   const serviceTypes = [
     { key: 'web', label: 'Desarrollo Web' },
@@ -63,13 +64,15 @@ const ServicesSection = () => {
     branding: [], // Placeholder for future content
     apps: [], // Placeholder for future content
   };
+  
+  useState(() => {
+    setFlippedStates(Array(mainServices.web.length).fill(false));
+  });
 
-  const [flippedStates, setFlippedStates] = useState<boolean[]>(Array(mainServices.web.length).fill(false));
-
-  const handleCardFlip = (index: number) => {
+  const handleCardHover = (index: number, isHovering: boolean) => {
     setFlippedStates(prev => {
       const newStates = [...prev];
-      newStates[index] = !newStates[index];
+      newStates[index] = isHovering;
       return newStates;
     });
   };
@@ -127,12 +130,13 @@ const ServicesSection = () => {
                   <div
                     key={index}
                     className="group w-full h-[500px] cursor-pointer"
-                    onClick={() => handleCardFlip(index)}
+                    onMouseEnter={() => handleCardHover(index, true)}
+                    onMouseLeave={() => handleCardHover(index, false)}
                   >
                     <div
                       className={cn(
                         'relative w-full h-full transition-transform duration-700 ease-in-out',
-                        'group-hover:[transform:rotateX(10deg)_translateY(-20px)]',
+                        'group-hover:[transform:rotateX(5deg)_translateY(-15px)]',
                         { '[transform:rotateY(180deg)]': flippedStates[index] }
                       )}
                       style={{ transformStyle: 'preserve-3d' }}
@@ -163,8 +167,8 @@ const ServicesSection = () => {
                           </ul>
                         </div>
                          <div className="text-center mt-6">
-                          <p className="text-xs font-body text-neon-yellow/70 animate-pulse">
-                            Haz clic para ver más
+                           <p className="text-xs font-body text-neon-yellow/70 animate-pulse">
+                            Pasa el cursor para ver más
                           </p>
                         </div>
                       </div>
