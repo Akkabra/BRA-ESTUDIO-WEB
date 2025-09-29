@@ -5,47 +5,24 @@ import { ArrowDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Button } from '@/components/ui/button';
-
-const LoadingScreen = () => (
-  <div className="flex flex-col items-center justify-center h-full w-full">
-    <div className="w-full max-w-md mx-auto">
-      <p className="text-center font-headline text-lg glitch-text mb-4">
-        SISTEMA INICIANDO...
-      </p>
-      <div className="h-1 bg-cyber-black border border-neon-yellow/50 rounded-full overflow-hidden shadow-neon-subtle">
-        <div className="h-full bg-neon-yellow rounded-full animate-loading-fill shadow-neon"></div>
-      </div>
-    </div>
-  </div>
-);
-
 
 const HeroSection = () => {
-  const [loading, setLoading] = useState(true);
   const heroImages = PlaceHolderImages.filter(img =>
     img.id.startsWith('hero-carousel')
   );
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    const loadingTimer = setTimeout(() => {
-      setLoading(false);
-    }, 5000); // Match animation duration
-
     const imageInterval = setInterval(() => {
-      if (!loading) {
-        setCurrentImageIndex(prevIndex =>
-          prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
-        );
-      }
+      setCurrentImageIndex(prevIndex =>
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
     }, 5000); // Change image every 5 seconds
 
     return () => {
-      clearTimeout(loadingTimer);
       clearInterval(imageInterval);
     };
-  }, [loading, heroImages.length]);
+  }, [heroImages.length]);
 
   return (
     <section
@@ -107,96 +84,88 @@ const HeroSection = () => {
 
         {/* Main Content */}
         <div className="relative z-20 w-full text-center">
-          {loading ? (
-            <LoadingScreen />
-          ) : (
-            <div className="space-y-8 animate-fade-in-up">
-              <div className="mb-4 flex justify-center">
-                <BraLogo
-                  className="pixel-hover transition-all duration-300 h-[100px] md:h-[230px] w-auto"
-                />
-              </div>
-
-              <div className="relative">
-                <h1
-                  className="text-3xl sm:text-4xl lg:text-5xl font-headline font-bold glitch"
-                  data-text="BRA ESTUDIO WEB"
-                >
-                  <span className="text-neon-yellow">BRA ESTUDIO</span>{' '}
-                  <span className="text-text-desaturated">WEB</span>
-                </h1>
-              </div>
-              
-              <p className="text-base md:text-xl text-text-desaturated font-body max-w-2xl mx-auto leading-relaxed">
-                Transformamos ideas en experiencias web inmersivas.
-                <br />
-              </p>
-
-              <a 
-                  href="#contacto"
-                  className="
-                      relative inline-block px-6 py-3 mt-6 
-                      font-cyberjunkies text-lg tracking-widest uppercase 
-                      transition-colors duration-200 ease-in-out
-                      
-                      // Estilo Base Neón
-                      text-cyber-black bg-gradient-neon shadow-[0_0_15px_rgba(255,255,0,0.5)] 
-                      border-2 border-neon-yellow
-                      
-                      // Efecto Hover
-                      hover:text-neon-yellow hover:bg-transparent
-                      hover:shadow-[0_0_25px_rgba(255,255,0,1),_0_0_100px_rgba(255,255,0,0.7)] 
-                      
-                      // Contenedor para Pseudoelementos
-                      group
-                  "
-              >
-                  INICIAR PROYECTO
-                  
-                  {/* Capa de Borde Superior/Inferior (Efecto de Línea de Falla) */}
-                  <span 
-                      className="
-                          absolute inset-0 
-                          border-t-2 border-b-2 border-neon-yellow opacity-0 
-                          group-hover:opacity-100 group-hover:animate-[glitch-line-1_0.2s_infinite]
-                      " 
-                  ></span>
-                  
-                  {/* Capa de Borde Izquierdo/Derecho (Efecto de Desplazamiento) */}
-                  <span 
-                      className="
-                          absolute inset-0 
-                          border-l-2 border-r-2 border-neon-yellow opacity-0 
-                          group-hover:opacity-100 group-hover:animate-[glitch-line-2_0.2s_infinite]
-                      " 
-                  ></span>
-              </a>
+          <div className="space-y-8 animate-fade-in-up">
+            <div className="mb-4 flex justify-center">
+              <BraLogo
+                className="pixel-hover transition-all duration-300 h-[100px] md:h-[230px] w-auto"
+              />
             </div>
-          )}
+
+            <div className="relative">
+              <h1
+                className="text-3xl sm:text-4xl lg:text-5xl font-headline font-bold glitch"
+                data-text="BRA ESTUDIO WEB"
+              >
+                <span className="text-neon-yellow">BRA ESTUDIO</span>{' '}
+                <span className="text-text-desaturated">WEB</span>
+              </h1>
+            </div>
+            
+            <p className="text-base md:text-xl text-text-desaturated font-body max-w-2xl mx-auto leading-relaxed">
+              Transformamos ideas en experiencias web inmersivas.
+              <br />
+            </p>
+
+            <a 
+              href="#contacto"
+              className="
+                  relative inline-block px-6 py-3 mt-6 
+                  font-cyberjunkies text-lg tracking-widest uppercase 
+                  transition-colors duration-200 ease-in-out
+                  
+                  // Estilo Base Neón
+                  text-cyber-black bg-gradient-neon shadow-[0_0_15px_rgba(255,255,0,0.5)] 
+                  border-2 border-neon-yellow
+                  
+                  // Efecto Hover
+                  hover:text-neon-yellow hover:bg-transparent
+                  hover:shadow-[0_0_25px_rgba(255,255,0,1),_0_0_100px_rgba(255,255,0,0.7)] 
+                  
+                  // Contenedor para Pseudoelementos
+                  group
+              "
+            >
+                INICIAR PROYECTO
+                
+                {/* Capa de Borde Superior/Inferior (Efecto de Línea de Falla) */}
+                <span 
+                    className="
+                        absolute inset-0 
+                        border-t-2 border-b-2 border-neon-yellow opacity-0 
+                        group-hover:opacity-100 group-hover:animate-[glitch-line-1_0.2s_infinite]
+                    " 
+                ></span>
+                
+                {/* Capa de Borde Izquierdo/Derecho (Efecto de Desplazamiento) */}
+                <span 
+                    className="
+                        absolute inset-0 
+                        border-l-2 border-r-2 border-neon-yellow opacity-0 
+                        group-hover:opacity-100 group-hover:animate-[glitch-line-2_0.2s_infinite]
+                    " 
+                ></span>
+            </a>
+          </div>
         </div>
 
 
         {/* Scroll Down Indicator */}
-        {!loading && (
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-            <a href="#servicios" aria-label="Ir a servicios" className="animate-bounce block">
-              <div className="w-10 h-10 border-2 border-neon-yellow/50 rounded-full flex items-center justify-center text-neon-yellow hover:bg-neon-yellow/10 transition-colors">
-                <ArrowDown className="w-6 h-6" />
-              </div>
-            </a>
-          </div>
-        )}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          <a href="#servicios" aria-label="Ir a servicios" className="animate-bounce block">
+            <div className="w-10 h-10 border-2 border-neon-yellow/50 rounded-full flex items-center justify-center text-neon-yellow hover:bg-neon-yellow/10 transition-colors">
+              <ArrowDown className="w-6 h-6" />
+            </div>
+          </a>
+        </div>
       </div>
       
       {/* Corner Brackets */}
-      {!loading && (
-        <>
-          <div className="absolute top-4 left-4 w-12 h-12 border-l-2 border-t-2 border-neon-yellow/30 z-20"></div>
-          <div className="absolute top-4 right-4 w-12 h-12 border-r-2 border-t-2 border-neon-yellow/30 z-20"></div>
-          <div className="absolute bottom-4 left-4 w-12 h-12 border-l-2 border-b-2 border-neon-yellow/30 z-20"></div>
-          <div className="absolute bottom-4 right-4 w-12 h-12 border-r-2 border-b-2 border-neon-yellow/30 z-20"></div>
-        </>
-      )}
+      <>
+        <div className="absolute top-4 left-4 w-12 h-12 border-l-2 border-t-2 border-neon-yellow/30 z-20"></div>
+        <div className="absolute top-4 right-4 w-12 h-12 border-r-2 border-t-2 border-neon-yellow/30 z-20"></div>
+        <div className="absolute bottom-4 left-4 w-12 h-12 border-l-2 border-b-2 border-neon-yellow/30 z-20"></div>
+        <div className="absolute bottom-4 right-4 w-12 h-12 border-r-2 border-b-2 border-neon-yellow/30 z-20"></div>
+      </>
     </section>
   );
 };
