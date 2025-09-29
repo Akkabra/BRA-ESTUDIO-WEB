@@ -33,7 +33,7 @@ const HeroSection = () => {
       >
         <CarouselContent className="m-0 h-full">
           {heroImages.map((image, index) => (
-            <CarouselItem key={index} className="p-0 h-full">
+            <CarouselItem key={index} className="p-0 h-full relative">
               <Image
                 src={image.imageUrl}
                 alt={image.description}
@@ -63,14 +63,14 @@ const HeroSection = () => {
         <div className="mb-4 flex justify-center">
           <BraLogo 
             className="pixel-hover transition-all duration-300"
-            style={{ height: '190px' }}
+            style={{ height: '290px' }}
           />
         </div>
 
         {/* Animated Title */}
         <div className="relative">
           <h1 
-            className="text-3xl sm:text-5xl lg:text-7xl font-headline font-bold glitch"
+            className="text-3xl sm:text-5xl lg:text-6xl font-headline font-bold glitch"
             data-text="BRA ESTUDIO WEB"
           >
             <span className="text-neon-yellow">BRA ESTUDIO</span>{' '}
