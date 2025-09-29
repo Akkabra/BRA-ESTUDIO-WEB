@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Code, Gem, Package } from 'lucide-react';
@@ -65,14 +65,15 @@ const ServicesSection = () => {
     apps: [], // Placeholder for future content
   };
   
-  useState(() => {
+  useEffect(() => {
     setFlippedStates(Array(mainServices.web.length).fill(false));
-  });
+  }, [mainServices.web.length]);
 
-  const handleCardHover = (index: number, isHovering: boolean) => {
+
+  const handleCardClick = (index: number) => {
     setFlippedStates(prev => {
       const newStates = [...prev];
-      newStates[index] = isHovering;
+      newStates[index] = !newStates[index];
       return newStates;
     });
   };
@@ -130,26 +131,24 @@ const ServicesSection = () => {
                   <div
                     key={index}
                     className="group w-full h-[500px] cursor-pointer"
-                    onMouseEnter={() => handleCardHover(index, true)}
-                    onMouseLeave={() => handleCardHover(index, false)}
+                    onClick={() => handleCardClick(index)}
                   >
                     <div
                       className={cn(
-                        'relative w-full h-full transition-transform duration-700 ease-in-out',
-                        'group-hover:[transform:rotateX(5deg)_translateY(-15px)]',
+                        'relative w-full h-full transition-transform duration-700 ease-in-out [transform-style:preserve-3d]',
+                        'group-hover:[transform:rotateX(10deg)_translateY(-20px)]',
                         { '[transform:rotateY(180deg)]': flippedStates[index] }
                       )}
-                      style={{ transformStyle: 'preserve-3d' }}
                     >
                       {/* Front Face */}
-                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/90 flex flex-col justify-between transition-all duration-300 group-hover:shadow-[0_0_40px_hsl(var(--neon-yellow)/0.9)]" style={{ backfaceVisibility: 'hidden' }}>
+                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/90 flex flex-col justify-between transition-all duration-300 group-hover:shadow-[0_0_40px_hsl(var(--neon-yellow)/0.3)] [backface-visibility:hidden]">
                         <div className="absolute inset-0 border border-neon-yellow/30 rounded-lg group-hover:border-neon-yellow transition-colors duration-300"></div>
                         <div className="absolute inset-0 bg-gradient-to-br from-neon-yellow/5 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                         <div>
                           <div className="flex items-start justify-between mb-4 relative">
                             <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
-                            <div className="p-2 bg-cyber-black/50 border border-neon-yellow/30 rounded-bl-lg">
+                            <div className="p-2 bg-cyber-black/50 border border-neon-yellow/30 rounded-full">
                                 <Icon className="w-6 h-6 text-neon-yellow/70" />
                             </div>
                           </div>
@@ -168,13 +167,13 @@ const ServicesSection = () => {
                         </div>
                          <div className="text-center mt-6">
                            <p className="text-xs font-body text-neon-yellow/70 animate-pulse">
-                            Pasa el cursor para ver más
+                            Haz clic para ver más
                           </p>
                         </div>
                       </div>
 
                       {/* Back Face */}
-                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/95 flex flex-col justify-between" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/95 flex flex-col justify-between [backface-visibility:hidden] [transform:rotateY(180deg)]">
                          <div className="absolute inset-0 border border-neon-cyan/50 rounded-lg"></div>
                          <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent"></div>
                          <div>
