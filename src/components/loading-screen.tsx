@@ -57,6 +57,11 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
         <p className="font-headline text-sm md:text-base text-neon-yellow tracking-widest animate-text-flicker relative h-5 w-64 text-center overflow-hidden">
           <span className="animate-binary-glitch absolute inset-0"></span>
         </p>
+
+        <p className="font-headline text-xs text-neon-yellow/70 tracking-[0.2em] animate-pulse">
+            CARGANDO PROYECTO...
+        </p>
+
       </div>
     </div>
   );
