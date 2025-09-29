@@ -22,7 +22,7 @@ const HeroSection = () => {
     >
       {/* Background Carousel */}
       <Carousel
-        className="absolute inset-0 w-full h-full z-[-2]"
+        className="absolute inset-0 w-full h-full z-0"
         opts={{ loop: true }}
         plugins={[
           Autoplay({
@@ -48,11 +48,11 @@ const HeroSection = () => {
       </Carousel>
       
       {/* Overlay */}
-      <div className="absolute inset-0 bg-cyber-black/70 z-[-1]"></div>
+      <div className="absolute inset-0 bg-cyber-black/70 z-1"></div>
 
 
       {/* Grid Background */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-2">
         <div 
           className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
         </div>
