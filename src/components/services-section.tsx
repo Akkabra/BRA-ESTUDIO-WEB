@@ -120,7 +120,7 @@ const ServicesSection = () => {
                   >
                     <div
                       className={cn(
-                        'relative w-full h-full transition-transform duration-700 ease-in-out [transform-style:preserve-3d]',
+                        'relative w-full h-full transition-transform duration-700 ease-in-out [transform-style:preserve-3d] origin-top-left',
                         'group-hover:[transform:rotateY(180deg)]',
                       )}
                     >
