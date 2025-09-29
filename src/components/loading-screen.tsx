@@ -58,7 +58,7 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
           <span className="animate-binary-glitch absolute inset-0"></span>
         </p>
 
-        <p className="font-headline text-xs text-neon-yellow/70 tracking-[0.2em] animate-pulse">
+        <p className="font-headline text-xs text-neon-yellow/70 tracking-[0.2em] animate-pulse mt-4">
             CARGANDO PROYECTO...
         </p>
 
