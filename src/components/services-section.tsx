@@ -179,7 +179,7 @@ const ServicesSection = () => {
           <div className="absolute w-full h-full [backface-visibility:hidden]">
             <Card 
               className={cn(
-                'h-full flex flex-col justify-between bg-surface-dark/90 border-2 transition-all duration-300 group-hover:[transform:translateZ(20px)_rotateX(5deg)] group-hover:shadow-[0_0_20px_#00FFFF,0_0_30px_#00FFFF40]',
+                'h-full flex flex-col justify-between bg-surface-dark/90 border-2 transition-all duration-300 group-hover:[transform:translateZ(20px)_rotateX(5deg)] group-hover:shadow-[0_0_20px_hsl(var(--neon-cyan)),0_0_30px_hsl(var(--neon-cyan)/0.4)]',
                 pkg.popular ? 'border-neon-yellow shadow-neon-subtle' : 'border-neon-cyan/30 group-hover:border-neon-cyan',
                 'cursor-pointer'
               )}
@@ -194,7 +194,7 @@ const ServicesSection = () => {
 
               <CardHeader className="text-center pb-4">
                 <div className="flex justify-center mb-4">
-                  <div className={`p-4 rounded-full ${pkg.popular ? 'bg-neon-yellow text-cyber-black' : 'bg-neon-yellow/20 text-neon-yellow'}`}>
+                  <div className={cn('p-4 rounded-full', pkg.popular ? 'bg-neon-yellow text-cyber-black' : 'bg-neon-cyan/20 text-neon-cyan')}>
                     {pkg.icon}
                   </div>
                 </div>
@@ -215,7 +215,7 @@ const ServicesSection = () => {
                 ))}
               </CardContent>
               <div className="p-6 pt-0">
-                  <Button variant="cyberpunk" className="w-full">
+                  <Button variant="cyberpunk" className="w-full border-neon-cyan/80 text-neon-cyan hover:bg-neon-cyan hover:text-cyber-black">
                     GIRAR PARA VER MÁS <ArrowRight className="ml-2"/>
                   </Button>
               </div>
@@ -244,7 +244,7 @@ const ServicesSection = () => {
                 <div className="pt-6">
                     <Button 
                         variant={pkg.popular ? "neon" : "cyberpunk"} 
-                        className="w-full"
+                        className={cn(!pkg.popular && 'border-neon-cyan/80 text-neon-cyan hover:bg-neon-cyan hover:text-cyber-black')}
                         onClick={(e) => {
                             e.stopPropagation(); // Prevent card from flipping back
                             const element = document.getElementById('contacto');
