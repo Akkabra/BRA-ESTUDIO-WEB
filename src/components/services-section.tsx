@@ -131,8 +131,9 @@ const ServicesSection = () => {
                   >
                     <div
                       className={cn(
-                        'relative w-full h-full transition-transform duration-700 ease-in-out group-hover:animate-street-punk-shake',
-                        { 'transform [transform:rotateY(180deg)]': flippedStates[index] }
+                        'relative w-full h-full transition-transform duration-700 ease-in-out',
+                        'group-hover:animate-street-punk-shake',
+                        { '[transform:rotateY(180deg)]': flippedStates[index] }
                       )}
                       style={{ transformStyle: 'preserve-3d' }}
                     >
