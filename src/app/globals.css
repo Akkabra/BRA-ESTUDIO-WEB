@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* BRA ESTUDIO WEB - CYBERPUNK NEON DESIGN SYSTEM
-Primary Colors: Yellow Neon (#FFD700) and Black (#000000)
+Primary Colors: Yellow Neon (#f6be0f) and Black (#040304)
 Secondary: Dark Gray surfaces, Desaturated White text
 All colors MUST be HSL.
 */
@@ -11,44 +11,44 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Cyberpunk Color Palette */
-    --background: 0 0% 0%; /* Pure black */
-    --foreground: 0 0% 90%; /* Desaturated white */
+    --background: 300 1% 2%; /* Custom Black #040304 */
+    --foreground: 60 4% 93%; /* Custom White #ededec */
 
     --card: 210 6% 7%; /* Dark gray surface #111111 */
-    --card-foreground: 0 0% 90%;
+    --card-foreground: 60 4% 93%;
 
     --popover: 210 6% 7%;
-    --popover-foreground: 0 0% 90%;
+    --popover-foreground: 60 4% 93%;
 
     /* Primary - Neon Yellow */
-    --primary: 51 100% 50%; /* #FFD700 */
-    --primary-foreground: 0 0% 0%;
+    --primary: 46 93% 51%; /* Custom Yellow #f6be0f */
+    --primary-foreground: 300 1% 2%;
 
     /* Secondary - Dark surfaces */
     --secondary: 210 6% 7%;
-    --secondary-foreground: 0 0% 90%;
+    --secondary-foreground: 60 4% 93%;
 
     --muted: 210 6% 7%;
-    --muted-foreground: 0 0% 60%; /* #E6E6E6 equivalent */
+    --muted-foreground: 60 4% 60%; 
 
-    --accent: 51 100% 50%; /* Neon yellow */
-    --accent-foreground: 0 0% 0%;
+    --accent: 46 93% 51%; /* Neon yellow */
+    --accent-foreground: 300 1% 2%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 90%;
+    --destructive-foreground: 60 4% 93%;
 
     --border: 210 6% 15%;
-    --input: 210 6% 7%;
-    --ring: 51 100% 50%; /* Neon yellow ring */
+    --input: 300 1% 2%;
+    --ring: 46 93% 51%; /* Neon yellow ring */
 
     --radius: 0.5rem;
 
     /* Cyberpunk Specific Variables */
-    --neon-yellow: 51 100% 50%; /* #FFD700 */
+    --neon-yellow: 46 93% 51%; /* #f6be0f */
     --neon-cyan: 180 100% 50%; /* #00FFFF */
-    --cyber-black: 0 0% 0%; /* #000000 */
+    --cyber-black: 300 1% 2%; /* #040304 */
     --surface-dark: 210 6% 7%; /* #111111 */
-    --text-desaturated: 0 0% 90%; /* #E6E6E6 */
+    --text-desaturated: 60 4% 93%; /* #ededec */
     
     /* Neon Glows */
     --glow-primary: 0 0 20px hsl(var(--neon-yellow) / 0.6);
@@ -56,7 +56,7 @@ All colors MUST be HSL.
     --glow-intense: 0 0 30px hsl(var(--neon-yellow) / 0.8);
     
     /* Gradients */
-    --gradient-neon: linear-gradient(135deg, hsl(var(--neon-yellow)), hsl(51 100% 60%));
+    --gradient-neon: linear-gradient(135deg, hsl(var(--neon-yellow)), hsl(46 93% 60%));
     --gradient-surface: linear-gradient(135deg, hsl(var(--surface-dark)), hsl(210 6% 10%));
     --gradient-overlay: linear-gradient(45deg, transparent 30%, hsl(var(--neon-yellow) / 0.1) 50%, transparent 70%);
     
@@ -100,7 +100,7 @@ All colors MUST be HSL.
     background-image: 
       radial-gradient(circle at 20% 50%, hsl(var(--neon-yellow) / 0.05) 0%, transparent 50%),
       radial-gradient(circle at 80% 20%, hsl(var(--neon-yellow) / 0.03) 0%, transparent 50%),
-      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.02'%3E%3Crect width='1' height='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f6be0f' fill-opacity='0.02'%3E%3Crect width='1' height='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
   .scanlines::before {
@@ -362,3 +362,5 @@ All colors MUST be HSL.
     }
   }
 }
+
+    

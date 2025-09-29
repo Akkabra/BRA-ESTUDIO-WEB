@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -116,11 +115,11 @@ const HeroSection = () => {
                 transition-colors duration-200 ease-in-out
                 
                 // Estilo Base Neón
-                text-cyber-black bg-gradient-neon shadow-[0_0_15px_rgba(255,255,0,0.5)] 
+                text-cyber-black bg-gradient-neon shadow-[0_0_15px_rgba(246,190,15,0.5)] 
                 border-2 border-neon-yellow
                 
                 // Efecto Hover
-                hover:shadow-[0_0_25px_rgba(255,255,0,1),_0_0_100px_rgba(255,255,0,0.7)] 
+                hover:shadow-[0_0_25px_rgba(246,190,15,1),_0_0_100px_rgba(246,190,15,0.7)] 
                 
                 // Contenedor para Pseudoelementos
                 group
@@ -154,7 +153,7 @@ const HeroSection = () => {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
           <a href="#servicios" aria-label="Ir a servicios" className="animate-bounce block">
             <div className="w-10 h-10 border-2 border-neon-yellow/50 rounded-full flex items-center justify-center text-neon-yellow hover:bg-neon-yellow/10 transition-colors">
-              <ArrowDown className="w-6 h-6" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="m12 5-7 7 7 7"/><path d="m19 5-7 7 7 7"/></svg>
             </div>
           </a>
         </div>
@@ -172,3 +171,5 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
+    
