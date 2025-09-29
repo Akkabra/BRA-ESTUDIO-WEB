@@ -145,6 +145,10 @@ export default {
           '33%': { transform: 'translateX(1px)' },
           '66%': { transform: 'translateX(-1px)' },
         },
+        'cyber-pulse': {
+          '0%, 100%': { transform: 'scale(1.5) rotate(0deg)', opacity: '0.7' },
+          '50%': { transform: 'scale(1.6) rotate(1deg)', opacity: '1' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -158,6 +162,7 @@ export default {
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'glitch-line-1': 'glitch-line-1 0.2s infinite',
         'glitch-line-2': 'glitch-line-2 0.2s infinite',
+        'cyber-pulse': 'cyber-pulse 8s ease-in-out infinite alternate',
       },
     },
   },

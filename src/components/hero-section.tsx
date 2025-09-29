@@ -50,15 +50,21 @@ const HeroSection = () => {
         <div className="neon-particles"></div>
       </div>
 
-      {/* LaserRayGlow Effect */}
+      {/* CyberPulseRays Effect */}
       <div
-        className="absolute inset-0 z-[5] pointer-events-none blur-3xl opacity-40"
+        className="absolute inset-0 z-[5] pointer-events-none animate-cyber-pulse"
         style={{
           background: `
-            radial-gradient(at 50% 100%, hsl(var(--neon-yellow) / 0.2), transparent 50%),
-            linear-gradient(to right, transparent, hsl(var(--neon-cyan) / 0.1) 50%, transparent),
-            linear-gradient(to left, transparent, hsl(var(--neon-yellow) / 0.1) 50%, transparent)
-          `
+            conic-gradient(from 180deg at 50% 100%, 
+              transparent 0deg, 
+              hsl(var(--neon-yellow) / 0.15) 160deg, 
+              hsl(var(--neon-cyan) / 0.1) 180deg, 
+              hsl(var(--neon-yellow) / 0.15) 200deg, 
+              transparent 360deg
+            )
+          `,
+          filter: 'blur(60px)',
+          transform: 'scale(1.5)'
         }}
       ></div>
 
@@ -99,21 +105,11 @@ const HeroSection = () => {
             
           </p>
 
-          <a 
+          <Button 
               href="#contacto"
-              className="
-                  group relative inline-block px-6 py-3 mt-6 
-                  font-cyberjunkies font-bold text-lg tracking-widest uppercase 
-                  transition-colors duration-200 ease-in-out
-                  
-                  // Estilo Base Neón
-                  text-cyber-black bg-neon-yellow shadow-[0_0_15px_rgba(255,255,0,0.5)] 
-                  border-2 border-neon-yellow
-                  
-                  // Efecto Hover
-                  hover:text-neon-yellow hover:bg-transparent
-                  hover:shadow-[0_0_25px_rgba(255,255,0,1),_0_0_100px_rgba(255,255,0,0.7)] 
-              "
+              variant="hero"
+              size="lg"
+              className="group relative font-cyberjunkies tracking-widest"
           >
               INICIAR PROYECTO
               
@@ -134,7 +130,7 @@ const HeroSection = () => {
                       group-hover:opacity-100 group-hover:animate-[glitch-line-2_0.2s_infinite]
                   " 
               ></span>
-          </a>
+          </Button>
         </div>
 
         {/* Scroll Down Indicator */}
