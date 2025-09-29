@@ -97,7 +97,7 @@ const HeroSection = () => {
             href="#contacto"
             className="
               relative inline-block px-6 py-2 mt-6 
-              font-adriana font-bold text-base tracking-widest uppercase 
+              font-cyberjunkies font-bold text-base tracking-widest uppercase 
               transition-colors duration-200 ease-in-out
               
               // Estilo Base Neón

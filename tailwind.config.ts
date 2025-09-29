@@ -70,7 +70,7 @@ export default {
         headline: ['Orbitron', 'monospace'],
         body: ['Inter', 'sans-serif'],
         code: ['monospace'],
-        adriana: ['ADRIANA', 'sans-serif'],
+        cyberjunkies: ['Cyberjunkies', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-neon': 'var(--gradient-neon)',
