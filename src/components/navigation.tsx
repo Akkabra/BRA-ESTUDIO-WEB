@@ -68,29 +68,28 @@ const NavigationContent = () => {
 
             <DropdownMenu open={isServicesMenuOpen} onOpenChange={setServicesMenuOpen}>
               <DropdownMenuTrigger asChild>
-                <a
-                  href="#servicios"
+                <button
                   onMouseEnter={() => setServicesMenuOpen(true)}
-                  onClick={(e) => handleLinkClick(e, '#servicios')}
+                  onClick={() => setServicesMenuOpen(!isServicesMenuOpen)}
                   className="font-headline text-text-desaturated transition-all duration-300 flex items-center gap-1 group cursor-pointer relative hover:text-neon-yellow focus:outline-none"
                 >
                   <span>Servicios</span>
                   <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180" />
-                </a>
+                </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent 
                 onMouseLeave={() => setServicesMenuOpen(false)}
-                className="w-64 bg-surface-dark/90 border-neon-yellow/30 text-text-desaturated backdrop-blur-xl data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+                className="w-64 bg-surface-dark border-2 border-neon-yellow/50 text-text-desaturated shadow-neon-subtle data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
               >
                 <DropdownMenuGroup>
                   {services.map((service) => (
                     <DropdownMenuItem 
                       key={service.name}
-                      className="focus:bg-neon-yellow/10 focus:text-neon-yellow cursor-pointer group/item"
+                      className="focus:bg-neon-yellow/10 cursor-pointer group/item"
                       onClick={handleServiceClick}
                     >
                       <div className="flex flex-col">
-                        <span className="font-headline group-hover/item:text-neon-yellow transition-colors duration-200">{service.name}</span>
+                        <span className="font-headline text-neon-yellow group-hover/item:text-neon-yellow/80 transition-colors duration-200">{service.name}</span>
                         <span className="text-xs text-text-desaturated/70">{service.description}</span>
                       </div>
                     </DropdownMenuItem>
