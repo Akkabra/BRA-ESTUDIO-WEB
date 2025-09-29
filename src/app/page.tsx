@@ -8,6 +8,7 @@ import PortfolioSection from '@/components/portfolio-section';
 import ContactSection from '@/components/contact-section';
 import Footer from '@/components/footer';
 import LoadingScreen from '@/components/loading-screen';
+import AnimatedSection from '@/components/animated-section';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -32,18 +33,18 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Navigation />
       <main>
-        <div className="animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+        <AnimatedSection>
           <HeroSection />
-        </div>
-        <div className="animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+        </AnimatedSection>
+        <AnimatedSection>
           <ServicesSection />
-        </div>
-        <div className="animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+        </AnimatedSection>
+        <AnimatedSection>
           <PortfolioSection />
-        </div>
-        <div className="animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+        </AnimatedSection>
+        <AnimatedSection>
           <ContactSection />
-        </div>
+        </AnimatedSection>
       </main>
       <Footer />
     </div>
