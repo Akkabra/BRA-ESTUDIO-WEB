@@ -5,7 +5,6 @@ import { ArrowDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { NeonRays } from './neon-rays';
 
 const HeroSection = () => {
   const heroImages = PlaceHolderImages.filter(img =>
@@ -45,8 +44,18 @@ const HeroSection = () => {
         ))}
       </div>
       
-      {/* Neon Rays Effect */}
-      <NeonRays />
+      {/* LaserRayGlow Effect */}
+      <div
+        className="absolute inset-0 z-[5] pointer-events-none bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] blur-3xl opacity-40"
+        style={{
+          background: `
+            radial-gradient(at 50% 100%, hsl(var(--neon-yellow) / 0.2), transparent 50%),
+            linear-gradient(to right, transparent, hsl(var(--neon-cyan) / 0.1) 50%, transparent),
+            linear-gradient(to left, transparent, hsl(var(--neon-yellow) / 0.1) 50%, transparent)
+          `
+        }}
+      ></div>
+
 
       {/* Overlay and Content Container */}
       <div className="relative z-10 flex h-screen flex-col items-center justify-center p-4">
