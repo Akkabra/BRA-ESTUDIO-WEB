@@ -11,6 +11,27 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
         isExiting && 'animate-pixel-dissolve-out'
       )}
     >
+      {/* Neon Rays Background */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative w-full h-full">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute h-full w-px animate-neon-rays"
+              style={{
+                left: '50%',
+                transform: `rotate(${i * 30}deg)`,
+                animationDelay: `${i * 150}ms`,
+              }}
+            >
+              <div
+                className={`h-full w-full ${i % 2 === 0 ? 'bg-gradient-to-t from-neon-yellow/50 to-transparent' : 'bg-gradient-to-t from-neon-orange/50 to-transparent'}`}
+              ></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="relative z-20 flex flex-col items-center space-y-8">
         <BraLogo className="h-24 md:h-32 w-auto animate-pulse" />
 

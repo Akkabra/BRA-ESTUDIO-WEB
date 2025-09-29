@@ -45,6 +45,7 @@ export default {
         },
         // Cyberpunk specific colors
         'neon-yellow': "hsl(var(--neon-yellow))",
+        'neon-orange': "hsl(var(--neon-orange))",
         'neon-cyan': "hsl(var(--neon-cyan))",
         'cyber-black': "hsl(var(--cyber-black))",
         'surface-dark': "hsl(var(--surface-dark))",
@@ -186,6 +187,11 @@ export default {
           from: { opacity: '0', transform: 'translateX(-20px) skewX(-15deg)' },
           to: { opacity: '1', transform: 'translateX(0) skewX(0)' },
         },
+        'neon-rays': {
+          '0%': { transform: 'scaleY(0) rotate(var(--angle))', opacity: '0' },
+          '50%': { transform: 'scaleY(1) rotate(var(--angle))', opacity: '0.5' },
+          '100%': { transform: 'scaleY(0) rotate(var(--angle))', opacity: '0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -208,6 +214,7 @@ export default {
         'module-enter-1': 'module-enter 0.2s ease-out 0.05s',
         'module-enter-2': 'module-enter 0.2s ease-out 0.1s',
         'module-enter-3': 'module-enter 0.2s ease-out 0.15s',
+        'neon-rays': 'neon-rays 2s ease-in-out infinite',
       },
     },
   },

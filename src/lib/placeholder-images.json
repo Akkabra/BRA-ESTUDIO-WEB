@@ -1,39 +1,57 @@
 {
   "placeholderImages": [
     {
-      "id": "hero-carousel-1",
+      "id": "hero-carousel-3",
       "description": "Cyberpunk city street with neon lights",
-      "imageUrl": "/CYBERHERO5.jpg",
+      "imageUrl": "/CYBERHERO3.1.png",
       "imageHint": "cyberpunk neon"
     },
     {
-      "id": "hero-carousel-2",
+      "id": "hero-carousel-10",
       "description": "Futuristic abstract circuits and data streams",
-      "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwY2lyY3VpdHxlbnwwfHx8fDE3NTg5OTA0NDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "/CYBERHERO10.png",
       "imageHint": "futuristic circuit"
     },
     {
-      "id": "hero-carousel-3",
+      "id": "hero-carousel-1",
       "description": "Abstract neon lights in a dark environment",
-      "imageUrl": "https://images.unsplash.com/photo-1534279219413-455b68b4317a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhYnN0cmFjdCUyMG5lb258ZW58MHx8fHwxNzU4OTkwNDg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "/CYBERHERO1.1.png",
       "imageHint": "abstract neon"
-    },
-    {
-      "id": "hero-carousel-4",
-      "description": "Cyberpunk hero background",
-      "imageUrl": "/CYBERHERO1.jpg",
-      "imageHint": "cyberpunk hero"
     },
     {
       "id": "hero-carousel-5",
       "description": "Cyberpunk hero background 2",
-      "imageUrl": "/CYBERHERO2.jpg",
+      "imageUrl": "/CYBERHERO5.jpg",
       "imageHint": "cyberpunk hero"
     },
     {
       "id": "hero-carousel-6",
       "description": "Cyberpunk hero background 4",
-      "imageUrl": "/CYBERHERO4.jpg",
+      "imageUrl": "/CYBERHERO6.1.png",
+      "imageHint": "cyberpunk future"
+    },
+    {
+      "id": "hero-carousel-7",
+      "description": "Cyberpunk hero background 4",
+      "imageUrl": "/CYBERHERO7.1.png",
+      "imageHint": "cyberpunk future"
+    },
+    {
+      "id": "hero-carousel-8",
+      "description": "Cyberpunk hero background 4",
+      "imageUrl": "/CYBEROHERO8.1.png",
+      "imageHint": "cyberpunk future"
+    },
+    {
+      "id": "hero-carousel-9",
+      "description": "Cyberpunk hero background 4",
+      "imageUrl": "/CYBERHERO9.1.png",
+      "imageHint": "cyberpunk future"
+    },
+    {
+      "id": "hero-carousel-2",
+      "description": "Cyberpunk hero background 4",
+      "imageUrl": "/CYBERHERO2.1.png",
       "imageHint": "cyberpunk future"
     },
     {
