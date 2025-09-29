@@ -167,7 +167,7 @@ export default {
         'glitch-line-1': 'glitch-line-1 0.2s infinite',
         'glitch-line-2': 'glitch-line-2 0.2s infinite',
         'cyber-pulse': 'cyber-pulse 8s ease-in-out infinite alternate',
-        'loading-fill': 'loading-fill 5s ease-in-out forwards',
+        'loading-fill': 'loading-fill 3s ease-in-out forwards',
       },
     },
   },

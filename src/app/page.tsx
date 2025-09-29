@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 5000); // Corresponds to the loading bar animation duration
+    }, 3000); // Shortened loading time
 
     return () => clearTimeout(timer);
   }, []);
@@ -28,10 +28,18 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Navigation />
       <main>
-        <HeroSection />
-        <ServicesSection />
-        <PortfolioSection />
-        <ContactSection />
+        <div className="animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+          <HeroSection />
+        </div>
+        <div className="animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+          <ServicesSection />
+        </div>
+        <div className="animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+          <PortfolioSection />
+        </div>
+        <div className="animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+          <ContactSection />
+        </div>
       </main>
       <Footer />
     </div>
