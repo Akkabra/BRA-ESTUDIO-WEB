@@ -130,19 +130,19 @@ const ServicesSection = () => {
                   >
                     <div
                       className={cn(
-                        "relative h-[500px] w-full transition-transform duration-700 ease-in-out",
+                        "relative h-[500px] w-full transition-transform duration-1000 ease-in-out",
                         "[transform-style:preserve-3d]",
                         // Click animation for mobile
                         isFlipped ? '[transform:rotateX(180deg)]' : '',
-                        // Hover animation for desktop
-                        "md:group-hover:opacity-100" // Keep this for desktop hover logic
+                        // The hover animation will be controlled by the faces directly for desktop
                       )}
                     >
                       {/* Front Face */}
                       <div
                         className={cn(
-                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md transition-all duration-500 ease-in-out [backface-visibility:hidden]",
-                           // Desktop hover effect
+                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
+                          "transition-all duration-500 ease-in-out",
+                          // Desktop hover dissolve effect
                            "md:group-hover:opacity-0 md:group-hover:blur-lg"
                         )}
                       >
@@ -169,7 +169,7 @@ const ServicesSection = () => {
                             ))}
                           </ul>
                           <div className="mt-6 text-center">
-                            <p className="text-xs font-body text-neon-yellow/70 transition-opacity duration-200 md:group-hover:opacity-0">
+                            <p className="text-xs font-body text-neon-yellow/70">
                                 <span className='md:hidden'>Toca para ver más</span>
                                 <span className='hidden md:inline'>Pasa el cursor para ver más</span>
                             </p>
@@ -180,13 +180,13 @@ const ServicesSection = () => {
                       {/* Back Face */}
                       <div
                         className={cn(
-                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/95 p-6 shadow-neon-intense [backface-visibility:hidden]",
-                          // Initial state for both mobile and desktop
-                          "opacity-0 blur-lg scale-95 [transform:rotateX(180deg)]",
-                           // Desktop hover effect
-                           "transition-all duration-500 ease-in-out md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100",
-                           // Mobile click effect
-                           isFlipped ? 'opacity-100 blur-0 scale-100' : ''
+                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)]",
+                          "transition-all duration-500 ease-in-out",
+                          // Initial state for desktop (hidden)
+                          "md:opacity-0 md:blur-lg md:scale-95",
+                          // Desktop hover effect
+                           "md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100",
+                           // Mobile click effect (we handle this with the parent rotation)
                         )}
                       >
                         <div className="absolute inset-0 rounded-lg border border-neon-cyan/50"></div>
