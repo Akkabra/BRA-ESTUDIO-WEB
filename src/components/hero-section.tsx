@@ -64,7 +64,7 @@ const HeroSection = () => {
         <div className="relative text-center space-y-8 animate-fade-in-up">
           <div className="mb-4 flex justify-center">
             <BraLogo
-              className="pixel-hover transition-all duration-300 h-[100px] w-auto"
+              className="pixel-hover transition-all duration-300 h-[60px] w-auto"
             />
           </div>
 
