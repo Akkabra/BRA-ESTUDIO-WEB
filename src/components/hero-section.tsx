@@ -5,6 +5,7 @@ import { ArrowDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { NeonRays } from './neon-rays';
 
 const HeroSection = () => {
   const heroImages = PlaceHolderImages.filter(img =>
@@ -43,6 +44,9 @@ const HeroSection = () => {
           />
         ))}
       </div>
+      
+      {/* Neon Rays Effect */}
+      <NeonRays />
 
       {/* Overlay and Content Container */}
       <div className="relative z-10 flex h-screen flex-col items-center justify-center p-4">
