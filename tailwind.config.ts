@@ -119,6 +119,10 @@ export default {
           "75%": { filter: "blur(1px)", transform: "scale(1.01)" },
           "100%": { filter: "blur(0px)", transform: "scale(1)" },
         },
+        'pixel-dissolve-out': {
+          from: { opacity: '1', filter: 'blur(0)', transform: 'scale(1)' },
+          to: { opacity: '0', filter: 'blur(8px)', transform: 'scale(1.1)' },
+        },
         "move-stripes": {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(100%)" },
@@ -184,6 +188,7 @@ export default {
         'glitch-1': 'glitch-1 0.3s infinite',
         'glitch-2': 'glitch-2 0.3s infinite',
         'pixelate': 'pixelate 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+        'pixel-dissolve-out': 'pixel-dissolve-out 0.5s ease-out forwards',
         'move-stripes': 'move-stripes 2s linear infinite',
         'pulse-neon': 'pulse-neon 2s ease-in-out infinite alternate',
         'float': 'float 3s ease-in-out infinite',
@@ -191,7 +196,7 @@ export default {
         'glitch-line-1': 'glitch-line-1 0.2s infinite',
         'glitch-line-2': 'glitch-line-2 0.2s infinite',
         'cyber-pulse': 'cyber-pulse 8s ease-in-out infinite alternate',
-        'loading-fill': 'loading-fill 3s ease-in-out forwards',
+        'loading-fill': 'loading-fill 2.5s ease-in-out forwards',
         'scan': 'scan 3s steps(8, end) infinite',
         'text-flicker': 'text-flicker 1.5s infinite',
         'binary-glitch': 'binary-glitch 3s steps(1) infinite',

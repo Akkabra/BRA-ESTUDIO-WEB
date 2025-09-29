@@ -11,17 +11,21 @@ import LoadingScreen from '@/components/loading-screen';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
+  const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000); // Shortened loading time
+      setExiting(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500); // Duration of the exit animation
+    }, 2500); // Total loading time (reduced)
 
     return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
-    return <LoadingScreen />;
+    return <LoadingScreen isExiting={exiting} />;
   }
 
   return (

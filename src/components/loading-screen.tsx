@@ -1,10 +1,16 @@
 'use client';
 
 import { BraLogo } from '@/components/bra-logo';
+import { cn } from '@/lib/utils';
 
-const LoadingScreen = () => {
+const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-cyber-black mobile-menu-gradient cyber-grain overflow-hidden">
+    <div
+      className={cn(
+        'fixed inset-0 z-[100] flex flex-col items-center justify-center bg-cyber-black mobile-menu-gradient cyber-grain overflow-hidden',
+        isExiting && 'animate-pixel-dissolve-out'
+      )}
+    >
       <div className="relative z-20 flex flex-col items-center space-y-8">
         <BraLogo className="h-24 md:h-32 w-auto animate-pulse" />
 

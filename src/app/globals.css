@@ -241,6 +241,19 @@ All colors MUST be HSL.
     }
   }
 
+  @keyframes pixel-dissolve-out {
+    from {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      filter: blur(8px);
+      transform: scale(1.1);
+    }
+  }
+
   .pixel-nav-link .link-text {
     transition: all 0.3s ease;
   }
