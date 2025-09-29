@@ -187,10 +187,9 @@ export default {
           from: { opacity: '0', transform: 'translateX(-20px) skewX(-15deg)' },
           to: { opacity: '1', transform: 'translateX(0) skewX(0)' },
         },
-        'neon-rays': {
-          '0%': { transform: 'scaleY(0) rotate(var(--angle))', opacity: '0' },
-          '50%': { transform: 'scaleY(1) rotate(var(--angle))', opacity: '0.5' },
-          '100%': { transform: 'scaleY(0) rotate(var(--angle))', opacity: '0' },
+        'corner-flare': {
+          '0%, 100%': { transform: 'scale(0.5)', opacity: '0' },
+          '50%': { transform: 'scale(1.2)', opacity: '1' },
         },
       },
       animation: {
@@ -214,7 +213,7 @@ export default {
         'module-enter-1': 'module-enter 0.2s ease-out 0.05s',
         'module-enter-2': 'module-enter 0.2s ease-out 0.1s',
         'module-enter-3': 'module-enter 0.2s ease-out 0.15s',
-        'neon-rays': 'neon-rays 2s ease-in-out infinite',
+        'corner-flare': 'corner-flare 1s ease-in-out infinite',
       },
     },
   },

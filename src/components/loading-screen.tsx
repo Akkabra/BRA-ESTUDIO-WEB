@@ -11,25 +11,12 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
         isExiting && 'animate-pixel-dissolve-out'
       )}
     >
-      {/* Neon Rays Background */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative w-full h-full">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute h-full w-px animate-neon-rays"
-              style={{
-                left: '50%',
-                transform: `rotate(${i * 30}deg)`,
-                animationDelay: `${i * 150}ms`,
-              }}
-            >
-              <div
-                className={`h-full w-full ${i % 2 === 0 ? 'bg-gradient-to-t from-neon-yellow/50 to-transparent' : 'bg-gradient-to-t from-neon-orange/50 to-transparent'}`}
-              ></div>
-            </div>
-          ))}
-        </div>
+      {/* Corner Flares */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-1/4 -left-1/4 h-1/2 w-1/2 animate-corner-flare bg-[radial-gradient(ellipse_at_center,_hsl(var(--neon-yellow)/0.4)_0%,_hsl(var(--neon-orange)/0.2)_40%,transparent_80%)] [animation-delay:0s]"></div>
+        <div className="absolute -top-1/4 -right-1/4 h-1/2 w-1/2 animate-corner-flare bg-[radial-gradient(ellipse_at_center,_hsl(var(--neon-yellow)/0.4)_0%,_hsl(var(--neon-orange)/0.2)_40%,transparent_80%)] [animation-delay:0.2s]"></div>
+        <div className="absolute -bottom-1/4 -left-1/4 h-1/2 w-1/2 animate-corner-flare bg-[radial-gradient(ellipse_at_center,_hsl(var(--neon-yellow)/0.4)_0%,_hsl(var(--neon-orange)/0.2)_40%,transparent_80%)] [animation-delay:0.3s]"></div>
+        <div className="absolute -bottom-1/4 -right-1/4 h-1/2 w-1/2 animate-corner-flare bg-[radial-gradient(ellipse_at_center,_hsl(var(--neon-yellow)/0.4)_0%,_hsl(var(--neon-orange)/0.2)_40%,transparent_80%)] [animation-delay:0.5s]"></div>
       </div>
 
       <div className="relative z-20 flex flex-col items-center space-y-8">
