@@ -121,7 +121,7 @@ const ServicesSection = () => {
                     <div
                       className={cn(
                         'relative w-full h-full transition-transform duration-700 ease-in-out [transform-style:preserve-3d]',
-                        'group-hover:[transform:rotateX(180deg)]'
+                        'group-hover:[transform:rotateY(180deg)_scale(1.05)]'
                       )}
                     >
                       {/* Front Face */}
@@ -157,7 +157,7 @@ const ServicesSection = () => {
                       </div>
 
                       {/* Back Face */}
-                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/95 flex flex-col justify-between [backface-visibility:hidden] [transform:rotateX(180deg)]">
+                      <div className="absolute w-full h-full p-6 rounded-lg bg-surface-dark/95 flex flex-col justify-between [backface-visibility:hidden] [transform:rotateY(180deg)]">
                          <div className="absolute inset-0 border border-neon-cyan/50 rounded-lg"></div>
                          <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent"></div>
                          <div>
