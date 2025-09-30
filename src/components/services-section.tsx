@@ -10,7 +10,7 @@ const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
   const [flippedStates, setFlippedStates] = useState<Record<number, boolean>>({});
   const isMobile = useIsMobile();
-  const whatsappNumber = "573000000000"; // Replace with your WhatsApp number
+  const whatsappNumber = "573000000000";
 
 
   const handleCardClick = (index: number) => {
@@ -146,7 +146,6 @@ const ServicesSection = () => {
                       className={cn(
                         "relative h-[500px] w-full [transform-style:preserve-3d]",
                         "transition-transform duration-1000 ease-in-out",
-                        // Only apply rotation on mobile based on isFlipped state
                         isMobile && isFlipped ? '[transform:rotateX(180deg)]' : ''
                       )}
                     >
@@ -155,8 +154,7 @@ const ServicesSection = () => {
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
                           "transition-all duration-700 ease-in-out",
-                          // Desktop hover effect - only if NOT mobile
-                          !isMobile ? "md:group-hover:opacity-0 md:group-hover:blur-lg" : ""
+                           !isMobile ? "md:group-hover:opacity-0 md:group-hover:blur-lg md:group-hover:pointer-events-none" : ""
                         )}
                       >
                         <div className="absolute inset-0 rounded-lg border border-neon-yellow/30 md:group-hover:border-neon-yellow"></div>
@@ -195,8 +193,9 @@ const ServicesSection = () => {
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
                           "transition-all duration-700 ease-in-out",
-                          // Base state for both mobile and desktop: hidden
+                          // Mobile flip logic
                           '[transform:rotateX(180deg)]',
+                           isMobile && isFlipped ? '' : '',
                           // Desktop hover effect
                           !isMobile ? "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100" : ""
                         )}
