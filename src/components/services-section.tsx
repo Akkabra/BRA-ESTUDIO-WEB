@@ -32,8 +32,13 @@ const ServicesSection = () => {
       setActiveIndex(prevIndex => (prevIndex + 1) % mainServices.branding.length);
     }, 5000);
 
-    return () => clearInterval(interval);
-  }, [activeService, isAutoPlaying]);
+    const timeout = setTimeout(() => setIsAutoPlaying(true), 10000); // Resume autoplay after 10s of inactivity
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    }
+  }, [activeService, isAutoPlaying, activeIndex]);
 
 
   const serviceTypes = [
@@ -211,24 +216,24 @@ const ServicesSection = () => {
                 const planKey = `branding-${index}`;
                 const isFlipped = !!flippedStates[planKey];
                 const isActive = index === activeIndex;
+                const offset = index - activeIndex;
                 const PlanIcon = plan.icon;
 
                 const getCardStyle = () => {
-                  let transform = `translateX(${(index - activeIndex) * 50}%) scale(${isActive ? 1 : 0.7})`;
-                  if (!isActive) {
-                     transform += ` translateZ(-400px) rotateY(${(index < activeIndex) ? 45 : -45}deg)`;
-                  }
+                  let transform = `translateX(${offset * 35}%) scale(${isActive ? 1 : 0.7}) rotateY(${offset * -45}deg)`;
+                  
                   return {
                     transform,
                     opacity: isActive ? 1 : 0.4,
-                    zIndex: isActive ? 10 : mainServices.branding.length - Math.abs(index - activeIndex),
+                    zIndex: mainServices.branding.length - Math.abs(offset),
+                    transition: 'all 0.5s ease-out',
                   };
                 }
 
                 return (
                   <div
                     key={planKey}
-                    className="absolute w-80 h-[420px] transition-all duration-500 ease-in-out cursor-pointer"
+                    className="absolute w-80 h-[420px] cursor-pointer"
                     style={getCardStyle()}
                     onClick={() => !isActive && handleBrandingNav(index)}
                   >
@@ -237,23 +242,20 @@ const ServicesSection = () => {
                         "relative w-full h-full [transform-style:preserve-3d] transition-transform duration-700",
                         isActive && isFlipped && '[transform:rotateY(180deg)]'
                       )}
-                      onMouseEnter={() => isActive && !isMobile && setFlippedStates(prev => ({...prev, [planKey]: true}))}
-                      onMouseLeave={() => isActive && !isMobile && setFlippedStates(prev => ({...prev, [planKey]: false}))}
-                      onClickCapture={(e) => {
-                        if (isActive && isMobile) {
-                          e.stopPropagation();
-                          handleCardClick(planKey);
+                      onClick={() => {
+                        if (isActive) {
+                          handleCardClick(planKey)
                         }
                       }}
                     >
                       {/* Front Face */}
                       <div className={cn(
                         "absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center [backface-visibility:hidden] rounded-lg border-2 bg-surface-dark/90 p-8 transition-all duration-300",
-                        isActive ? "border-neon-orange/80 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast" : "border-neon-orange/30",
+                         isActive ? "border-neon-orange/80 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast" : "border-neon-orange/30",
                       )}>
                         <div className="absolute inset-0 rounded-lg bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
                         <div className="relative z-10 flex flex-col items-center justify-center">
-                          <PlanIcon className={cn("h-12 w-12 mb-4", isActive ? "text-neon-orange" : "text-neon-orange/50")}/>
+                           <PlanIcon className={cn("h-12 w-12 mb-4", isActive ? "text-neon-orange" : "text-neon-orange/50")}/>
                           <h3 className={cn("font-headline text-2xl", isActive ? "text-neon-orange glitch-text" : "text-neon-orange/50")}>{plan.title}</h3>
                           <div className="mt-3">
                             <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
@@ -261,17 +263,17 @@ const ServicesSection = () => {
                           </div>
                           {isActive && (
                             <p className="font-body text-xs text-center mt-6 text-neon-orange/70">
-                              {isMobile ? 'Toca para ver detalles' : 'Pasa el cursor para detalles'}
+                              {isMobile ? 'Toca para ver detalles' : 'Clic para ver detalles'}
                             </p>
                           )}
                         </div>
                       </div>
 
                       {/* Back Face */}
-                      <div className="absolute inset-0 flex h-full w-full flex-col justify-center rounded-lg bg-text-desaturated p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] border border-neon-orange/50">
+                       <div className="absolute inset-0 flex h-full w-full flex-col justify-center rounded-lg bg-surface-dark/95 p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] border border-neon-orange/50">
                         <div className="text-center relative flex flex-col items-center justify-center h-full">
-                          <h4 className="mb-4 text-xl font-headline text-neon-yellow">{plan.title}</h4>
-                          <p className="font-body text-sm leading-relaxed text-cyber-black/90 mb-6 px-2 text-center">
+                          <h4 className="mb-4 text-xl font-headline text-neon-orange">{plan.title}</h4>
+                          <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6 px-2 text-center">
                             {plan.details}
                           </p>
                           <a
@@ -303,7 +305,6 @@ const ServicesSection = () => {
         ) : currentServicePlans.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {currentServicePlans.map((plan, index) => {
-                const Icon = plan.icon;
                 const planKey = `${activeService}-${index}`;
                 const isFlipped = !!flippedStates[planKey];
                 
@@ -328,7 +329,7 @@ const ServicesSection = () => {
                             <div className="mb-4 flex items-start justify-between">
                               <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
                               <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
-                                <Icon className="h-6 w-6 text-neon-yellow/70" />
+                                <plan.icon className="h-6 w-6 text-neon-yellow/70" />
                               </div>
                             </div>
                             <div className="mb-6">
