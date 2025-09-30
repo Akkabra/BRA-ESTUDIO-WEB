@@ -3,16 +3,22 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Code, Gem, Package } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+
 
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
   const [flippedStates, setFlippedStates] = useState<Record<number, boolean>>({});
+  const isMobile = useIsMobile();
+
 
   const handleCardClick = (index: number) => {
-    setFlippedStates(prev => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+    if (isMobile) {
+      setFlippedStates(prev => ({
+        ...prev,
+        [index]: !prev[index],
+      }));
+    }
   };
 
   const serviceTypes = [
@@ -130,20 +136,16 @@ const ServicesSection = () => {
                   >
                     <div
                       className={cn(
-                        "relative h-[500px] w-full transition-transform duration-1000 ease-in-out",
-                        "[transform-style:preserve-3d]",
-                        // Click animation for mobile
-                        isFlipped ? '[transform:rotateX(180deg)]' : '',
-                        // The hover animation will be controlled by the faces directly for desktop
+                        "relative h-[500px] w-full transition-transform duration-1000 ease-in-out [transform-style:preserve-3d]",
+                        isFlipped ? '[transform:rotateX(180deg)]' : ''
                       )}
                     >
-                      {/* Front Face */}
+                      {/* Front Face: Visible by default, fades on desktop hover */}
                       <div
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
                           "transition-all duration-500 ease-in-out",
-                          // Desktop hover dissolve effect
-                           "md:group-hover:opacity-0 md:group-hover:blur-lg"
+                          "md:group-hover:opacity-0 md:group-hover:blur-lg" // Desktop hover effect
                         )}
                       >
                         <div className="absolute inset-0 rounded-lg border border-neon-yellow/30 md:group-hover:border-neon-yellow"></div>
@@ -177,16 +179,16 @@ const ServicesSection = () => {
                         </div>
                       </div>
 
-                      {/* Back Face */}
+                      {/* Back Face: Rotated on mobile click, fades in on desktop hover */}
                       <div
                         className={cn(
-                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)]",
+                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
+                          // Initial state for both mobile and desktop
                           "transition-all duration-500 ease-in-out",
-                          // Initial state for desktop (hidden)
-                          "md:opacity-0 md:blur-lg md:scale-95",
-                          // Desktop hover effect
-                           "md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100",
-                           // Mobile click effect (we handle this with the parent rotation)
+                          // Mobile: starts rotated
+                          "[transform:rotateX(180deg)]",
+                          // Desktop: starts invisible and scaled down, fades in on hover
+                          "md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100"
                         )}
                       >
                         <div className="absolute inset-0 rounded-lg border border-neon-cyan/50"></div>
