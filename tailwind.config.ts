@@ -69,7 +69,7 @@ export default {
         },
       },
       fontFamily: {
-        headline: ['Orbitron', 'monospace'],
+        headline: ['Cyberjunkies', 'Orbitron', 'monospace'],
         body: ['Inter', 'sans-serif'],
         code: ['monospace'],
       },
