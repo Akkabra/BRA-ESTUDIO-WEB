@@ -173,16 +173,14 @@ const ServicesSection = () => {
     ],
   };
   
-    useEffect(() => {
+  useEffect(() => {
     if (activeService === 'branding' && !isBrandingInteracted) {
       const interval = setInterval(() => {
         setActiveIndex(prevIndex => (prevIndex + 1) % mainServices.branding.length);
       }, 5000);
-
       return () => clearInterval(interval);
     }
   }, [activeService, isBrandingInteracted, mainServices.branding.length]);
-
 
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
   
@@ -301,78 +299,69 @@ const ServicesSection = () => {
               })}
             </div>
         ) : activeService === 'branding' ? (
-            <div className="relative flex h-[500px] w-full items-center justify-center">
-              <button onClick={() => handleBrandingNav((activeIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="absolute left-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:left-12">
-                <ChevronLeft size={48} />
-              </button>
-              <button onClick={() => handleBrandingNav((activeIndex + 1) % mainServices.branding.length)} className="absolute right-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:right-12">
-                <ChevronRight size={48} />
-              </button>
-              <div className="relative h-[420px] w-[320px]" style={{ perspective: '1000px' }}>
-                {mainServices.branding.map((plan, index) => {
-                  const planKey = `branding-${index}`;
-                  const isFlipped = !!flippedStates[planKey];
-                  const isActive = index === activeIndex;
-                  const offset = index - activeIndex;
+              <div className="relative flex h-[500px] w-full items-center justify-center">
+                <button onClick={() => handleBrandingNav((activeIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="absolute left-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-left-4">
+                  <ChevronLeft size={48} />
+                </button>
+                <button onClick={() => handleBrandingNav((activeIndex + 1) % mainServices.branding.length)} className="absolute right-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-right-4">
+                  <ChevronRight size={48} />
+                </button>
+                
+                <div className="relative h-full w-full max-w-5xl flex items-center justify-center [transform-style:preserve-3d]">
+                    {mainServices.branding.map((plan, index) => {
+                        const isActive = index === activeIndex;
+                        const offset = index - activeIndex;
+                        const planKey = `branding-${index}`;
+                        const isFlipped = !!flippedStates[planKey];
 
-                  return (
-                    <div
-                      key={planKey}
-                      onClick={() => handleBrandingNav(index)}
-                      onMouseEnter={() => isActive && !isMobile && setFlippedStates(prev => ({ ...prev, [planKey]: true }))}
-                      onMouseLeave={() => isActive && !isMobile && setFlippedStates(prev => ({ ...prev, [planKey]: false }))}
-                      className="absolute flex h-full w-full cursor-pointer items-center justify-center transition-all duration-500"
-                      style={{
-                        transform: `translateX(${offset * 40}%) scale(${isActive ? 1 : 0.75}) translateZ(${isActive ? '0' : '-150px'})`,
-                        zIndex: mainServices.branding.length - Math.abs(offset),
-                        opacity: isActive ? 1 : 0.4,
-                      }}
-                    >
-                      <div
-                        className="relative h-full w-full transition-transform duration-700 [transform-style:preserve-3d]"
-                        style={{ transform: isFlipped && isActive ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
-                      >
-                        {/* Front Face */}
-                        <div
-                          className={cn(
-                            'absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 bg-surface-dark/90 p-8 text-center [backface-visibility:hidden]',
-                            isActive ? 'border-neon-orange/80 animate-pulse-fast shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)]' : 'border-neon-orange/30'
-                          )}
-                        >
-                          <plan.icon className={cn("h-16 w-16 mb-4", isActive ? "text-neon-orange" : "text-neon-orange/50")} />
-                          <h3 className={cn("font-headline text-3xl mb-2", isActive ? "text-neon-orange" : "text-neon-orange/50")}>{plan.title}</h3>
-                          <div className="mt-1">
-                            <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
-                            <p className="text-sm text-text-desaturated/60">{plan.priceDetails}</p>
-                          </div>
-                          {isActive && (
-                            <p className="absolute bottom-6 text-xs font-body text-center text-neon-orange/70">
-                                {isMobile ? 'Toca para más detalles' : 'Pasa el cursor para más detalles'}
-                            </p>
-                          )}
-                        </div>
-                        {/* Back Face */}
-                        <div
-                          className="absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-neon-orange/50 bg-surface-dark/95 p-8 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]"
-                        >
-                          <h4 className="font-headline text-2xl text-neon-orange mb-4">{plan.title}</h4>
-                          <p className="mb-6 text-sm leading-relaxed text-text-desaturated">{plan.details}</p>
-                          <a
-                            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block px-6 py-2 bg-gradient-neon text-cyber-black font-headline text-base rounded-md transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)] hover:scale-105"
-                            onClick={(e) => e.stopPropagation()}
+                        return (
+                          <div
+                            key={planKey}
+                            onClick={() => handleBrandingNav(index)}
+                            onMouseEnter={() => !isMobile && isActive && setFlippedStates(prev => ({...prev, [planKey]: true}))}
+                            onMouseLeave={() => !isMobile && isActive && setFlippedStates(prev => ({...prev, [planKey]: false}))}
+                            className="absolute w-[320px] h-[420px] transition-all duration-500 ease-in-out cursor-pointer"
+                            style={{
+                              transform: `translateX(${offset * 35}%) scale(${isActive ? 1 : 0.8}) translateZ(${isActive ? '0' : '-100px'}) rotateY(${offset * -15}deg)`,
+                              zIndex: mainServices.branding.length - Math.abs(offset),
+                              opacity: isActive ? 1 : 0.6,
+                            }}
                           >
-                            CONTRATAR AHORA
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                             <div
+                                className={cn(
+                                  "relative w-full h-full [transform-style:preserve-3d] transition-transform duration-700 ease-in-out",
+                                  isFlipped && isActive ? '[transform:rotateY(180deg)]' : '',
+                                )}
+                              >
+                                {/* Front Face */}
+                                <div className={cn("absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 bg-surface-dark/90 p-8 text-center [backface-visibility:hidden]", isActive ? 'border-neon-orange/80 shadow-[0_0_30px_hsl(var(--neon-orange)/0.5)] animate-pulse-fast' : 'border-neon-orange/30')}>
+                                  <plan.icon className={cn("h-16 w-16 mb-4", isActive ? "text-neon-orange" : "text-neon-orange/50")} />
+                                  <h3 className={cn("font-headline text-3xl mb-2", isActive ? "text-neon-orange" : "text-neon-orange/50")}>{plan.title}</h3>
+                                  <div className="mt-1">
+                                      <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
+                                      <p className="text-sm text-text-desaturated/60">{plan.priceDetails}</p>
+                                  </div>
+                                </div>
+                                {/* Back Face */}
+                                <div className="absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-neon-orange/50 bg-surface-dark/95 p-8 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                                  <h4 className="font-headline text-2xl text-neon-orange mb-4">{plan.title}</h4>
+                                  <p className="mb-6 text-sm leading-relaxed text-text-desaturated">{plan.details}</p>
+                                  <a
+                                      href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="font-headline inline-block px-6 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-cyber-black text-base rounded-md transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)] hover:scale-105"
+                                      onClick={(e) => e.stopPropagation()}
+                                  >
+                                      CONTRATAR AHORA
+                                  </a>
+                                </div>
+                            </div>
+                          </div>
+                        )
+                    })}
+                </div>
               </div>
-            </div>
         ) : activeService === 'apps' ? (
             <div className="flex justify-center items-center h-[600px]">
                 <div className="relative w-[320px] h-[620px] bg-gray-800/30 rounded-[40px] border-4 border-gray-600 shadow-2xl p-2.5 flex items-center">
