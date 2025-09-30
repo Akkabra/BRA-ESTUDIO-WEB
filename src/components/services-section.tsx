@@ -9,6 +9,7 @@ const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
   const [flippedStates, setFlippedStates] = useState<Record<string, boolean>>({});
   const [activeIndex, setActiveIndex] = useState(1); 
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
   
@@ -20,8 +21,20 @@ const ServicesSection = () => {
   };
 
   const handleBrandingNav = (index: number) => {
+    setIsAutoPlaying(false);
     setActiveIndex(index);
   }
+  
+  useEffect(() => {
+    if (activeService !== 'branding' || !isAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex(prevIndex => (prevIndex + 1) % mainServices.branding.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [activeService, isAutoPlaying]);
+
 
   const serviceTypes = [
     { key: 'web', label: 'Desarrollo Web' },
@@ -82,23 +95,23 @@ const ServicesSection = () => {
     branding: [
       {
         title: 'Plan Esencial',
+        icon: Palette,
         price: '$800',
         priceDetails: 'USD / pago único',
-        icon: Palette,
         details: 'El punto de partida perfecto para tu marca. Creamos un logotipo memorable y una identidad visual coherente que te diferenciará desde el primer día.'
       },
       {
         title: 'Plan Estratégico',
+        icon: Layers,
         price: '$1,800',
         priceDetails: 'USD / pago único',
-        icon: Layers,
         details: 'Más que un logo, una estrategia. Profundizamos en el ADN de tu marca para construir una identidad sólida y unificada, desde el tono de voz hasta las aplicaciones visuales.'
       },
       {
         title: 'Plan 360°',
+        icon: Globe,
         price: '$4,000+',
         priceDetails: 'USD / según alcance',
-        icon: Globe,
         details: 'Una inmersión total en el universo de tu marca. Creamos un ecosistema de marca cohesivo y potente que cautiva y fideliza, desde el producto físico hasta la estrategia digital.'
       }
     ],
@@ -192,34 +205,31 @@ const ServicesSection = () => {
         
         <div className="relative min-h-[550px]">
         {activeService === 'branding' ? (
-          <div className="relative flex flex-col items-center justify-center h-full w-full">
-            <div className="relative flex items-center justify-center w-full max-w-5xl h-[450px]">
+          <div className="relative flex flex-col items-center justify-center h-full w-full mt-8">
+            <div className="relative flex items-center justify-center w-full max-w-5xl h-[450px]" style={{ perspective: '1200px' }}>
               {mainServices.branding.map((plan, index) => {
                 const planKey = `branding-${index}`;
                 const isFlipped = !!flippedStates[planKey];
                 const isActive = index === activeIndex;
+                const PlanIcon = plan.icon;
 
                 const getCardStyle = () => {
-                  let transform = `translateX(${(index - activeIndex) * 80}%) scale(${isActive ? 1 : 0.8})`;
-                  if (index < activeIndex) {
-                    transform += ` rotateY(45deg)`;
-                  } else if (index > activeIndex) {
-                    transform += ` rotateY(-45deg)`;
+                  let transform = `translateX(${(index - activeIndex) * 50}%) scale(${isActive ? 1 : 0.7})`;
+                  if (!isActive) {
+                     transform += ` translateZ(-400px) rotateY(${(index < activeIndex) ? 45 : -45}deg)`;
                   }
-                  return transform;
+                  return {
+                    transform,
+                    opacity: isActive ? 1 : 0.4,
+                    zIndex: isActive ? 10 : mainServices.branding.length - Math.abs(index - activeIndex),
+                  };
                 }
 
                 return (
                   <div
                     key={planKey}
-                    className="absolute transition-all duration-500 ease-in-out cursor-pointer"
-                    style={{
-                      transform: getCardStyle(),
-                      zIndex: isActive ? 10 : 1,
-                      opacity: isActive ? 1 : 0.6,
-                      width: '320px',
-                      height: '420px',
-                    }}
+                    className="absolute w-80 h-[420px] transition-all duration-500 ease-in-out cursor-pointer"
+                    style={getCardStyle()}
                     onClick={() => !isActive && handleBrandingNav(index)}
                   >
                     <div
@@ -238,13 +248,12 @@ const ServicesSection = () => {
                     >
                       {/* Front Face */}
                       <div className={cn(
-                        "absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center [backface-visibility:hidden] rounded-lg border-2 bg-surface-dark/90 p-8",
-                        isActive ? "border-neon-orange/80 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)]" : "border-neon-orange/30",
-                        "transition-shadow duration-300"
+                        "absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center [backface-visibility:hidden] rounded-lg border-2 bg-surface-dark/90 p-8 transition-all duration-300",
+                        isActive ? "border-neon-orange/80 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast" : "border-neon-orange/30",
                       )}>
                         <div className="absolute inset-0 rounded-lg bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
                         <div className="relative z-10 flex flex-col items-center justify-center">
-                          <Icon className={cn("h-12 w-12 mb-4", isActive ? "text-neon-orange" : "text-neon-orange/50")}/>
+                          <PlanIcon className={cn("h-12 w-12 mb-4", isActive ? "text-neon-orange" : "text-neon-orange/50")}/>
                           <h3 className={cn("font-headline text-2xl", isActive ? "text-neon-orange glitch-text" : "text-neon-orange/50")}>{plan.title}</h3>
                           <div className="mt-3">
                             <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
@@ -259,11 +268,10 @@ const ServicesSection = () => {
                       </div>
 
                       {/* Back Face */}
-                      <div className="absolute inset-0 flex h-full w-full flex-col justify-center rounded-lg bg-surface-dark/95 p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] border border-neon-orange/50">
-                        <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
+                      <div className="absolute inset-0 flex h-full w-full flex-col justify-center rounded-lg bg-text-desaturated p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] border border-neon-orange/50">
                         <div className="text-center relative flex flex-col items-center justify-center h-full">
-                          <h4 className="mb-4 text-xl font-headline text-neon-orange">{plan.title}</h4>
-                          <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6 px-2 text-center">
+                          <h4 className="mb-4 text-xl font-headline text-neon-yellow">{plan.title}</h4>
+                          <p className="font-body text-sm leading-relaxed text-cyber-black/90 mb-6 px-2 text-center">
                             {plan.details}
                           </p>
                           <a
@@ -284,10 +292,10 @@ const ServicesSection = () => {
             </div>
             {/* Navigation */}
             <div className="absolute bottom-0 flex items-center justify-center w-full gap-16">
-              <button onClick={() => handleBrandingNav((activeIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="text-neon-orange/70 hover:text-neon-orange transition-colors p-2 z-20 disabled:opacity-30" disabled={activeIndex === 0}>
+              <button onClick={() => handleBrandingNav((activeIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="text-neon-orange/70 hover:text-neon-orange transition-colors p-2 z-20 disabled:opacity-30">
                 <ChevronLeft size={48} />
               </button>
-              <button onClick={() => handleBrandingNav((activeIndex + 1) % mainServices.branding.length)} className="text-neon-orange/70 hover:text-neon-orange transition-colors p-2 z-20 disabled:opacity-30" disabled={activeIndex === mainServices.branding.length - 1}>
+              <button onClick={() => handleBrandingNav((activeIndex + 1) % mainServices.branding.length)} className="text-neon-orange/70 hover:text-neon-orange transition-colors p-2 z-20 disabled:opacity-30">
                 <ChevronRight size={48} />
               </button>
             </div>
