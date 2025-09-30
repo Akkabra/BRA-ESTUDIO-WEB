@@ -13,6 +13,7 @@ const ServicesSection = () => {
 
 
   const handleCardClick = (index: number) => {
+    // Only allow flipping on mobile
     if (isMobile) {
       setFlippedStates(prev => ({
         ...prev,
@@ -130,21 +131,23 @@ const ServicesSection = () => {
                 return (
                   <div
                     key={index}
-                    className="group cursor-pointer"
+                    className="group"
                     style={{ perspective: '1200px' }}
                     onClick={() => handleCardClick(index)}
                   >
                     <div
                       className={cn(
-                        "relative h-[500px] w-full transition-transform duration-1000 ease-in-out [transform-style:preserve-3d]",
-                        isFlipped ? '[transform:rotateX(180deg)]' : ''
+                        "relative h-[500px] w-full [transform-style:preserve-3d]",
+                        "transition-transform duration-1000 ease-in-out",
+                        // Only apply rotation on mobile based on isFlipped state
+                        isMobile && isFlipped ? '[transform:rotateX(180deg)]' : ''
                       )}
                     >
                       {/* Front Face: Visible by default, fades on desktop hover */}
                       <div
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
-                          "transition-all duration-500 ease-in-out",
+                          "transition-all duration-1000 ease-in-out",
                           "md:group-hover:opacity-0 md:group-hover:blur-lg" // Desktop hover effect
                         )}
                       >
@@ -179,22 +182,22 @@ const ServicesSection = () => {
                         </div>
                       </div>
 
-                      {/* Back Face: Rotated on mobile click, fades in on desktop hover */}
+                      {/* Back Face: Visible on click (mobile) or hover (desktop) */}
                       <div
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
-                          // Initial state for both mobile and desktop
-                          "transition-all duration-500 ease-in-out",
-                          // Mobile: starts rotated
-                          "[transform:rotateX(180deg)]",
-                          // Desktop: starts invisible and scaled down, fades in on hover
-                          "md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100"
+                          "transition-all duration-1000 ease-in-out",
+                          // Mobile: Rotated on click
+                          '[transform:rotateX(180deg)]',
+                          isMobile && isFlipped ? 'z-10 [transform:rotateX(0deg)]' : '',
+                          // Desktop: Fades in on hover
+                          "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100"
                         )}
                       >
-                        <div className="absolute inset-0 rounded-lg border border-neon-cyan/50"></div>
-                        <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent"></div>
+                        <div className="absolute inset-0 rounded-lg border border-neon-orange/50"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
                         <div>
-                          <h4 className="mb-4 text-xl font-headline text-neon-cyan">
+                          <h4 className="mb-4 text-xl font-headline text-neon-orange">
                             Más detalles del {plan.title}
                           </h4>
                           <p className="font-body text-sm leading-relaxed text-text-desaturated/90">{plan.details}</p>
@@ -202,9 +205,9 @@ const ServicesSection = () => {
                         <Button
                           variant="cyberpunk"
                           size="lg"
-                          className="mt-6 w-full border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-cyber-black"
+                          className="mt-6 w-full border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-cyber-black"
                           onClick={(e) => {
-                              e.stopPropagation();
+                              if (isMobile) e.stopPropagation();
                               document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
                           }}
                         >
