@@ -8,7 +8,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
   const [flippedStates, setFlippedStates] = useState<Record<string, boolean>>({});
-  const [activeIndex, setActiveIndex] = useState(1); // For 3D carousel
+  const [activeIndex, setActiveIndex] = useState(0); 
   const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
 
@@ -18,7 +18,7 @@ const ServicesSection = () => {
       [planKey]: !prev[planKey],
     }));
   };
-  
+
   const handleWhatsAppRedirect = (e: React.MouseEvent, planTitle: string) => {
     e.stopPropagation();
     const message = encodeURIComponent(`Hola, estoy interesado en contratar el ${planTitle}.`);
@@ -32,6 +32,14 @@ const ServicesSection = () => {
       setActiveIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
     }
   };
+  
+  const handleCircleClick = (index: number) => {
+    if (index === activeIndex) {
+      handleCardClick(`branding-${index}`);
+    } else {
+      setActiveIndex(index);
+    }
+  }
 
   const serviceTypes = [
     { key: 'web', label: 'Desarrollo Web' },
@@ -222,7 +230,7 @@ const ServicesSection = () => {
         
         <div className="relative min-h-[550px]">
           {activeService === 'branding' ? (
-            <div className="relative w-full h-[400px] flex items-center justify-center" style={{ perspective: '1000px' }}>
+             <div className="relative w-full h-[400px] flex items-center justify-center" style={{ perspective: '1000px' }}>
                 <div 
                     className="relative [transform-style:preserve-3d] transition-transform duration-700 ease-in-out w-[280px] h-[280px]"
                     style={{ transform: `rotateY(${getRotation(activeIndex) * -1}deg)` }}
@@ -237,8 +245,9 @@ const ServicesSection = () => {
                   return (
                     <div
                       key={planKey}
+                      onClick={() => handleCircleClick(index)}
                       className={cn(
-                          "absolute w-full h-full [transform-style:preserve-3d] transition-transform duration-700",
+                          "absolute w-full h-full [transform-style:preserve-3d] transition-all duration-700 cursor-pointer",
                           !isActive && "opacity-40 scale-75"
                       )}
                       style={{ transform: `rotateY(${rotationY}deg) translateZ(280px)`}}
@@ -248,20 +257,19 @@ const ServicesSection = () => {
                               "relative w-full h-full [transform-style:preserve-3d] transition-transform duration-1000 ease-in-out",
                               isFlipped && '[transform:rotateY(180deg)]',
                           )}
-                          onClick={() => isActive && handleCardClick(planKey)}
                       >
                         {/* Front Face */}
-                        <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center no-underline [backface-visibility:hidden] rounded-full border-2 border-neon-orange/80 bg-surface-dark/90 cursor-pointer shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)] transition-shadow duration-300">
+                        <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center no-underline [backface-visibility:hidden] rounded-full border-2 border-neon-orange/80 bg-surface-dark/90 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)] transition-shadow duration-300 p-4">
                            <div className="absolute inset-0 rounded-full bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
-                            <div className="relative z-10 flex flex-col items-center justify-center p-4">
-                                <Icon className="h-12 w-12 text-neon-orange mb-3"/>
-                                <h3 className="font-headline text-2xl text-neon-orange glitch-text">{plan.title}</h3>
+                            <div className="relative z-10 flex flex-col items-center justify-center">
+                                <Icon className="h-10 w-10 text-neon-orange mb-3"/>
+                                <h3 className="font-headline text-xl text-neon-orange glitch-text">{plan.title}</h3>
                                 <div className="mt-2">
                                     <span className="text-2xl font-bold text-text-desaturated">{plan.price}</span>
                                     <p className="text-xs text-text-desaturated/60">{plan.priceDetails}</p>
                                 </div>
                                 <p className="text-xs font-body text-center mt-3 text-neon-orange/70">
-                                  Haz clic para ver detalles
+                                  {isActive ? "Haz clic para ver detalles" : "Haz clic para ver este plan"}
                                 </p>
                             </div>
                         </div>
@@ -310,11 +318,13 @@ const ServicesSection = () => {
                     key={planKey}
                     className="group"
                     style={{ perspective: '1200px' }}
-                    onClick={() => handleCardClick(planKey)}
+                    onClick={() => isMobile && handleCardClick(planKey)}
+                    onMouseEnter={() => !isMobile && setFlippedStates(prev => ({...prev, [planKey]: true}))}
+                    onMouseLeave={() => !isMobile && setFlippedStates(prev => ({...prev, [planKey]: false}))}
                   >
                      <div
                       className={cn(
-                        "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-1000 ease-in-out cursor-pointer",
+                        "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-700 ease-in-out cursor-pointer",
                         isFlipped ? '[transform:rotateX(180deg)]' : '',
                       )}
                     >
@@ -341,16 +351,12 @@ const ServicesSection = () => {
                             </ul>
                           </div>
                            <p className="text-xs font-body text-center mt-4 text-neon-yellow/70">
-                              Haz clic para más detalles
+                              {isMobile ? 'Toca para más detalles' : 'Pasa el cursor para más detalles'}
                           </p>
                       </div>
 
                       {/* Main Service Back Face */}
-                       <a
-                          onClick={(e) => e.stopPropagation()}
-                          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                       <div
                           className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center items-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)] border border-neon-orange/50 text-center"
                        >
                            <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
@@ -359,13 +365,17 @@ const ServicesSection = () => {
                                Más sobre {plan.title}
                              </h4>
                              <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
-                              <span
+                              <a
+                                onClick={(e) => e.stopPropagation()}
+                                href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="inline-block px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
                               >
                                 CONTRATAR PLAN
-                              </span>
+                              </a>
                            </div>
-                       </a>
+                       </div>
                     </div>
                   </div>
                 );
