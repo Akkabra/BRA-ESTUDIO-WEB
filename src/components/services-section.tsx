@@ -218,42 +218,29 @@ const ServicesSection = () => {
                   const Icon = plan.icon;
                   const planKey = `branding-${index}`;
                   return (
-                    <div 
+                    <a 
                       key={planKey}
-                      className="group relative flex flex-col items-center justify-center text-center cursor-pointer"
-                      onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
+                      href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative flex flex-col items-center justify-center text-center no-underline"
                     >
-                      <div className="relative w-72 h-72 md:w-80 md:h-80 flex items-center justify-center">
-                        <div className="absolute inset-0 rounded-full bg-surface-dark/80 transition-all duration-500 group-hover:scale-105"></div>
-                        <div className="absolute inset-0 rounded-full border-2 border-neon-orange/70 animate-pulse group-hover:border-neon-orange group-hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)] transition-all duration-500"></div>
+                      <div className="relative w-72 h-72 md:w-80 md:h-80 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:animate-glitch-subtle">
+                        <div className="absolute inset-0 rounded-full bg-surface-dark/90 transition-all duration-500 group-hover:scale-105"></div>
+                        <div className="absolute inset-0 rounded-full border-2 border-neon-orange/70 animate-pulse-fast group-hover:border-neon-orange group-hover:shadow-[0_0_50px_hsl(var(--neon-orange)/0.9)] transition-all duration-300"></div>
                         <div className="absolute inset-0 rounded-full bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
                         
-                        {/* Content that is always visible */}
-                        <div className="relative z-10 flex flex-col items-center justify-center transition-opacity duration-300 group-hover:opacity-0">
-                          <Icon className="h-16 w-16 text-neon-orange mb-4"/>
-                          <h3 className="text-2xl font-headline text-neon-orange">{plan.title}</h3>
-                          <div className="mt-2">
+                        <div className="relative z-10 flex flex-col items-center justify-center p-4">
+                          <Icon className="h-16 w-16 text-neon-orange mb-4 transition-transform duration-300 group-hover:scale-110"/>
+                          <h3 className="font-headline text-3xl text-neon-orange glitch-text">{plan.title}</h3>
+                          <div className="mt-4">
                               <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
                               <p className="text-xs text-text-desaturated/60">{plan.priceDetails}</p>
                           </div>
-                        </div>
-
-                        {/* Content visible on hover */}
-                        <div className="absolute inset-0 z-20 flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                           <ul className="space-y-2 font-body">
-                            {plan.features.map((feature, fIndex) => (
-                              <li key={fIndex} className="flex items-center text-sm text-text-desaturated animate-fade-in-up" style={{ animationDelay: `${fIndex * 100}ms` }}>
-                                <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-orange" />
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
+                          <p className="text-sm font-headline text-neon-orange/80 mt-6 tracking-widest animate-text-flicker">CLIC PARA CONTRATAR</p>
                         </div>
                       </div>
-                      <p className="text-xs font-body text-center mt-6 text-neon-orange/70">
-                          Pasa el cursor para ver detalles
-                      </p>
-                    </div>
+                    </a>
                   );
                 })}
              </div>
@@ -283,8 +270,8 @@ const ServicesSection = () => {
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
                           "border border-neon-yellow/30",
-                          "transition-all duration-700 ease-in-out",
-                          "md:group-hover:opacity-0 md:group-hover:blur-sm md:group-hover:pointer-events-none"
+                          "transition-opacity duration-700 ease-in-out",
+                          "md:group-hover:opacity-0 md:group-hover:pointer-events-none"
                         )}
                       >
                         <div>
@@ -320,9 +307,9 @@ const ServicesSection = () => {
                         rel="noopener noreferrer"
                         className={cn(
                           "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
-                          "border border-neon-orange/50 [transform:rotateX(180deg)]",
-                          "transition-all duration-700 ease-in-out",
-                          "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100",
+                          "border border-neon-orange/50",
+                          "transition-opacity duration-700 ease-in-out [transform:rotateX(180deg)]",
+                          "md:transform-none md:opacity-0 md:group-hover:opacity-100",
                           isFlipped ? 'pointer-events-auto' : 'md:pointer-events-auto pointer-events-none'
                         )}
                       >
