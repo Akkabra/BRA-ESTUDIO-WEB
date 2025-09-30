@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 import { CheckCircle, Code, Gem, Package, Palette, Layers, Globe, Smartphone, Rocket, Network } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -13,7 +12,6 @@ const ServicesSection = () => {
   const whatsappNumber = "573000000000";
 
   const handleCardClick = (planKey: string) => {
-    // Only allow flipping on mobile
     if (isMobile) {
       setFlippedStates(prev => ({
         ...prev,
@@ -23,14 +21,13 @@ const ServicesSection = () => {
   };
   
   const handleWhatsAppRedirect = (e: React.MouseEvent, planTitle: string) => {
-    e.stopPropagation(); // Prevent the card from flipping
+    e.stopPropagation();
     const message = encodeURIComponent(`Hola, estoy interesado en contratar el ${planTitle}.`);
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
   };
 
   const serviceTypes = [
     { key: 'web', label: 'Desarrollo Web' },
-    { key: 'branding', label: 'Branding' },
     { key: 'apps', label: 'Apps Móviles' },
   ];
 
@@ -175,6 +172,7 @@ const ServicesSection = () => {
   };
 
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
+  const brandingPlans = mainServices.branding;
 
   return (
     <section id="servicios" className="py-20 cyber-grain relative overflow-hidden">
@@ -186,8 +184,8 @@ const ServicesSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-5xl font-headline font-bold text-neon-yellow mb-6 glitch" data-text="NUESTROS SERVICIOS">
-            NUESTROS SERVICIOS
+          <h2 className="text-3xl md:text-5xl font-headline font-bold text-neon-yellow mb-6 glitch" data-text="NUESTROS SERVICIOS">
+              NUESTROS SERVICIOS
           </h2>
           <p className="text-xl text-text-desaturated max-w-3xl mx-auto font-body">
             Soluciones digitales personalizadas que transforman tu visión en realidad
@@ -223,7 +221,6 @@ const ServicesSection = () => {
                 const Icon = plan.icon;
                 const planKey = `${activeService}-${index}`;
                 const isFlipped = isMobile && !!flippedStates[planKey];
-                const isBranding = activeService === 'branding';
                 
                 return (
                   <div
@@ -236,23 +233,23 @@ const ServicesSection = () => {
                       className={cn(
                         "relative w-full h-[520px] [transform-style:preserve-3d]",
                         "transition-transform duration-1000 ease-in-out",
-                        isFlipped && (isBranding ? '[transform:rotateY(180deg)]' : '[transform:rotateX(180deg)]')
+                        isFlipped && '[transform:rotateX(180deg)]'
                       )}
                     >
-                      {/* Front Face */}
+                      {/* Main Service Front Face */}
                       <div
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
+                          "border border-neon-yellow/30",
                           "transition-all duration-700 ease-in-out",
-                          isBranding ? "border border-neon-cyan/30" : "border border-neon-yellow/30",
-                          "md:group-hover:opacity-0 md:group-hover:blur-lg md:group-hover:pointer-events-none"
+                          "md:group-hover:opacity-0 md:group-hover:blur-sm md:group-hover:pointer-events-none"
                         )}
                       >
                         <div>
                           <div className="mb-4 flex items-start justify-between">
-                            <h3 className={cn("text-2xl font-headline", isBranding ? "text-neon-cyan" : "text-neon-yellow")}>{plan.title}</h3>
-                            <div className={cn("rounded-full border bg-cyber-black/50 p-2", isBranding ? "border-neon-cyan/30" : "border-neon-yellow/30")}>
-                              <Icon className={cn("h-6 w-6", isBranding ? "text-neon-cyan/70" : "text-neon-yellow/70")} />
+                            <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
+                            <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
+                              <Icon className="h-6 w-6 text-neon-yellow/70" />
                             </div>
                           </div>
                           <div className="mb-6">
@@ -262,61 +259,125 @@ const ServicesSection = () => {
                           <ul className="space-y-3 font-body mb-6">
                             {plan.features.map((feature, fIndex) => (
                               <li key={fIndex} className="flex items-center">
-                                <CheckCircle className={cn("mr-3 h-4 w-4 flex-shrink-0", isBranding ? "text-neon-cyan" : "text-neon-yellow")} />
+                                <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
                                 <span className="text-sm text-text-desaturated">{feature}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
-                        <p className={cn("text-xs font-body text-center mt-4", isBranding ? "text-neon-cyan/70" : "text-neon-yellow/70")}>
+                        <p className="text-xs font-body text-center mt-4 text-neon-yellow/70">
                           <span className='md:hidden'>Toca para más detalles</span>
                           <span className='hidden md:inline'>Pasa el cursor para más detalles</span>
                         </p>
                       </div>
 
-                      {/* Back Face */}
-                      <a
-                        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
+                      {/* Main Service Back Face */}
+                      <div
                         className={cn(
                           "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
+                          "border border-neon-orange/50 [transform:rotateX(180deg)]",
                           "transition-all duration-700 ease-in-out",
-                          isBranding 
-                            ? '[transform:rotateY(180deg)] border border-neon-cyan/50' 
-                            : '[transform:rotateX(180deg)] border border-neon-orange/50',
                           "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100",
                           isFlipped ? 'pointer-events-auto' : 'md:pointer-events-auto pointer-events-none'
                         )}
+                        onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
                       >
-                         <div className={cn("absolute inset-0", isBranding ? "bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent" : "bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent")}></div>
+                         <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
                          <div className="text-center relative">
-                           <h4 className={cn("mb-4 text-xl font-headline", isBranding ? "text-neon-cyan" : "text-neon-orange")}>
+                           <h4 className="mb-4 text-xl font-headline text-neon-orange">
                              Más detalles del {plan.title}
                            </h4>
                            <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
-                           <p className={cn("font-body mt-8 animate-pulse text-sm", isBranding ? "text-neon-cyan/80" : "text-neon-orange/80")}>
+                           <p className="font-body mt-8 animate-pulse text-sm text-neon-orange/80">
                               ¿Te interesa este plan? ¡Contáctanos por WhatsApp para empezar!
                            </p>
                          </div>
-                      </a>
+                      </div>
                     </div>
                   </div>
                 );
               })}
             </div>
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
+             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-text-desaturated py-16">
-                <p>Próximamente... aquí se mostrarán los paquetes de {activeService === 'branding' ? 'Branding' : 'Apps Móviles'}.</p>
+                <p>Próximamente... aquí se mostrarán los paquetes de Apps Móviles.</p>
               </div>
             </div>
           )}
         </div>
+
+        {/* Branding Section */}
+        <div className="mt-24 pt-16 border-t border-neon-yellow/20">
+            <div className="text-center mb-16">
+                <h3 className="text-2xl md:text-4xl font-headline text-text-desaturated mb-4">
+                    Y para tu Marca...
+                </h3>
+                <p className="text-lg text-text-desaturated/80 max-w-2xl mx-auto font-body">
+                    Creamos identidades visuales que conectan, inspiran y perduran.
+                </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {brandingPlans.map((plan, index) => {
+                const Icon = plan.icon;
+                const planKey = `branding-${index}`;
+
+                return (
+                    <div key={planKey} className="group" style={{ perspective: '1500px' }}>
+                        <div className="relative w-full h-[520px] transition-transform duration-500 ease-in-out [transform-style:preserve-3d] md:group-hover:[transform:rotateY(-15deg)_rotateX(10deg)_scale(1.05)]">
+                            {/* Branding Front Face */}
+                            <div className="absolute inset-0 w-full h-full flex flex-col justify-between p-6 rounded-lg bg-surface-dark/90 border border-neon-orange/30 shadow-md transition-all duration-300 md:group-hover:shadow-neon-intense">
+                                <div>
+                                    <div className="mb-4 flex items-start justify-between">
+                                        <h3 className="text-2xl font-headline text-neon-orange">{plan.title}</h3>
+                                        <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-orange/30">
+                                            <Icon className="h-6 w-6 text-neon-orange/70" />
+                                        </div>
+                                    </div>
+                                    <div className="mb-6">
+                                        <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
+                                        <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
+                                    </div>
+                                    <ul className="space-y-3 font-body mb-6">
+                                        {plan.features.map((feature, fIndex) => (
+                                            <li key={fIndex} className="flex items-center">
+                                                <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-orange" />
+                                                <span className="text-sm text-text-desaturated">{feature}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <p className="text-xs font-body text-center mt-4 text-neon-orange/70">
+                                    Pasa el cursor para más detalles
+                                </p>
+                            </div>
+                            
+                            {/* Branding Back Face (New Design) */}
+                            <div 
+                                className="absolute inset-0 w-full h-full p-8 rounded-lg bg-text-desaturated text-cyber-black [transform:rotateY(180deg)_translateZ(1px)] transition-all duration-500 [backface-visibility:hidden] md:opacity-0 md:group-hover:opacity-100 md:[transform:rotateY(0deg)_translateZ(40px)] flex flex-col justify-center text-center cursor-pointer"
+                                onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
+                            >
+                                <div className="absolute inset-2 rounded-md border-2 border-dashed border-neon-yellow/50"></div>
+                                <div className="relative">
+                                    <h4 className="mb-4 text-xl font-headline text-neon-yellow">{plan.title}</h4>
+                                    <p className="font-body text-sm leading-relaxed mb-8">{plan.details}</p>
+                                    <p className="font-headline tracking-wider animate-pulse text-neon-yellow">
+                                        INICIA TU PROYECTO
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+              })}
+            </div>
+        </div>
+
       </div>
     </section>
   );
 };
 
 export default ServicesSection;
+
+    
