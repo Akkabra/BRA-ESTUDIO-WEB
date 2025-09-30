@@ -28,6 +28,7 @@ const ServicesSection = () => {
 
   const serviceTypes = [
     { key: 'web', label: 'Desarrollo Web' },
+    { key: 'branding', label: 'Branding' },
     { key: 'apps', label: 'Apps Móviles' },
   ];
 
@@ -92,7 +93,6 @@ const ServicesSection = () => {
           'Paleta de colores y tipografías',
           'Manual de marca simplificado',
           'Diseño de tarjeta de presentación',
-          '1 ronda de revisiones',
         ],
         details: 'El punto de partida perfecto para tu marca. Creamos un logotipo memorable y una identidad visual coherente que te diferenciará de la competencia desde el primer día.'
       },
@@ -102,11 +102,10 @@ const ServicesSection = () => {
         priceDetails: 'USD / pago único',
         icon: Layers,
         features: [
-          'Todo del Plan Esencial',
-          'Análisis de competencia y mercado',
+          'Análisis de competencia',
           'Estrategia de Tono de Voz',
           'Manual de marca completo',
-          'Diseño de 5 activos digitales (banners, posts)',
+          'Diseño de 5 activos digitales',
         ],
         details: 'Más que un logo, una estrategia. Profundizamos en el ADN de tu marca para construir una identidad sólida, desde el tono de voz hasta las aplicaciones visuales en el mundo digital.'
       },
@@ -116,11 +115,10 @@ const ServicesSection = () => {
         priceDetails: 'USD / según alcance',
         icon: Globe,
         features: [
-          'Todo del Plan Estratégico',
-          'Estrategia de contenido para redes',
+          'Estrategia de contenido',
           'Diseño de packaging o producto',
           'Guía de estilo para fotografía',
-          'Consultoría de marca continua (2 meses)',
+          'Consultoría de marca (2 meses)',
         ],
         details: 'Una inmersión total en el universo de tu marca. Desde el producto físico hasta la estrategia digital, creamos un ecosistema de marca cohesivo y potente que cautiva y fideliza.'
       }
@@ -172,7 +170,6 @@ const ServicesSection = () => {
   };
 
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
-  const brandingPlans = mainServices.branding;
 
   return (
     <section id="servicios" className="py-20 cyber-grain relative overflow-hidden">
@@ -215,7 +212,52 @@ const ServicesSection = () => {
         </div>
 
         <div className="relative min-h-[550px]">
-          {currentServicePlans.length > 0 ? (
+          {activeService === 'branding' ? (
+             <div className="grid md:grid-cols-3 gap-8 items-center pt-8">
+                {currentServicePlans.map((plan, index) => {
+                  const Icon = plan.icon;
+                  const planKey = `branding-${index}`;
+                  return (
+                    <div 
+                      key={planKey}
+                      className="group relative flex flex-col items-center justify-center text-center cursor-pointer"
+                      onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
+                    >
+                      <div className="relative w-72 h-72 md:w-80 md:h-80 flex items-center justify-center">
+                        <div className="absolute inset-0 rounded-full bg-surface-dark/80 transition-all duration-500 group-hover:scale-105"></div>
+                        <div className="absolute inset-0 rounded-full border-2 border-neon-orange/70 animate-pulse group-hover:border-neon-orange group-hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)] transition-all duration-500"></div>
+                        <div className="absolute inset-0 rounded-full bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
+                        
+                        {/* Content that is always visible */}
+                        <div className="relative z-10 flex flex-col items-center justify-center transition-opacity duration-300 group-hover:opacity-0">
+                          <Icon className="h-16 w-16 text-neon-orange mb-4"/>
+                          <h3 className="text-2xl font-headline text-neon-orange">{plan.title}</h3>
+                          <div className="mt-2">
+                              <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
+                              <p className="text-xs text-text-desaturated/60">{plan.priceDetails}</p>
+                          </div>
+                        </div>
+
+                        {/* Content visible on hover */}
+                        <div className="absolute inset-0 z-20 flex items-center justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                           <ul className="space-y-2 font-body">
+                            {plan.features.map((feature, fIndex) => (
+                              <li key={fIndex} className="flex items-center text-sm text-text-desaturated animate-fade-in-up" style={{ animationDelay: `${fIndex * 100}ms` }}>
+                                <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-orange" />
+                                {feature}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <p className="text-xs font-body text-center mt-6 text-neon-orange/70">
+                          Pasa el cursor para ver detalles
+                      </p>
+                    </div>
+                  );
+                })}
+             </div>
+          ) : currentServicePlans.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {currentServicePlans.map((plan, index) => {
                 const Icon = plan.icon;
@@ -272,7 +314,10 @@ const ServicesSection = () => {
                       </div>
 
                       {/* Main Service Back Face */}
-                      <div
+                      <a
+                        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={cn(
                           "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
                           "border border-neon-orange/50 [transform:rotateX(180deg)]",
@@ -280,7 +325,6 @@ const ServicesSection = () => {
                           "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100",
                           isFlipped ? 'pointer-events-auto' : 'md:pointer-events-auto pointer-events-none'
                         )}
-                        onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
                       >
                          <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
                          <div className="text-center relative">
@@ -292,7 +336,7 @@ const ServicesSection = () => {
                               ¿Te interesa este plan? ¡Contáctanos por WhatsApp para empezar!
                            </p>
                          </div>
-                      </div>
+                      </a>
                     </div>
                   </div>
                 );
@@ -306,78 +350,9 @@ const ServicesSection = () => {
             </div>
           )}
         </div>
-
-        {/* Branding Section */}
-        <div className="mt-24 pt-16 border-t border-neon-yellow/20">
-            <div className="text-center mb-16">
-                <h3 className="text-2xl md:text-4xl font-headline text-text-desaturated mb-4">
-                    Y para tu Marca...
-                </h3>
-                <p className="text-lg text-text-desaturated/80 max-w-2xl mx-auto font-body">
-                    Creamos identidades visuales que conectan, inspiran y perduran.
-                </p>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {brandingPlans.map((plan, index) => {
-                const Icon = plan.icon;
-                const planKey = `branding-${index}`;
-
-                return (
-                    <div key={planKey} className="group" style={{ perspective: '1500px' }}>
-                        <div className="relative w-full h-[520px] transition-transform duration-500 ease-in-out [transform-style:preserve-3d] md:group-hover:[transform:rotateY(-15deg)_rotateX(10deg)_scale(1.05)]">
-                            {/* Branding Front Face */}
-                            <div className="absolute inset-0 w-full h-full flex flex-col justify-between p-6 rounded-lg bg-surface-dark/90 border border-neon-orange/30 shadow-md transition-all duration-300 md:group-hover:shadow-neon-intense">
-                                <div>
-                                    <div className="mb-4 flex items-start justify-between">
-                                        <h3 className="text-2xl font-headline text-neon-orange">{plan.title}</h3>
-                                        <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-orange/30">
-                                            <Icon className="h-6 w-6 text-neon-orange/70" />
-                                        </div>
-                                    </div>
-                                    <div className="mb-6">
-                                        <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
-                                        <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
-                                    </div>
-                                    <ul className="space-y-3 font-body mb-6">
-                                        {plan.features.map((feature, fIndex) => (
-                                            <li key={fIndex} className="flex items-center">
-                                                <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-orange" />
-                                                <span className="text-sm text-text-desaturated">{feature}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <p className="text-xs font-body text-center mt-4 text-neon-orange/70">
-                                    Pasa el cursor para más detalles
-                                </p>
-                            </div>
-                            
-                            {/* Branding Back Face (New Design) */}
-                            <div 
-                                className="absolute inset-0 w-full h-full p-8 rounded-lg bg-text-desaturated text-cyber-black [transform:rotateY(180deg)_translateZ(1px)] transition-all duration-500 [backface-visibility:hidden] md:opacity-0 md:group-hover:opacity-100 md:[transform:rotateY(0deg)_translateZ(40px)] flex flex-col justify-center text-center cursor-pointer"
-                                onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
-                            >
-                                <div className="absolute inset-2 rounded-md border-2 border-dashed border-neon-yellow/50"></div>
-                                <div className="relative">
-                                    <h4 className="mb-4 text-xl font-headline text-neon-yellow">{plan.title}</h4>
-                                    <p className="font-body text-sm leading-relaxed mb-8">{plan.details}</p>
-                                    <p className="font-headline tracking-wider animate-pulse text-neon-yellow">
-                                        INICIA TU PROYECTO
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                );
-              })}
-            </div>
-        </div>
-
       </div>
     </section>
   );
 };
 
 export default ServicesSection;
-
-    
