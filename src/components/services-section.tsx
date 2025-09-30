@@ -223,6 +223,7 @@ const ServicesSection = () => {
                 const Icon = plan.icon;
                 const planKey = `${activeService}-${index}`;
                 const isFlipped = isMobile && !!flippedStates[planKey];
+                const isBranding = activeService === 'branding';
                 
                 return (
                   <div
@@ -235,22 +236,23 @@ const ServicesSection = () => {
                       className={cn(
                         "relative w-full h-[520px] [transform-style:preserve-3d]",
                         "transition-transform duration-1000 ease-in-out",
-                        isFlipped ? '[transform:rotateX(180deg)]' : '[transform:rotateX(0deg)]'
+                        isFlipped && (isBranding ? '[transform:rotateY(180deg)]' : '[transform:rotateX(180deg)]')
                       )}
                     >
                       {/* Front Face */}
                       <div
                         className={cn(
-                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden] border border-neon-yellow/30",
+                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
                           "transition-all duration-700 ease-in-out",
+                          isBranding ? "border border-neon-cyan/30" : "border border-neon-yellow/30",
                           "md:group-hover:opacity-0 md:group-hover:blur-lg md:group-hover:pointer-events-none"
                         )}
                       >
                         <div>
                           <div className="mb-4 flex items-start justify-between">
-                            <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
-                            <div className="rounded-full border border-neon-yellow/30 bg-cyber-black/50 p-2">
-                              <Icon className="h-6 w-6 text-neon-yellow/70" />
+                            <h3 className={cn("text-2xl font-headline", isBranding ? "text-neon-cyan" : "text-neon-yellow")}>{plan.title}</h3>
+                            <div className={cn("rounded-full border bg-cyber-black/50 p-2", isBranding ? "border-neon-cyan/30" : "border-neon-yellow/30")}>
+                              <Icon className={cn("h-6 w-6", isBranding ? "text-neon-cyan/70" : "text-neon-yellow/70")} />
                             </div>
                           </div>
                           <div className="mb-6">
@@ -260,13 +262,13 @@ const ServicesSection = () => {
                           <ul className="space-y-3 font-body mb-6">
                             {plan.features.map((feature, fIndex) => (
                               <li key={fIndex} className="flex items-center">
-                                <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
+                                <CheckCircle className={cn("mr-3 h-4 w-4 flex-shrink-0", isBranding ? "text-neon-cyan" : "text-neon-yellow")} />
                                 <span className="text-sm text-text-desaturated">{feature}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
-                        <p className="text-xs font-body text-neon-yellow/70 text-center mt-4">
+                        <p className={cn("text-xs font-body text-center mt-4", isBranding ? "text-neon-cyan/70" : "text-neon-yellow/70")}>
                           <span className='md:hidden'>Toca para más detalles</span>
                           <span className='hidden md:inline'>Pasa el cursor para más detalles</span>
                         </p>
@@ -279,20 +281,22 @@ const ServicesSection = () => {
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className={cn(
-                          "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] border border-neon-orange/50",
+                          "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
                           "transition-all duration-700 ease-in-out",
-                          '[transform:rotateX(180deg)]',
+                          isBranding 
+                            ? '[transform:rotateY(180deg)] border border-neon-cyan/50' 
+                            : '[transform:rotateX(180deg)] border border-neon-orange/50',
                           "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100",
-                           isFlipped ? 'pointer-events-auto' : 'md:pointer-events-auto pointer-events-none'
+                          isFlipped ? 'pointer-events-auto' : 'md:pointer-events-auto pointer-events-none'
                         )}
                       >
-                         <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
+                         <div className={cn("absolute inset-0", isBranding ? "bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent" : "bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent")}></div>
                          <div className="text-center relative">
-                           <h4 className="mb-4 text-xl font-headline text-neon-orange">
+                           <h4 className={cn("mb-4 text-xl font-headline", isBranding ? "text-neon-cyan" : "text-neon-orange")}>
                              Más detalles del {plan.title}
                            </h4>
                            <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
-                           <p className="font-body text-neon-orange/80 mt-8 animate-pulse text-sm">
+                           <p className={cn("font-body mt-8 animate-pulse text-sm", isBranding ? "text-neon-cyan/80" : "text-neon-orange/80")}>
                               ¿Te interesa este plan? ¡Contáctanos por WhatsApp para empezar!
                            </p>
                          </div>
