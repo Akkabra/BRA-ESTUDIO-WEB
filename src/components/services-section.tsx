@@ -23,6 +23,12 @@ const ServicesSection = () => {
     }
   };
 
+  const handleWhatsAppRedirect = (e: React.MouseEvent, planTitle: string) => {
+    e.stopPropagation(); // Prevent the card from flipping
+    const message = encodeURIComponent(`Hola, estoy interesado en contratar el ${planTitle}.`);
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+  };
+
   const serviceTypes = [
     { key: 'web', label: 'Desarrollo Web' },
     { key: 'branding', label: 'Branding' },
@@ -144,11 +150,11 @@ const ServicesSection = () => {
                         isMobile && isFlipped ? '[transform:rotateX(180deg)]' : ''
                       )}
                     >
-                      {/* Front Face: Visible by default, fades on desktop hover */}
+                      {/* Front Face: Dissolves on desktop hover */}
                       <div
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
-                          "transition-all duration-1000 ease-in-out",
+                          "transition-all duration-700 ease-in-out",
                           // Desktop hover effect - only if NOT mobile
                           !isMobile ? "md:group-hover:opacity-0 md:group-hover:blur-lg" : ""
                         )}
@@ -184,15 +190,14 @@ const ServicesSection = () => {
                         </div>
                       </div>
 
-                      {/* Back Face: Visible on click (mobile) or hover (desktop) */}
+                      {/* Back Face: Rotates on mobile click, fades in on desktop hover */}
                       <div
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
-                          "transition-all duration-1000 ease-in-out",
-                          // Mobile: Rotated on click
+                          "transition-all duration-700 ease-in-out",
+                          // Base state for both mobile and desktop: hidden
                           '[transform:rotateX(180deg)]',
-                          isMobile && isFlipped ? 'z-10 [transform:rotateX(0deg)]' : '',
-                          // Desktop: Fades in on hover - only if NOT mobile
+                          // Desktop hover effect
                           !isMobile ? "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100" : ""
                         )}
                       >
@@ -208,11 +213,7 @@ const ServicesSection = () => {
                           variant="cyberpunk"
                           size="lg"
                           className="mt-6 w-full border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-cyber-black"
-                          onClick={(e) => {
-                            if (isMobile) e.stopPropagation();
-                            const message = encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`);
-                            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
-                          }}
+                          onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
                         >
                           Contratar Plan
                         </Button>
