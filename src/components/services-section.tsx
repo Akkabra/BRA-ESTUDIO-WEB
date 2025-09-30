@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { CheckCircle, Code, Gem, Package, Smartphone, Rocket, Network } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { motion } from 'framer-motion';
 
 
 const ServicesSection = () => {
@@ -12,7 +12,6 @@ const ServicesSection = () => {
   const [brandingActiveIndex, setBrandingActiveIndex] = useState(0);
   const [activeAppPlanIndex, setActiveAppPlanIndex] = useState<number>(0);
 
-  const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
   
   const mainServices = {
@@ -148,13 +147,6 @@ const ServicesSection = () => {
     ],
   };
 
-  const handleCardClick = (planKey: string) => {
-    setFlippedStates(prev => ({
-      ...prev,
-      [planKey]: !prev[planKey],
-    }));
-  };
-  
   const handleBrandingNav = (index: number) => {
     setBrandingActiveIndex(index);
     setIsBrandingInteracted(true);
@@ -175,6 +167,140 @@ const ServicesSection = () => {
   }, [activeService, isBrandingInteracted, mainServices.branding.length]);
   
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
+
+  const PlanCard = ({ plan, planKey }: { plan: any, planKey: string }) => {
+    const [isFlipped, setIsFlipped] = useState(false);
+    const Icon = plan.icon;
+  
+    return (
+      <div
+        className="group"
+        style={{ perspective: '1200px' }}
+        onMouseEnter={() => setIsFlipped(true)}
+        onMouseLeave={() => setIsFlipped(false)}
+      >
+        <div
+          className={cn(
+            "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-700 ease-in-out cursor-pointer",
+            isFlipped ? '[transform:rotateY(180deg)]' : '',
+          )}
+        >
+          {/* Main Service Front Face */}
+          <div className="absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden] border border-neon-yellow/30">
+            <div>
+              <div className="mb-4 flex items-start justify-between">
+                <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
+                {Icon && (
+                  <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
+                    <Icon className="h-6 w-6 text-neon-yellow/70" />
+                  </div>
+                )}
+              </div>
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
+                <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
+              </div>
+              <ul className="space-y-3 font-body mb-6">
+                {plan.features.map((feature: string, fIndex: number) => (
+                  <li key={fIndex} className="flex items-center">
+                    <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
+                    <span className="text-sm text-text-desaturated">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <p className="text-xs font-body text-center mt-4 text-neon-yellow/70">
+              Pasa el cursor para más detalles y contratar
+            </p>
+          </div>
+  
+          {/* Main Service Back Face */}
+          <div
+            className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center items-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateY(180deg)] border border-neon-orange/50 text-center"
+            onClick={() => window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`, '_blank')}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
+            <div className="relative">
+              <h4 className="mb-4 text-xl font-headline text-neon-orange">
+                Más sobre {plan.title}
+              </h4>
+              <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
+              <span
+                className="inline-block px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
+              >
+                CONTRATAR AHORA
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const BrandingCard = ({ plan, isActive, onClick, isFlipped, onMouseEnter, onMouseLeave }: { plan: any, isActive: boolean, onClick: () => void, isFlipped: boolean, onMouseEnter: () => void, onMouseLeave: () => void }) => {
+    return (
+      <div
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        className="absolute w-[320px] h-[480px] transition-all duration-500 ease-in-out cursor-pointer"
+        style={{
+          transform: `translateX(${isActive ? 0 : -50}px) scale(${isActive ? 1 : 0.85}) translateZ(${isActive ? '0' : '-100px'}) rotateY(${isActive ? 0 : 10}deg)`,
+          zIndex: isActive ? 10 : 1,
+          opacity: isActive ? 1 : 0.4,
+        }}
+      >
+        <div
+          className={cn(
+            "relative w-full h-full [transform-style:preserve-3d] transition-transform duration-700 ease-in-out",
+            isFlipped && isActive ? '[transform:rotateY(180deg)]' : '',
+          )}
+        >
+          {/* Front Face */}
+          <div className={cn(
+            "absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 bg-surface-dark/90 p-8 text-center [backface-visibility:hidden]",
+            isActive 
+              ? 'border-neon-orange/80 animate-pulse-fast shadow-[0_0_30px_hsl(var(--neon-orange)/0.5),_inset_0_0_15px_hsl(var(--neon-orange)/0.3)]' 
+              : 'border-neon-orange/30'
+          )}>
+            <h3 className="font-headline text-3xl mb-4 text-neon-orange">{plan.title}</h3>
+            <div className="mt-1 mb-6">
+              <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
+              <p className="text-sm text-text-desaturated/60">{plan.priceDetails}</p>
+            </div>
+            <ul className="space-y-3 font-body text-left mb-6">
+              {plan.features.map((feature: string, fIndex: number) => (
+                <li key={fIndex} className="flex items-start">
+                  <CheckCircle className="mr-2 mt-1 h-4 w-4 flex-shrink-0 text-neon-orange" />
+                  <span className="text-sm text-text-desaturated">{feature}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs font-body text-center mt-auto text-neon-orange/70">
+              Pasa el cursor para girar
+            </p>
+          </div>
+          {/* Back Face */}
+          <div 
+            className="absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-neon-orange/50 bg-surface-dark/95 p-8 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]"
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`, '_blank')
+            }}
+          >
+            <h4 className="font-headline text-3xl text-neon-orange mb-4">{plan.title}</h4>
+            <p className="mb-6 text-sm leading-relaxed text-text-desaturated">{plan.details}</p>
+            <span
+              className="font-headline mt-auto inline-block px-6 py-2 bg-gradient-neon text-cyber-black text-base rounded-md transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)] hover:scale-105"
+            >
+              CONTRATAR AHORA
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
 
   return (
     <section id="servicios" className="py-20 cyber-grain relative overflow-hidden">
@@ -204,12 +330,17 @@ const ServicesSection = () => {
                   'px-6 py-2 rounded-md font-headline text-sm transition-all duration-300 relative',
                   activeService === serviceKey
                     ? 'text-neon-yellow'
-                    : 'text-text-desaturated/70 hover:text-neon-yellow/80 hover:bg-white/5'
+                    : 'text-text-desaturated/70 hover:text-neon-yellow/80'
                 )}
               >
                 {serviceKey === 'web' ? 'Desarrollo Web' : serviceKey === 'branding' ? 'Branding' : 'Apps Móviles'}
                 {activeService === serviceKey && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-neon-yellow animate-pulse shadow-neon-subtle"></div>
+                  <motion.div 
+                    layoutId="activeServiceIndicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-neon-yellow shadow-neon-subtle"
+                    initial={false}
+                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                  />
                 )}
               </button>
             ))}
@@ -219,79 +350,9 @@ const ServicesSection = () => {
         <div className="relative min-h-[600px]">
         {activeService === 'web' ? (
              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {currentServicePlans.map((plan, index) => {
-                const planKey = `${activeService}-${index}`;
-                const isFlipped = !!flippedStates[planKey];
-                const Icon = plan.icon;
-                
-                return (
-                  <div
-                    key={planKey}
-                    className="group"
-                    style={{ perspective: '1200px' }}
-                    onClick={() => isMobile && handleCardClick(planKey)}
-                    onMouseEnter={() => !isMobile && setFlippedStates(prev => ({...prev, [planKey]: true}))}
-                    onMouseLeave={() => !isMobile && setFlippedStates(prev => ({...prev, [planKey]: false}))}
-                  >
-                     <div
-                      className={cn(
-                        "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-700 ease-in-out cursor-pointer",
-                        isFlipped ? '[transform:rotateX(180deg)]' : '',
-                      )}
-                    >
-                      {/* Main Service Front Face */}
-                      <div className="absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden] border border-neon-yellow/30">
-                          <div>
-                            <div className="mb-4 flex items-start justify-between">
-                              <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
-                              {Icon && (
-                                <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
-                                  <Icon className="h-6 w-6 text-neon-yellow/70" />
-                                </div>
-                              )}
-                            </div>
-                            <div className="mb-6">
-                              <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
-                              <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
-                            </div>
-                            <ul className="space-y-3 font-body mb-6">
-                              {plan.features.map((feature, fIndex) => (
-                                <li key={fIndex} className="flex items-center">
-                                  <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
-                                  <span className="text-sm text-text-desaturated">{feature}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                           <p className="text-xs font-body text-center mt-4 text-neon-yellow/70">
-                              {isMobile ? 'Toca para más detalles y contratar' : 'Pasa el cursor para más detalles y contratar'}
-                           </p>
-                      </div>
-
-                      {/* Main Service Back Face */}
-                       <a
-                          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center items-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)] border border-neon-orange/50 text-center"
-                       >
-                           <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
-                           <div className="relative">
-                             <h4 className="mb-4 text-xl font-headline text-neon-orange">
-                               Más sobre {plan.title}
-                             </h4>
-                             <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
-                              <span
-                                className="inline-block px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
-                              >
-                                CONTRATAR AHORA
-                              </span>
-                           </div>
-                       </a>
-                    </div>
-                  </div>
-                );
-              })}
+              {currentServicePlans.map((plan, index) => (
+                <PlanCard key={`web-${index}`} plan={plan} planKey={`web-${index}`} />
+              ))}
             </div>
         ) : activeService === 'branding' ? (
              <div className="relative flex h-[500px] w-full items-center justify-center">
@@ -313,20 +374,18 @@ const ServicesSection = () => {
                           <div
                             key={planKey}
                             onMouseEnter={() => {
-                                if (!isMobile && isActive) {
+                                if (isActive) {
                                     setFlippedStates(prev => ({...prev, [planKey]: true}));
                                     setIsBrandingInteracted(true);
                                 }
                             }}
                             onMouseLeave={() => {
-                                if (!isMobile && isActive) {
+                                if (isActive) {
                                     setFlippedStates(prev => ({...prev, [planKey]: false}));
                                 }
                             }}
                             onClick={() => {
-                                if (isMobile && isActive) {
-                                    handleCardClick(planKey);
-                                } else if (!isActive) {
+                                if (!isActive) {
                                     handleBrandingNav(index);
                                 }
                             }}
@@ -365,22 +424,22 @@ const ServicesSection = () => {
                                     ))}
                                   </ul>
                                    <p className="text-xs font-body text-center mt-auto text-neon-orange/70">
-                                      {isMobile ? 'Toca para girar' : 'Pasa el cursor para girar'}
+                                      Pasa el cursor para girar
                                    </p>
                                 </div>
                                 {/* Back Face */}
-                                <div className="absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-neon-orange/50 bg-surface-dark/95 p-8 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                                <div className="absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-neon-orange/50 bg-surface-dark/95 p-8 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`, '_blank')
+                                }}>
                                   <h4 className="font-headline text-3xl text-neon-orange mb-4">{plan.title}</h4>
                                   <p className="mb-6 text-sm leading-relaxed text-text-desaturated">{plan.details}</p>
-                                  <a
-                                      href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
+                                  <span
                                       className="font-headline mt-auto inline-block px-6 py-2 bg-gradient-neon text-cyber-black text-base rounded-md transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)] hover:scale-105"
-                                      onClick={(e) => e.stopPropagation()}
                                   >
                                       CONTRATAR AHORA
-                                  </a>
+                                  </span>
                                 </div>
                             </div>
                           </div>
