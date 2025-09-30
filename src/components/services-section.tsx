@@ -11,14 +11,14 @@ const ServicesSection = () => {
   const [activeIndex, setActiveIndex] = useState(0); 
   const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
-
+  
   const handleCardClick = (planKey: string) => {
     setFlippedStates(prev => ({
       ...prev,
       [planKey]: !prev[planKey],
     }));
   };
-  
+
   const handleCircleClick = (index: number) => {
     if (index === activeIndex) {
       handleCardClick(`branding-${index}`);
@@ -26,13 +26,6 @@ const ServicesSection = () => {
       setActiveIndex(index);
     }
   }
-
-
-  const handleWhatsAppRedirect = (e: React.MouseEvent, planTitle: string) => {
-    e.stopPropagation();
-    const message = encodeURIComponent(`Hola, estoy interesado en contratar el ${planTitle}.`);
-    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
-  };
 
   const handleCarouselNav = (direction: 'prev' | 'next') => {
     if (direction === 'next') {
@@ -199,7 +192,7 @@ const ServicesSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-headline font-bold text-neon-yellow mb-6 glitch" data-text="NUESTROS SERVICIOS">
+           <h2 className="text-3xl md:text-5xl font-headline font-bold text-neon-yellow mb-6 glitch" data-text="NUESTROS SERVICIOS">
               NUESTROS SERVICIOS
           </h2>
           <p className="text-xl text-text-desaturated max-w-3xl mx-auto font-body">
@@ -230,7 +223,7 @@ const ServicesSection = () => {
         </div>
         
         <div className="relative min-h-[550px]">
-          {activeService === 'branding' ? (
+        {activeService === 'branding' ? (
             <div className="relative w-full h-[400px] flex items-center justify-center" style={{ perspective: '1000px' }}>
                 <div 
                     className="relative [transform-style:preserve-3d] transition-transform duration-700 ease-in-out w-[280px] h-[280px]"
@@ -260,7 +253,7 @@ const ServicesSection = () => {
                           )}
                       >
                         {/* Front Face */}
-                        <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center no-underline [backface-visibility:hidden] rounded-full border-2 border-neon-orange/80 bg-surface-dark/90 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)] transition-shadow duration-300 p-4">
+                        <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center [backface-visibility:hidden] rounded-full border-2 border-neon-orange/80 bg-surface-dark/90 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)] transition-shadow duration-300 p-4">
                            <div className="absolute inset-0 rounded-full bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
                             <div className="relative z-10 flex flex-col items-center justify-center">
                                 <Icon className="h-10 w-10 text-neon-orange mb-3"/>
@@ -270,7 +263,7 @@ const ServicesSection = () => {
                                     <p className="text-xs text-text-desaturated/60">{plan.priceDetails}</p>
                                 </div>
                                 <p className="text-xs font-body text-center mt-3 text-neon-orange/70">
-                                  {isActive ? "Haz clic para ver detalles" : "Haz clic para ver este plan"}
+                                  {isActive ? "Haz clic para ver detalles" : "Haz clic para seleccionar"}
                                 </p>
                             </div>
                         </div>
@@ -282,15 +275,18 @@ const ServicesSection = () => {
                                <h4 className="mb-3 text-lg font-headline text-neon-orange">
                                    {plan.title}
                                </h4>
-                               <p className="font-body text-xs leading-relaxed text-text-desaturated/90 mb-4 px-4">
+                               <p className="font-body text-xs leading-relaxed text-text-desaturated/90 mb-4 px-4 text-center">
                                   {plan.details}
                                </p>
-                               <button
-                                   onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
-                                   className="px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline text-sm hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
-                               >
+                                <a
+                                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-block px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline text-sm hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
                                    CONTRATAR AHORA
-                               </button>
+                                </a>
                            </div>
                         </div>
                       </div>
@@ -323,10 +319,20 @@ const ServicesSection = () => {
                     onMouseEnter={() => !isMobile && setFlippedStates(prev => ({...prev, [planKey]: true}))}
                     onMouseLeave={() => !isMobile && setFlippedStates(prev => ({...prev, [planKey]: false}))}
                   >
+                     <a
+                        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full [transform-style:preserve-3d]"
+                        onClick={(e) => {
+                          if (!isFlipped) e.preventDefault();
+                          if(isMobile) e.preventDefault()
+                        }}
+                      >
                      <div
                       className={cn(
                         "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-700 ease-in-out cursor-pointer",
-                        isFlipped ? '[transform:rotateX(180deg)]' : '',
+                        isFlipped ? '[transform:rotateX(-180deg)]' : '',
                       )}
                     >
                       {/* Main Service Front Face */}
@@ -352,17 +358,13 @@ const ServicesSection = () => {
                             </ul>
                           </div>
                            <p className="text-xs font-body text-center mt-4 text-neon-yellow/70">
-                              {isMobile ? 'Toca para más detalles' : 'Pasa el cursor para más detalles'}
+                              {isMobile ? 'Toca para más detalles y contratar' : 'Pasa el cursor para más detalles y contratar'}
                           </p>
                       </div>
 
                       {/* Main Service Back Face */}
-                       <a
-                          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                       <div
                           className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center items-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)] border border-neon-orange/50 text-center"
-                          onClick={(e) => e.stopPropagation()}
                        >
                            <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
                            <div className="relative">
@@ -373,11 +375,12 @@ const ServicesSection = () => {
                               <span
                                 className="inline-block px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
                               >
-                                CONTRATAR PLAN
+                                CLIC PARA CONTRATAR
                               </span>
                            </div>
-                       </a>
+                       </div>
                     </div>
+                    </a>
                   </div>
                 );
               })}
@@ -396,3 +399,5 @@ const ServicesSection = () => {
 };
 
 export default ServicesSection;
+
+    
