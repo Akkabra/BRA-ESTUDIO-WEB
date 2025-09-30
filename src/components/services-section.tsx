@@ -210,98 +210,91 @@ const ServicesSection = () => {
         
         <div className="relative min-h-[550px]">
         {activeService === 'branding' ? (
-          <div className="relative flex flex-col items-center justify-center h-full w-full mt-8">
-            <div className="relative flex items-center justify-center w-full max-w-5xl h-[450px]" style={{ perspective: '1200px' }}>
-              {mainServices.branding.map((plan, index) => {
-                const planKey = `branding-${index}`;
-                const isFlipped = !!flippedStates[planKey];
-                const isActive = index === activeIndex;
-                const offset = index - activeIndex;
-                const PlanIcon = plan.icon;
-
-                const getCardStyle = () => {
-                  let transform = `translateX(${offset * 35}%) scale(${isActive ? 1 : 0.7}) rotateY(${offset * -45}deg)`;
+            <div className="relative flex flex-col items-center justify-center h-full w-full mt-8">
+              <div
+                className="relative flex items-center justify-center w-full max-w-5xl h-[450px]"
+                style={{ perspective: '1200px' }}
+              >
+                {mainServices.branding.map((plan, index) => {
+                  const planKey = `branding-${index}`;
+                  const isActive = index === activeIndex;
+                  const offset = index - activeIndex;
+                  const isFlipped = !!flippedStates[planKey];
                   
-                  return {
-                    transform,
-                    opacity: isActive ? 1 : 0.4,
-                    zIndex: mainServices.branding.length - Math.abs(offset),
-                    transition: 'all 0.5s ease-out',
-                  };
-                }
-
-                return (
-                  <div
-                    key={planKey}
-                    className="absolute w-80 h-[420px] cursor-pointer"
-                    style={getCardStyle()}
-                    onClick={() => !isActive && handleBrandingNav(index)}
-                  >
+                  return (
                     <div
+                      key={planKey}
                       className={cn(
-                        "relative w-full h-full [transform-style:preserve-3d] transition-transform duration-700",
-                        isActive && isFlipped && '[transform:rotateY(180deg)]'
+                        'absolute w-80 h-[420px] transition-all duration-500',
+                        isActive ? 'z-20' : 'z-10',
                       )}
-                      onClick={() => {
-                        if (isActive) {
-                          handleCardClick(planKey)
-                        }
+                      style={{
+                        transform: `translateX(${offset * 40}%) scale(${isActive ? 1 : 0.7})`,
+                        opacity: isActive ? 1 : 0.4,
                       }}
+                      onClick={() => !isActive && handleBrandingNav(index)}
+                      onMouseEnter={() => !isMobile && isActive && handleCardClick(planKey)}
+                      onMouseLeave={() => !isMobile && isActive && handleCardClick(planKey)}
                     >
-                      {/* Front Face */}
-                      <div className={cn(
-                        "absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center [backface-visibility:hidden] rounded-lg border-2 bg-surface-dark/90 p-8 transition-all duration-300",
-                         isActive ? "border-neon-orange/80 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast" : "border-neon-orange/30",
-                      )}>
-                        <div className="absolute inset-0 rounded-lg bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
-                        <div className="relative z-10 flex flex-col items-center justify-center">
-                           <PlanIcon className={cn("h-12 w-12 mb-4", isActive ? "text-neon-orange" : "text-neon-orange/50")}/>
-                          <h3 className={cn("font-headline text-2xl", isActive ? "text-neon-orange glitch-text" : "text-neon-orange/50")}>{plan.title}</h3>
-                          <div className="mt-3">
-                            <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
-                            <p className="text-sm text-text-desaturated/60">{plan.priceDetails}</p>
-                          </div>
-                          {isActive && (
-                            <p className="font-body text-xs text-center mt-6 text-neon-orange/70">
-                              {isMobile ? 'Toca para ver detalles' : 'Clic para ver detalles'}
-                            </p>
+                      <div
+                        className={cn(
+                          "relative w-full h-full [transform-style:preserve-3d] transition-transform duration-700 cursor-pointer",
+                          isActive && isFlipped ? '[transform:rotateY(180deg)]' : '',
+                          !isActive && 'pointer-events-none'
+                        )}
+                        onClick={() => isMobile && isActive && handleCardClick(planKey)}
+                      >
+                        {/* Front Face */}
+                        <div
+                          className={cn(
+                            "absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center [backface-visibility:hidden] rounded-lg border-2 bg-surface-dark/90 p-8 transition-all duration-300",
+                            isActive ? "border-neon-orange/80 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast" : "border-neon-orange/30",
                           )}
+                        >
+                          <div className="absolute inset-0 rounded-lg bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
+                           <div className="relative z-10 flex flex-col items-center justify-center">
+                              <plan.icon className={cn("h-12 w-12 mb-4", isActive ? "text-neon-orange" : "text-neon-orange/50")} />
+                              <h3 className={cn("font-headline text-2xl", isActive ? "text-neon-orange glitch-text" : "text-neon-orange/50")}>{plan.title}</h3>
+                              <div className="mt-3">
+                                  <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
+                                  <p className="text-sm text-text-desaturated/60">{plan.priceDetails}</p>
+                              </div>
+                           </div>
                         </div>
-                      </div>
 
-                      {/* Back Face */}
-                       <div className="absolute inset-0 flex h-full w-full flex-col justify-center rounded-lg bg-surface-dark/95 p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] border border-neon-orange/50">
-                        <div className="text-center relative flex flex-col items-center justify-center h-full">
-                          <h4 className="mb-4 text-xl font-headline text-neon-orange">{plan.title}</h4>
-                          <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6 px-2 text-center">
-                            {plan.details}
-                          </p>
-                          <a
-                            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block px-5 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline text-base hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            CONTRATAR
-                          </a>
+                        {/* Back Face */}
+                        <div className="absolute inset-0 flex h-full w-full flex-col justify-center rounded-lg bg-surface-dark/95 p-8 [backface-visibility:hidden] [transform:rotateY(180deg)] border border-neon-orange/50">
+                           <div className="text-center relative flex flex-col items-center justify-center h-full">
+                             <h4 className="mb-4 text-xl font-headline text-neon-orange">{plan.title}</h4>
+                             <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6 px-2 text-center">
+                               {plan.details}
+                             </p>
+                             <a
+                                href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block px-6 py-2 bg-gradient-neon text-cyber-black font-headline text-base rounded-md transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)] hover:scale-105"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                               CONTRATAR AHORA
+                             </a>
+                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+              {/* Navigation */}
+              <div className="absolute bottom-0 flex items-center justify-center w-full gap-16">
+                <button onClick={() => handleBrandingNav((activeIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="text-neon-orange/70 hover:text-neon-orange transition-colors p-2 z-20 disabled:opacity-30">
+                  <ChevronLeft size={48} />
+                </button>
+                <button onClick={() => handleBrandingNav((activeIndex + 1) % mainServices.branding.length)} className="text-neon-orange/70 hover:text-neon-orange transition-colors p-2 z-20 disabled:opacity-30">
+                  <ChevronRight size={48} />
+                </button>
+              </div>
             </div>
-            {/* Navigation */}
-            <div className="absolute bottom-0 flex items-center justify-center w-full gap-16">
-              <button onClick={() => handleBrandingNav((activeIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="text-neon-orange/70 hover:text-neon-orange transition-colors p-2 z-20 disabled:opacity-30">
-                <ChevronLeft size={48} />
-              </button>
-              <button onClick={() => handleBrandingNav((activeIndex + 1) % mainServices.branding.length)} className="text-neon-orange/70 hover:text-neon-orange transition-colors p-2 z-20 disabled:opacity-30">
-                <ChevronRight size={48} />
-              </button>
-            </div>
-          </div>
         ) : currentServicePlans.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {currentServicePlans.map((plan, index) => {
@@ -347,7 +340,7 @@ const ServicesSection = () => {
                           </div>
                            <p className="text-xs font-body text-center mt-4 text-neon-yellow/70">
                               {isMobile ? 'Toca para más detalles y contratar' : 'Pasa el cursor para más detalles y contratar'}
-                          </p>
+                           </p>
                       </div>
 
                       {/* Main Service Back Face */}
