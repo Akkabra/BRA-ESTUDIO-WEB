@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { CheckCircle, Code, Gem, Package, Palette, Layers, Globe, Smartphone, Rocket, Network, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -34,6 +34,16 @@ const ServicesSection = () => {
       setActiveIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
     }
   };
+
+  useEffect(() => {
+    if (activeService === 'branding') {
+      const autoRotate = setInterval(() => {
+        setActiveIndex((prevIndex) => (prevIndex + 1) % 3);
+      }, 5000); // Rotate every 5 seconds
+
+      return () => clearInterval(autoRotate); // Cleanup on component unmount or service change
+    }
+  }, [activeService, activeIndex]); // Rerun when activeService or activeIndex changes to reset timer logic
 
   const serviceTypes = [
     { key: 'web', label: 'Desarrollo Web' },
@@ -322,9 +332,8 @@ const ServicesSection = () => {
                      <div
                       className={cn(
                         "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-700 ease-in-out cursor-pointer",
-                        isFlipped ? '[transform:rotateX(-180deg)]' : '',
+                        isFlipped ? '[transform:rotateX(180deg)]' : '',
                       )}
-                      onClick={() => { if(isMobile) handleCardClick(planKey) }}
                     >
                       {/* Main Service Front Face */}
                       <div className="absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden] border border-neon-yellow/30">
@@ -359,7 +368,6 @@ const ServicesSection = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center items-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)] border border-neon-orange/50 text-center"
-                          onClick={(e) => e.stopPropagation()}
                        >
                            <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
                            <div className="relative">
