@@ -192,28 +192,34 @@ const ServicesSection = () => {
         
         <div className="relative min-h-[550px]">
         {activeService === 'branding' ? (
-          <div className="relative flex flex-col items-center justify-center h-full w-full overflow-hidden" style={{ perspective: '1200px' }}>
-            <div className="relative flex items-center justify-center w-full h-[450px]">
+          <div className="relative flex flex-col items-center justify-center h-full w-full">
+            <div className="relative flex items-center justify-center w-full max-w-5xl h-[450px]">
               {mainServices.branding.map((plan, index) => {
                 const planKey = `branding-${index}`;
                 const isFlipped = !!flippedStates[planKey];
                 const isActive = index === activeIndex;
-                const Icon = plan.icon;
 
-                let transform = '';
-                if (index < activeIndex) {
-                  transform = 'translateX(-70%) scale(0.8) rotateY(45deg)';
-                } else if (index > activeIndex) {
-                  transform = 'translateX(70%) scale(0.8) rotateY(-45deg)';
-                } else {
-                  transform = 'translateX(0) scale(1) rotateY(0deg)';
+                const getCardStyle = () => {
+                  let transform = `translateX(${(index - activeIndex) * 80}%) scale(${isActive ? 1 : 0.8})`;
+                  if (index < activeIndex) {
+                    transform += ` rotateY(45deg)`;
+                  } else if (index > activeIndex) {
+                    transform += ` rotateY(-45deg)`;
+                  }
+                  return transform;
                 }
 
                 return (
                   <div
                     key={planKey}
-                    className="absolute w-[320px] h-[420px] transition-all duration-500 ease-in-out cursor-pointer"
-                    style={{ transform, zIndex: isActive ? 10 : 1, opacity: isActive ? 1 : 0.6 }}
+                    className="absolute transition-all duration-500 ease-in-out cursor-pointer"
+                    style={{
+                      transform: getCardStyle(),
+                      zIndex: isActive ? 10 : 1,
+                      opacity: isActive ? 1 : 0.6,
+                      width: '320px',
+                      height: '420px',
+                    }}
                     onClick={() => !isActive && handleBrandingNav(index)}
                   >
                     <div
@@ -231,18 +237,24 @@ const ServicesSection = () => {
                       }}
                     >
                       {/* Front Face */}
-                      <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center [backface-visibility:hidden] rounded-lg border-2 border-neon-orange/80 bg-surface-dark/90 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)] transition-shadow duration-300 p-8">
+                      <div className={cn(
+                        "absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center [backface-visibility:hidden] rounded-lg border-2 bg-surface-dark/90 p-8",
+                        isActive ? "border-neon-orange/80 shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)]" : "border-neon-orange/30",
+                        "transition-shadow duration-300"
+                      )}>
                         <div className="absolute inset-0 rounded-lg bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
                         <div className="relative z-10 flex flex-col items-center justify-center">
-                          <Icon className="h-12 w-12 text-neon-orange mb-4"/>
-                          <h3 className="font-headline text-2xl text-neon-orange glitch-text">{plan.title}</h3>
+                          <Icon className={cn("h-12 w-12 mb-4", isActive ? "text-neon-orange" : "text-neon-orange/50")}/>
+                          <h3 className={cn("font-headline text-2xl", isActive ? "text-neon-orange glitch-text" : "text-neon-orange/50")}>{plan.title}</h3>
                           <div className="mt-3">
                             <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
                             <p className="text-sm text-text-desaturated/60">{plan.priceDetails}</p>
                           </div>
-                          <p className="font-body text-xs text-center mt-6 text-neon-orange/70">
-                            {isMobile ? 'Toca para ver detalles' : 'Pasa el cursor para detalles'}
-                          </p>
+                          {isActive && (
+                            <p className="font-body text-xs text-center mt-6 text-neon-orange/70">
+                              {isMobile ? 'Toca para ver detalles' : 'Pasa el cursor para detalles'}
+                            </p>
+                          )}
                         </div>
                       </div>
 
