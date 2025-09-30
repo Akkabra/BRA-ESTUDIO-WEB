@@ -137,82 +137,80 @@ const ServicesSection = () => {
                 const isFlipped = isMobile && !!flippedStates[index];
                 
                 return (
-                  <div
-                    key={index}
-                    className="group"
-                    style={{ perspective: '1200px' }}
-                    onClick={() => handleCardClick(index)}
-                  >
                     <div
-                      className={cn(
-                        "relative w-full h-[520px] [transform-style:preserve-3d]",
-                        "transition-transform duration-1000 ease-in-out",
-                        isFlipped ? '[transform:rotateX(180deg)]' : ''
-                      )}
+                      key={index}
+                      className="group"
+                      style={{ perspective: '1200px' }}
+                      onClick={() => handleCardClick(index)}
                     >
-                      {/* Front Face */}
                       <div
                         className={cn(
-                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
-                          "transition-all duration-700 ease-in-out border border-neon-yellow/30",
-                          "md:group-hover:opacity-0 md:group-hover:blur-lg md:group-hover:pointer-events-none"
+                            "relative w-full h-[520px] [transform-style:preserve-3d]",
+                            "transition-transform duration-1000 ease-in-out",
+                            isFlipped ? '[transform:rotateX(180deg)]' : ''
                         )}
                       >
-                        <div>
-                          <div className="mb-4 flex items-start justify-between">
-                            <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
-                            <div className="rounded-full border border-neon-yellow/30 bg-cyber-black/50 p-2">
-                              <Icon className="h-6 w-6 text-neon-yellow/70" />
+                        {/* Front Face - Dissolves on hover */}
+                        <div
+                          className={cn(
+                            "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
+                            "transition-all duration-700 ease-in-out border border-neon-yellow/30",
+                            "md:group-hover:opacity-0 md:group-hover:blur-lg"
+                          )}
+                        >
+                          <div>
+                            <div className="mb-4 flex items-start justify-between">
+                              <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
+                              <div className="rounded-full border border-neon-yellow/30 bg-cyber-black/50 p-2">
+                                <Icon className="h-6 w-6 text-neon-yellow/70" />
+                              </div>
                             </div>
+                            <div className="mb-6">
+                              <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
+                              <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
+                            </div>
+                            <ul className="space-y-3 font-body mb-6">
+                              {plan.features.map((feature, fIndex) => (
+                                <li key={fIndex} className="flex items-center">
+                                  <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
+                                  <span className="text-sm text-text-desaturated">{feature}</span>
+                                </li>
+                              ))}
+                            </ul>
                           </div>
-                          <div className="mb-6">
-                            <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
-                            <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
-                          </div>
-                          <ul className="space-y-3 font-body mb-6">
-                            {plan.features.map((feature, fIndex) => (
-                              <li key={fIndex} className="flex items-center">
-                                <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
-                                <span className="text-sm text-text-desaturated">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className='w-full'>
-                           <Button
-                              variant="cyberpunk"
-                              size="lg"
-                              className="w-full border-neon-yellow text-neon-yellow hover:bg-neon-yellow hover:text-cyber-black"
-                              onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
-                            >
-                              Contratar Plan
-                            </Button>
-                           <p className="text-xs font-body text-neon-yellow/70 text-center mt-4">
+                            <p className="text-xs font-body text-neon-yellow/70 text-center mt-4">
                                 <span className='md:hidden'>Toca para más detalles</span>
                                 <span className='hidden md:inline'>Pasa el cursor para más detalles</span>
                             </p>
                         </div>
-                      </div>
 
-                      {/* Back Face */}
-                      <div
-                        className={cn(
-                          "absolute inset-0 flex h-full w-full flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
-                          "transition-all duration-700 ease-in-out border border-neon-orange/50",
-                          '[transform:rotateX(180deg)]',
-                          "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100"
-                        )}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
-                        <div className="text-center">
-                          <h4 className="mb-4 text-xl font-headline text-neon-orange">
-                            Más detalles del {plan.title}
-                          </h4>
-                          <p className="font-body text-sm leading-relaxed text-text-desaturated/90">{plan.details}</p>
+                        {/* Back Face - Rotates in or Fades in */}
+                        <div
+                          className={cn(
+                            "absolute inset-0 flex h-full w-full flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
+                            "transition-all duration-700 ease-in-out border border-neon-orange/50",
+                            '[transform:rotateX(180deg)]',
+                            "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100 md:group-hover:pointer-events-auto"
+                          )}
+                        >
+                           <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
+                           <div className="text-center">
+                             <h4 className="mb-4 text-xl font-headline text-neon-orange">
+                               Más detalles del {plan.title}
+                             </h4>
+                             <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
+                             <Button
+                                variant="cyberpunk"
+                                size="lg"
+                                className="w-full border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-cyber-black"
+                                onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
+                             >
+                               Contratar Plan
+                             </Button>
+                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
                 );
               })}
             </div>
