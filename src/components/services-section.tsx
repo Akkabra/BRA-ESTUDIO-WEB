@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Code, Gem, Package, Palette, Layers, Globe } from 'lucide-react';
+import { CheckCircle, Code, Gem, Package, Palette, Layers, Globe, Smartphone, Rocket, Network } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 
@@ -128,7 +128,50 @@ const ServicesSection = () => {
         details: 'Una inmersión total en el universo de tu marca. Desde el producto físico hasta la estrategia digital, creamos un ecosistema de marca cohesivo y potente que cautiva y fideliza.'
       }
     ],
-    apps: [],
+    apps: [
+      {
+        title: 'Plan MVP',
+        price: '$4,000+',
+        priceDetails: 'USD / según alcance',
+        icon: Smartphone,
+        features: [
+          'App para iOS o Android',
+          'Diseño UI/UX funcional',
+          'Hasta 5 pantallas clave',
+          'Backend básico (login, perfiles)',
+          'Publicación en tiendas',
+        ],
+        details: 'Perfecto para validar tu idea de negocio. Desarrollamos un Producto Mínimo Viable (MVP) funcional y pulido para obtener feedback de usuarios reales y atraer inversores.'
+      },
+      {
+        title: 'Plan Crecimiento',
+        price: '$8,000+',
+        priceDetails: 'USD / según alcance',
+        icon: Rocket,
+        features: [
+          'App nativa para iOS y Android',
+          'Diseño UI/UX personalizado y animado',
+          'Integraciones con APIs (mapas, pagos)',
+          'Notificaciones push',
+          'Panel de administración web',
+        ],
+        details: 'Lleva tu proyecto al siguiente nivel. Una app robusta y escalable con funcionalidades avanzadas para expandir tu base de usuarios y potenciar tu negocio en el ecosistema móvil.'
+      },
+      {
+        title: 'Plan Enterprise',
+        price: '$15,000+',
+        priceDetails: 'USD / según alcance',
+        icon: Network,
+        features: [
+          'Arquitectura de microservicios',
+          'Alta disponibilidad y escalabilidad',
+          'Seguridad avanzada y cifrado',
+          'Sincronización de datos en tiempo real',
+          'Soporte Enterprise 24/7',
+        ],
+        details: 'Soluciones móviles de misión crítica. Diseñamos y construimos aplicaciones complejas de alto rendimiento, preparadas para soportar millones de usuarios y operaciones críticas.'
+      }
+    ],
   };
 
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
@@ -192,7 +235,7 @@ const ServicesSection = () => {
                       className={cn(
                         "relative w-full h-[520px] [transform-style:preserve-3d]",
                         "transition-transform duration-1000 ease-in-out",
-                        isFlipped ? 'md:[transform:rotateX(0deg)] [transform:rotateX(180deg)]' : '[transform:rotateX(0deg)]'
+                        isFlipped ? '[transform:rotateX(180deg)]' : '[transform:rotateX(0deg)]'
                       )}
                     >
                       {/* Front Face */}
@@ -239,8 +282,8 @@ const ServicesSection = () => {
                           "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] border border-neon-orange/50",
                           "transition-all duration-700 ease-in-out",
                           '[transform:rotateX(180deg)]',
-                          "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100 md:pointer-events-auto",
-                          isFlipped ? 'pointer-events-auto' : 'pointer-events-none'
+                          "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100",
+                           isFlipped ? 'pointer-events-auto' : 'md:pointer-events-auto pointer-events-none'
                         )}
                       >
                          <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
