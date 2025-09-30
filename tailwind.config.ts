@@ -154,10 +154,6 @@ export default {
           '0%': { width: '0%' },
           '100%': { width: '100%' },
         },
-        'scan': {
-          '0%': { transform: 'translateY(-10%)', opacity: '0.1' },
-          '100%': { transform: 'translateY(110%)', opacity: '0.8' },
-        },
         'text-flicker': {
           '0%, 100%': { opacity: '1' },
           '25%': { opacity: '0.5' },
@@ -185,6 +181,26 @@ export default {
             '75%': { transform: 'translate(1px, 0)' },
             '100%': { transform: 'translate(0,0)' },
         },
+        orbit: {
+          '0%': { transform: 'rotateY(0deg)' },
+          '100%': { transform: 'rotateY(360deg)' },
+        },
+        'pulse-sphere': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.7' },
+          '50%': { transform: 'scale(1.1)', opacity: '1' },
+        },
+        'hologram-glitch': {
+          '0%': { opacity: '0.6', transform: 'scale(0.95) translateY(10px)', filter: 'blur(3px)'},
+          '20%': { opacity: '0.8', transform: 'scale(1.02) translateY(0)', filter: 'blur(1px)'},
+          '40%': { opacity: '0.7', transform: 'scale(0.98) translateX(2px)'},
+          '60%': { opacity: '1', transform: 'scale(1) translateX(0)', filter: 'blur(0)'},
+          '80%': { clipPath: 'polygon(0 0, 100% 0, 100% 80%, 0 80%)' },
+          '100%': { clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' },
+        },
+        'scanline-vertical': {
+          '0%': { transform: 'translateX(-100%)'},
+          '100%': { transform: 'translateX(100%)'},
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -199,7 +215,6 @@ export default {
         'glitch-line-2': 'glitch-line-2 0.2s infinite',
         'cyber-pulse': 'cyber-pulse 8s ease-in-out infinite alternate',
         'loading-fill': 'loading-fill 2.5s ease-in-out forwards',
-        'scan': 'scan 2.s linear infinite',
         'text-flicker': 'text-flicker 1.5s infinite',
         'binary-glitch': 'binary-glitch 2.5s steps(1) infinite',
         'module-enter-1': 'module-enter 0.2s ease-out 0.05s',
@@ -207,6 +222,10 @@ export default {
         'module-enter-3': 'module-enter 0.2s ease-out 0.15s',
         'pulse-fast': 'pulse-fast 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'glitch-subtle': 'glitch-subtle 0.3s infinite alternate',
+        'orbit': 'orbit 25s linear infinite',
+        'pulse-sphere': 'pulse-sphere 3s ease-in-out infinite',
+        'hologram-glitch': 'hologram-glitch 0.6s ease-out forwards',
+        'scanline-vertical': 'scanline-vertical 0.5s linear infinite',
       },
     },
   },

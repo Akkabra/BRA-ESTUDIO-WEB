@@ -8,8 +8,12 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
   const [flippedStates, setFlippedStates] = useState<Record<string, boolean>>({});
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isBrandingInteracted, setIsBrandingInteracted] = useState(false);
+  const [brandingActiveIndex, setBrandingActiveIndex] = useState(0);
+
+  // New state for the Holoprojector
+  const [activeAppPlanIndex, setActiveAppPlanIndex] = useState<number | null>(null);
+
 
   const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
@@ -155,7 +159,7 @@ const ServicesSection = () => {
   };
   
   const handleBrandingNav = (index: number) => {
-    setActiveIndex(index);
+    setBrandingActiveIndex(index);
     setIsBrandingInteracted(true);
   }
 
@@ -163,11 +167,23 @@ const ServicesSection = () => {
     let interval: NodeJS.Timeout;
     if (activeService === 'branding' && !isBrandingInteracted) {
       interval = setInterval(() => {
-        setActiveIndex(prevIndex => (prevIndex + 1) % mainServices.branding.length);
+        setBrandingActiveIndex(prevIndex => (prevIndex + 1) % mainServices.branding.length);
       }, 5000);
     }
     return () => clearInterval(interval);
   }, [activeService, isBrandingInteracted, mainServices.branding.length]);
+  
+    useEffect(() => {
+    if (activeService === 'apps') {
+      const interval = setInterval(() => {
+        if (activeAppPlanIndex === null) {
+          setActiveAppPlanIndex(0);
+        }
+      }, 5000); // Activate first plan if nothing is selected
+      return () => clearInterval(interval);
+    }
+  }, [activeService, activeAppPlanIndex]);
+
 
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
 
@@ -212,7 +228,7 @@ const ServicesSection = () => {
         </div>
         
         <div className="relative min-h-[600px]">
-        {activeService === 'web' || activeService === 'apps' ? (
+        {activeService === 'web' ? (
              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {currentServicePlans.map((plan, index) => {
                 const planKey = `${activeService}-${index}`;
@@ -290,17 +306,17 @@ const ServicesSection = () => {
             </div>
         ) : activeService === 'branding' ? (
              <div className="relative flex h-[500px] w-full items-center justify-center">
-                <button onClick={() => handleBrandingNav((activeIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="absolute left-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-left-12">
+                <button onClick={() => handleBrandingNav((brandingActiveIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="absolute left-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-left-12">
                   <ChevronLeft size={48} />
                 </button>
-                <button onClick={() => handleBrandingNav((activeIndex + 1) % mainServices.branding.length)} className="absolute right-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-right-12">
+                <button onClick={() => handleBrandingNav((brandingActiveIndex + 1) % mainServices.branding.length)} className="absolute right-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-right-12">
                   <ChevronRight size={48} />
                 </button>
                 
                 <div className="relative h-full w-full max-w-sm flex items-center justify-center [transform-style:preserve-3d]">
                     {mainServices.branding.map((plan, index) => {
-                        const isActive = index === activeIndex;
-                        const offset = index - activeIndex;
+                        const isActive = index === brandingActiveIndex;
+                        const offset = index - brandingActiveIndex;
                         const planKey = `branding-${index}`;
                         const isFlipped = !!flippedStates[planKey];
 
@@ -383,6 +399,107 @@ const ServicesSection = () => {
                     })}
                 </div>
               </div>
+        ) : activeService === 'apps' ? (
+           <div className="relative flex h-[600px] w-full items-center justify-center" style={{ perspective: '2000px' }}>
+              {/* Central Hologram Projector */}
+              <div className="absolute z-10 flex flex-col items-center">
+                {/* Energy Sphere */}
+                <div className="relative -mb-4 h-16 w-16">
+                  <div className={cn(
+                    "absolute inset-0 rounded-full bg-neon-cyan/50 blur-lg animate-pulse-sphere",
+                    activeAppPlanIndex !== null && "bg-neon-cyan/80"
+                  )}></div>
+                  <div className={cn(
+                    "absolute inset-2 rounded-full border-2 border-neon-cyan/80 bg-cyber-black",
+                     activeAppPlanIndex !== null && "animate-pulse-fast"
+                  )}></div>
+                </div>
+                {/* Projector Base */}
+                <div className="h-4 w-24 rounded-t-md bg-zinc-800 border-x border-t border-zinc-600"></div>
+                <div className="h-2 w-32 bg-zinc-900 border border-zinc-700"></div>
+              </div>
+              
+              {/* Orbiting Plan Selectors */}
+              <div className="absolute h-full w-full animate-orbit" style={{ transformStyle: 'preserve-3d' }}>
+                {mainServices.apps.map((plan, index) => {
+                  const Icon = plan.icon;
+                  const angle = (index / mainServices.apps.length) * 360;
+                  const isActive = index === activeAppPlanIndex;
+                  return (
+                    <div
+                      key={`app-plan-${index}`}
+                      className="absolute left-1/2 top-1/2 h-28 w-28 -m-14 cursor-pointer"
+                      style={{ transform: `rotateY(${angle}deg) translateZ(300px)` }}
+                      onClick={() => setActiveAppPlanIndex(index)}
+                    >
+                      <div className={cn(
+                        "w-full h-full rounded-full border border-neon-cyan/30 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center text-center p-2 transition-all duration-300 hover:border-neon-cyan hover:bg-neon-cyan/10",
+                        isActive && "border-neon-cyan bg-neon-cyan/20 scale-110 shadow-[0_0_20px_hsl(var(--neon-cyan)/0.5)]"
+                      )}>
+                        {Icon && <Icon className="h-8 w-8 text-neon-cyan mb-1" />}
+                        <span className="font-headline text-sm text-neon-cyan">{plan.title}</span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Projected Hologram Card */}
+              {activeAppPlanIndex !== null && (() => {
+                  const plan = mainServices.apps[activeAppPlanIndex];
+                  return (
+                    <div key={plan.title} className="absolute z-20 w-full max-w-md animate-hologram-glitch">
+                       <div className="hologram-card relative w-full rounded-lg border-2 border-neon-cyan/70 bg-black/60 p-6 backdrop-blur-md">
+                        {/* Scanline Effect */}
+                        <div className="scanline-vertical"></div>
+                        
+                        {/* Header */}
+                         <div className="mb-4 flex items-start justify-between">
+                            <h3 className="text-3xl font-headline text-neon-cyan glitch" data-text={plan.title}>{plan.title}</h3>
+                            <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-cyan/30">
+                              <plan.icon className="h-6 w-6 text-neon-cyan" />
+                            </div>
+                        </div>
+
+                        {/* Price */}
+                         <div className="mb-6">
+                            <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
+                            <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
+                         </div>
+
+                        {/* Features */}
+                         <ul className="space-y-3 font-body mb-6">
+                           {plan.features.map((feature, fIndex) => (
+                             <li key={fIndex} className="flex items-center">
+                               <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-cyan" />
+                               <span className="text-sm text-text-desaturated">{feature}</span>
+                             </li>
+                           ))}
+                         </ul>
+
+                        {/* Details */}
+                        <p className="font-body text-sm leading-relaxed text-text-desaturated/80 mb-8">{plan.details}</p>
+
+                        {/* CTA */}
+                         <a
+                           href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           className="w-full text-center inline-block px-4 py-3 bg-transparent border-2 border-neon-cyan text-neon-cyan font-headline hover:bg-neon-cyan hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-cyan)/0.7)]"
+                         >
+                           CONTRATAR AHORA
+                         </a>
+                         
+                         {/* Corner brackets */}
+                         <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-neon-cyan/50"></div>
+                         <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-neon-cyan/50"></div>
+                         <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-neon-cyan/50"></div>
+                         <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-neon-cyan/50"></div>
+                       </div>
+                    </div>
+                  )
+              })()}
+           </div>
         ) : (
              <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-text-desaturated py-16">

@@ -122,6 +122,26 @@ All colors MUST be HSL.
     z-index: 1;
   }
 
+  .scanline-vertical {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--neon-cyan) / 0.1) 2px,
+      hsl(var(--neon-cyan) / 0.1) 3px
+    );
+    pointer-events: none;
+    z-index: -1;
+    animation: scanline-vertical 12s linear infinite;
+  }
+  
+
   /* Neon Glow Effects */
   .neon-glow {
     box-shadow: var(--glow-primary);
@@ -180,6 +200,7 @@ All colors MUST be HSL.
     width: 100%;
     height: 100%;
     z-index: -1;
+    overflow: hidden;
   }
 
   .glitch::before {
@@ -187,11 +208,18 @@ All colors MUST be HSL.
     animation: glitch-1 0.3s infinite;
     clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
   }
+  .hologram-card .glitch::before {
+    color: hsl(var(--neon-cyan));
+  }
+
 
   .glitch::after {
     color: hsl(var(--neon-yellow) / 0.8);
     animation: glitch-2 0.3s infinite;
     clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  }
+  .hologram-card .glitch::after {
+    color: hsl(var(--neon-orange));
   }
 
   @keyframes glitch-1 {
