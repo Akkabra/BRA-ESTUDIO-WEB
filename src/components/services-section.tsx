@@ -10,10 +10,8 @@ const ServicesSection = () => {
   const [flippedStates, setFlippedStates] = useState<Record<string, boolean>>({});
   const [isBrandingInteracted, setIsBrandingInteracted] = useState(false);
   const [brandingActiveIndex, setBrandingActiveIndex] = useState(0);
-
-  // New state for the Holoprojector
   const [activeAppPlanIndex, setActiveAppPlanIndex] = useState<number | null>(null);
-
+  const [rotation, setRotation] = useState(0);
 
   const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
@@ -162,6 +160,12 @@ const ServicesSection = () => {
     setBrandingActiveIndex(index);
     setIsBrandingInteracted(true);
   }
+  
+  const handleAppPlanSelect = (index: number) => {
+    setActiveAppPlanIndex(index);
+    const newRotation = -index * (360 / mainServices.apps.length);
+    setRotation(newRotation);
+  };
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -173,14 +177,11 @@ const ServicesSection = () => {
     return () => clearInterval(interval);
   }, [activeService, isBrandingInteracted, mainServices.branding.length]);
   
-    useEffect(() => {
+  useEffect(() => {
     if (activeService === 'apps') {
-      const interval = setInterval(() => {
-        if (activeAppPlanIndex === null) {
-          setActiveAppPlanIndex(0);
-        }
-      }, 5000); // Activate first plan if nothing is selected
-      return () => clearInterval(interval);
+      if (activeAppPlanIndex === null) {
+        setActiveAppPlanIndex(0);
+      }
     }
   }, [activeService, activeAppPlanIndex]);
 
@@ -406,11 +407,11 @@ const ServicesSection = () => {
                 {/* Energy Sphere */}
                 <div className="relative -mb-4 h-16 w-16">
                   <div className={cn(
-                    "absolute inset-0 rounded-full bg-neon-cyan/50 blur-lg animate-pulse-sphere",
-                    activeAppPlanIndex !== null && "bg-neon-cyan/80"
+                    "absolute inset-0 rounded-full bg-neon-yellow/50 blur-lg animate-pulse-sphere",
+                    activeAppPlanIndex !== null && "bg-neon-orange/50"
                   )}></div>
                   <div className={cn(
-                    "absolute inset-2 rounded-full border-2 border-neon-cyan/80 bg-cyber-black",
+                    "absolute inset-2 rounded-full border-2 border-neon-yellow/80 bg-cyber-black",
                      activeAppPlanIndex !== null && "animate-pulse-fast"
                   )}></div>
                 </div>
@@ -420,24 +421,25 @@ const ServicesSection = () => {
               </div>
               
               {/* Orbiting Plan Selectors */}
-              <div className="absolute h-full w-full animate-orbit" style={{ transformStyle: 'preserve-3d' }}>
+              <div 
+                className="absolute h-full w-full transition-transform duration-1000 ease-in-out" 
+                style={{ transformStyle: 'preserve-3d', transform: `rotateY(${rotation}deg)` }}
+              >
                 {mainServices.apps.map((plan, index) => {
                   const Icon = plan.icon;
                   const angle = (index / mainServices.apps.length) * 360;
-                  const isActive = index === activeAppPlanIndex;
                   return (
                     <div
                       key={`app-plan-${index}`}
                       className="absolute left-1/2 top-1/2 h-28 w-28 -m-14 cursor-pointer"
                       style={{ transform: `rotateY(${angle}deg) translateZ(300px)` }}
-                      onClick={() => setActiveAppPlanIndex(index)}
+                      onClick={() => handleAppPlanSelect(index)}
                     >
                       <div className={cn(
-                        "w-full h-full rounded-full border border-neon-cyan/30 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center text-center p-2 transition-all duration-300 hover:border-neon-cyan hover:bg-neon-cyan/10",
-                        isActive && "border-neon-cyan bg-neon-cyan/20 scale-110 shadow-[0_0_20px_hsl(var(--neon-cyan)/0.5)]"
+                        "w-full h-full rounded-full border border-neon-yellow/30 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center text-center p-2 transition-all duration-300 hover:border-neon-yellow hover:bg-neon-yellow/10",
                       )}>
-                        {Icon && <Icon className="h-8 w-8 text-neon-cyan mb-1" />}
-                        <span className="font-headline text-sm text-neon-cyan">{plan.title}</span>
+                        {Icon && <Icon className="h-8 w-8 text-neon-yellow mb-1" />}
+                        <span className="font-headline text-sm text-neon-yellow">{plan.title}</span>
                       </div>
                     </div>
                   )
@@ -449,15 +451,15 @@ const ServicesSection = () => {
                   const plan = mainServices.apps[activeAppPlanIndex];
                   return (
                     <div key={plan.title} className="absolute z-20 w-full max-w-md animate-hologram-glitch">
-                       <div className="hologram-card relative w-full rounded-lg border-2 border-neon-cyan/70 bg-black/60 p-6 backdrop-blur-md">
+                       <div className="hologram-card relative w-full rounded-lg border-2 border-neon-yellow/70 bg-black/60 p-6 backdrop-blur-md">
                         {/* Scanline Effect */}
-                        <div className="scanline-vertical"></div>
+                        <div className="scanline-vertical" style={{ '--scanline-color': 'hsl(var(--neon-orange))' }}></div>
                         
                         {/* Header */}
                          <div className="mb-4 flex items-start justify-between">
-                            <h3 className="text-3xl font-headline text-neon-cyan glitch" data-text={plan.title}>{plan.title}</h3>
-                            <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-cyan/30">
-                              <plan.icon className="h-6 w-6 text-neon-cyan" />
+                            <h3 className="text-3xl font-headline text-neon-yellow glitch" data-text={plan.title}>{plan.title}</h3>
+                            <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
+                              <plan.icon className="h-6 w-6 text-neon-yellow" />
                             </div>
                         </div>
 
@@ -471,7 +473,7 @@ const ServicesSection = () => {
                          <ul className="space-y-3 font-body mb-6">
                            {plan.features.map((feature, fIndex) => (
                              <li key={fIndex} className="flex items-center">
-                               <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-cyan" />
+                               <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
                                <span className="text-sm text-text-desaturated">{feature}</span>
                              </li>
                            ))}
@@ -485,16 +487,16 @@ const ServicesSection = () => {
                            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
                            target="_blank"
                            rel="noopener noreferrer"
-                           className="w-full text-center inline-block px-4 py-3 bg-transparent border-2 border-neon-cyan text-neon-cyan font-headline hover:bg-neon-cyan hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-cyan)/0.7)]"
+                           className="w-full text-center inline-block px-4 py-3 bg-transparent border-2 border-neon-yellow text-neon-yellow font-headline hover:bg-neon-yellow hover:text-cyber-black transition-colors duration-300 hover:shadow-neon"
                          >
                            CONTRATAR AHORA
                          </a>
                          
                          {/* Corner brackets */}
-                         <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-neon-cyan/50"></div>
-                         <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-neon-cyan/50"></div>
-                         <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-neon-cyan/50"></div>
-                         <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-neon-cyan/50"></div>
+                         <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-neon-yellow/50"></div>
+                         <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-neon-yellow/50"></div>
+                         <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-neon-yellow/50"></div>
+                         <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-neon-yellow/50"></div>
                        </div>
                     </div>
                   )

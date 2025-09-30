@@ -133,8 +133,8 @@ All colors MUST be HSL.
       90deg,
       transparent,
       transparent 2px,
-      hsl(var(--neon-cyan) / 0.1) 2px,
-      hsl(var(--neon-cyan) / 0.1) 3px
+      var(--scanline-color, hsl(var(--neon-cyan) / 0.1)) 2px,
+      var(--scanline-color, hsl(var(--neon-cyan) / 0.1)) 3px
     );
     pointer-events: none;
     z-index: -1;
@@ -209,7 +209,7 @@ All colors MUST be HSL.
     clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
   }
   .hologram-card .glitch::before {
-    color: hsl(var(--neon-cyan));
+    color: hsl(var(--neon-orange));
   }
 
 
@@ -219,7 +219,7 @@ All colors MUST be HSL.
     clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
   }
   .hologram-card .glitch::after {
-    color: hsl(var(--neon-orange));
+    color: hsl(var(--neon-yellow));
   }
 
   @keyframes glitch-1 {

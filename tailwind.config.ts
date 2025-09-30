@@ -181,10 +181,6 @@ export default {
             '75%': { transform: 'translate(1px, 0)' },
             '100%': { transform: 'translate(0,0)' },
         },
-        orbit: {
-          '0%': { transform: 'rotateY(0deg)' },
-          '100%': { transform: 'rotateY(360deg)' },
-        },
         'pulse-sphere': {
           '0%, 100%': { transform: 'scale(1)', opacity: '0.7' },
           '50%': { transform: 'scale(1.1)', opacity: '1' },
@@ -222,7 +218,6 @@ export default {
         'module-enter-3': 'module-enter 0.2s ease-out 0.15s',
         'pulse-fast': 'pulse-fast 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'glitch-subtle': 'glitch-subtle 0.3s infinite alternate',
-        'orbit': 'orbit 25s linear infinite',
         'pulse-sphere': 'pulse-sphere 3s ease-in-out infinite',
         'hologram-glitch': 'hologram-glitch 0.6s ease-out forwards',
         'scanline-vertical': 'scanline-vertical 0.5s linear infinite',
