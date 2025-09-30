@@ -2,27 +2,26 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Code, Gem, Package } from 'lucide-react';
+import { CheckCircle, Code, Gem, Package, Palette, Layers, Globe } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
-  const [flippedStates, setFlippedStates] = useState<Record<number, boolean>>({});
+  const [flippedStates, setFlippedStates] = useState<Record<string, boolean>>({});
   const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
 
-
-  const handleCardClick = (index: number) => {
+  const handleCardClick = (planKey: string) => {
     // Only allow flipping on mobile
     if (isMobile) {
       setFlippedStates(prev => ({
         ...prev,
-        [index]: !prev[index],
+        [planKey]: !prev[planKey],
       }));
     }
   };
-
+  
   const handleWhatsAppRedirect = (e: React.MouseEvent, planTitle: string) => {
     e.stopPropagation(); // Prevent the card from flipping
     const message = encodeURIComponent(`Hola, estoy interesado en contratar el ${planTitle}.`);
@@ -85,9 +84,54 @@ const ServicesSection = () => {
           'Desarrollo sin límites para tu visión más ambiciosa. Creamos plataformas web complejas, desde e-commerce hasta aplicaciones web interactivas, con la última tecnología.',
       },
     ],
-    branding: [],
+    branding: [
+      {
+        title: 'Plan Esencial',
+        price: '$800',
+        priceDetails: 'USD / pago único',
+        icon: Palette,
+        features: [
+          'Diseño de Logotipo (2 conceptos)',
+          'Paleta de colores y tipografías',
+          'Manual de marca simplificado',
+          'Diseño de tarjeta de presentación',
+          '1 ronda de revisiones',
+        ],
+        details: 'El punto de partida perfecto para tu marca. Creamos un logotipo memorable y una identidad visual coherente que te diferenciará de la competencia desde el primer día.'
+      },
+      {
+        title: 'Plan Estratégico',
+        price: '$1,800',
+        priceDetails: 'USD / pago único',
+        icon: Layers,
+        features: [
+          'Todo del Plan Esencial',
+          'Análisis de competencia y mercado',
+          'Estrategia de Tono de Voz',
+          'Manual de marca completo',
+          'Diseño de 5 activos digitales (banners, posts)',
+        ],
+        details: 'Más que un logo, una estrategia. Profundizamos en el ADN de tu marca para construir una identidad sólida, desde el tono de voz hasta las aplicaciones visuales en el mundo digital.'
+      },
+      {
+        title: 'Plan 360°',
+        price: '$4,000+',
+        priceDetails: 'USD / según alcance',
+        icon: Globe,
+        features: [
+          'Todo del Plan Estratégico',
+          'Estrategia de contenido para redes',
+          'Diseño de packaging o producto',
+          'Guía de estilo para fotografía',
+          'Consultoría de marca continua (2 meses)',
+        ],
+        details: 'Una inmersión total en el universo de tu marca. Desde el producto físico hasta la estrategia digital, creamos un ecosistema de marca cohesivo y potente que cautiva y fideliza.'
+      }
+    ],
     apps: [],
   };
+
+  const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
 
   return (
     <section id="servicios" className="py-20 cyber-grain relative overflow-hidden">
@@ -130,24 +174,25 @@ const ServicesSection = () => {
         </div>
 
         <div className="relative min-h-[550px]">
-          {activeService === 'web' && (
+          {currentServicePlans.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {mainServices.web.map((plan, index) => {
+              {currentServicePlans.map((plan, index) => {
                 const Icon = plan.icon;
-                const isFlipped = isMobile && !!flippedStates[index];
+                const planKey = `${activeService}-${index}`;
+                const isFlipped = isMobile && !!flippedStates[planKey];
                 
                 return (
                   <div
-                    key={index}
+                    key={planKey}
                     className="group"
                     style={{ perspective: '1200px' }}
-                    onClick={() => handleCardClick(index)}
+                    onClick={() => handleCardClick(planKey)}
                   >
                     <div
                       className={cn(
                         "relative w-full h-[520px] [transform-style:preserve-3d]",
                         "transition-transform duration-1000 ease-in-out",
-                        isFlipped ? '[transform:rotateX(180deg)]' : ''
+                        isFlipped ? 'md:[transform:rotateX(0deg)] [transform:rotateX(180deg)]' : '[transform:rotateX(0deg)]'
                       )}
                     >
                       {/* Front Face */}
@@ -191,10 +236,11 @@ const ServicesSection = () => {
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className={cn(
-                          "absolute inset-0 flex h-full w-full flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] border border-neon-orange/50",
+                          "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] border border-neon-orange/50",
                           "transition-all duration-700 ease-in-out",
                           '[transform:rotateX(180deg)]',
-                          "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100"
+                          "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100 md:pointer-events-auto",
+                          isFlipped ? 'pointer-events-auto' : 'pointer-events-none'
                         )}
                       >
                          <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
@@ -213,8 +259,7 @@ const ServicesSection = () => {
                 );
               })}
             </div>
-          )}
-          {activeService !== 'web' && (
+          ) : (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-text-desaturated py-16">
                 <p>Próximamente... aquí se mostrarán los paquetes de {activeService === 'branding' ? 'Branding' : 'Apps Móviles'}.</p>
