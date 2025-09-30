@@ -217,30 +217,74 @@ const ServicesSection = () => {
                 {currentServicePlans.map((plan, index) => {
                   const Icon = plan.icon;
                   const planKey = `branding-${index}`;
+                  const isFlipped = !!flippedStates[planKey];
+                  
                   return (
-                    <a 
+                    <div
                       key={planKey}
-                      href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative flex flex-col items-center justify-center text-center no-underline"
+                      className="group"
+                      style={{ perspective: '1200px' }}
+                      onClick={() => handleCardClick(planKey)}
                     >
-                      <div className="relative w-72 h-72 md:w-80 md:h-80 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:animate-glitch-subtle">
-                        <div className="absolute inset-0 rounded-full bg-surface-dark/90 transition-all duration-500 group-hover:scale-105"></div>
-                        <div className="absolute inset-0 rounded-full border-2 border-neon-orange/70 animate-pulse-fast group-hover:border-neon-orange group-hover:shadow-[0_0_50px_hsl(var(--neon-orange)/0.9)] transition-all duration-300"></div>
-                        <div className="absolute inset-0 rounded-full bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
-                        
-                        <div className="relative z-10 flex flex-col items-center justify-center p-4">
-                          <Icon className="h-16 w-16 text-neon-orange mb-4 transition-transform duration-300 group-hover:scale-110"/>
-                          <h3 className="font-headline text-3xl text-neon-orange glitch-text">{plan.title}</h3>
-                          <div className="mt-4">
-                              <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
-                              <p className="text-xs text-text-desaturated/60">{plan.priceDetails}</p>
+                      <div
+                        className={cn(
+                          "relative w-full h-[280px] [transform-style:preserve-3d]",
+                          "transition-transform duration-1000 ease-in-out cursor-pointer",
+                          isFlipped && '[transform:rotateY(180deg)]',
+                          "md:group-hover:[transform:rotateY(180deg)]"
+                        )}
+                      >
+                        {/* Branding Front Face */}
+                        <div
+                          className={cn(
+                            "absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center no-underline [backface-visibility:hidden]",
+                            "transition-opacity duration-700 ease-in-out"
+                          )}
+                        >
+                          <div className="relative w-72 h-72 flex items-center justify-center">
+                            <div className="absolute inset-0 rounded-full bg-surface-dark/90 transition-all duration-500 scale-90 group-hover:scale-100"></div>
+                            <div className="absolute inset-0 rounded-full border-2 border-neon-orange/70 animate-pulse-fast group-hover:border-neon-orange group-hover:shadow-[0_0_50px_hsl(var(--neon-orange)/0.9)] transition-all duration-300"></div>
+                            <div className="absolute inset-0 rounded-full bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
+                            
+                            <div className="relative z-10 flex flex-col items-center justify-center p-4">
+                              <Icon className="h-16 w-16 text-neon-orange mb-4 transition-transform duration-300 group-hover:scale-110"/>
+                              <h3 className="font-headline text-3xl text-neon-orange glitch-text">{plan.title}</h3>
+                              <div className="mt-4">
+                                  <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
+                                  <p className="text-xs text-text-desaturated/60">{plan.priceDetails}</p>
+                              </div>
+                              <p className="text-xs font-body text-center mt-4 text-neon-orange/70">
+                                <span className='md:hidden'>Toca para más detalles</span>
+                                <span className='hidden md:inline'>Pasa el cursor para más detalles</span>
+                              </p>
+                            </div>
                           </div>
-                          <p className="text-sm font-headline text-neon-orange/80 mt-6 tracking-widest animate-text-flicker">CLIC PARA CONTRATAR</p>
                         </div>
+
+                        {/* Branding Back Face */}
+                         <div
+                          className={cn(
+                            "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-full bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]",
+                            "border border-neon-orange/50",
+                          )}
+                        >
+                          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
+                          <div className="text-center relative">
+                            <h4 className="mb-4 text-xl font-headline text-neon-orange">
+                              Detalles del {plan.title}
+                            </h4>
+                            <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
+                            <button
+                              onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
+                              className="px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
+                            >
+                              CONTRATAR AHORA
+                            </button>
+                          </div>
+                        </div>
+
                       </div>
-                    </a>
+                    </div>
                   );
                 })}
              </div>
@@ -258,72 +302,57 @@ const ServicesSection = () => {
                     style={{ perspective: '1200px' }}
                     onClick={() => handleCardClick(planKey)}
                   >
-                    <div
+                     <div
                       className={cn(
-                        "relative w-full h-[520px] [transform-style:preserve-3d]",
-                        "transition-transform duration-1000 ease-in-out",
-                        isFlipped && '[transform:rotateX(180deg)]'
+                        "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-1000 ease-in-out",
+                        isFlipped ? '[transform:rotateX(180deg)]' : '',
+                        !isMobile ? 'group-hover:[transform:rotateX(180deg)]' : ''
                       )}
                     >
                       {/* Main Service Front Face */}
-                      <div
-                        className={cn(
-                          "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
-                          "border border-neon-yellow/30",
-                          "transition-opacity duration-700 ease-in-out",
-                          "md:group-hover:opacity-0 md:group-hover:pointer-events-none"
-                        )}
-                      >
-                        <div>
-                          <div className="mb-4 flex items-start justify-between">
-                            <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
-                            <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
-                              <Icon className="h-6 w-6 text-neon-yellow/70" />
+                      <div className="absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden] border border-neon-yellow/30">
+                          <div>
+                            <div className="mb-4 flex items-start justify-between">
+                              <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
+                              <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
+                                <Icon className="h-6 w-6 text-neon-yellow/70" />
+                              </div>
                             </div>
+                            <div className="mb-6">
+                              <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
+                              <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
+                            </div>
+                            <ul className="space-y-3 font-body mb-6">
+                              {plan.features.map((feature, fIndex) => (
+                                <li key={fIndex} className="flex items-center">
+                                  <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
+                                  <span className="text-sm text-text-desaturated">{feature}</span>
+                                </li>
+                              ))}
+                            </ul>
                           </div>
-                          <div className="mb-6">
-                            <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
-                            <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
-                          </div>
-                          <ul className="space-y-3 font-body mb-6">
-                            {plan.features.map((feature, fIndex) => (
-                              <li key={fIndex} className="flex items-center">
-                                <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
-                                <span className="text-sm text-text-desaturated">{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <p className="text-xs font-body text-center mt-4 text-neon-yellow/70">
-                          <span className='md:hidden'>Toca para más detalles</span>
-                          <span className='hidden md:inline'>Pasa el cursor para más detalles</span>
-                        </p>
+                           <p className="text-xs font-body text-center mt-4 text-neon-yellow/70">
+                            <span className='md:hidden'>Toca para más detalles</span>
+                            <span className='hidden md:inline'>Pasa el cursor para más detalles</span>
+                          </p>
                       </div>
 
                       {/* Main Service Back Face */}
-                      <a
-                        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cn(
-                          "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden]",
-                          "border border-neon-orange/50",
-                          "transition-opacity duration-700 ease-in-out [transform:rotateX(180deg)]",
-                          "md:transform-none md:opacity-0 md:group-hover:opacity-100",
-                          isFlipped ? 'pointer-events-auto' : 'md:pointer-events-auto pointer-events-none'
-                        )}
-                      >
-                         <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
-                         <div className="text-center relative">
-                           <h4 className="mb-4 text-xl font-headline text-neon-orange">
-                             Más detalles del {plan.title}
-                           </h4>
-                           <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
-                           <p className="font-body mt-8 animate-pulse text-sm text-neon-orange/80">
-                              ¿Te interesa este plan? ¡Contáctanos por WhatsApp para empezar!
-                           </p>
-                         </div>
-                      </a>
+                       <div className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)] border border-neon-orange/50">
+                           <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
+                           <div className="text-center relative">
+                             <h4 className="mb-4 text-xl font-headline text-neon-orange">
+                               Más detalles del {plan.title}
+                             </h4>
+                             <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
+                              <button
+                                onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
+                                className="px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
+                              >
+                                CONTRATAR PLAN
+                              </button>
+                           </div>
+                       </div>
                     </div>
                   </div>
                 );
@@ -343,3 +372,5 @@ const ServicesSection = () => {
 };
 
 export default ServicesSection;
+
+    
