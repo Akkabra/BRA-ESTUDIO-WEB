@@ -185,7 +185,6 @@ const ServicesSection = () => {
     }
   }, [activeService, activeAppPlanIndex]);
 
-
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
 
   return (
