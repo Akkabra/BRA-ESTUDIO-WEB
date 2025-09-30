@@ -453,7 +453,7 @@ const ServicesSection = () => {
                     <div key={plan.title} className="absolute z-20 w-full max-w-md animate-hologram-glitch">
                        <div className="hologram-card relative w-full rounded-lg border-2 border-neon-yellow/70 bg-black/60 p-6 backdrop-blur-md">
                         {/* Scanline Effect */}
-                        <div className="scanline-vertical" style={{ '--scanline-color': 'hsl(var(--neon-orange))' }}></div>
+                        <div className="scanline-vertical" style={{ '--scanline-color': 'hsl(var(--neon-orange) / 0.1)' }}></div>
                         
                         {/* Header */}
                          <div className="mb-4 flex items-start justify-between">
