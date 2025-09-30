@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { CheckCircle, Code, Gem, Package, Palette, Layers, Globe, Smartphone, Rocket, Network, ChevronLeft, ChevronRight, Power } from 'lucide-react';
+import { CheckCircle, Code, Gem, Package, Smartphone, Rocket, Network } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 
@@ -10,7 +10,7 @@ const ServicesSection = () => {
   const [flippedStates, setFlippedStates] = useState<Record<string, boolean>>({});
   const [isBrandingInteracted, setIsBrandingInteracted] = useState(false);
   const [brandingActiveIndex, setBrandingActiveIndex] = useState(0);
-  const [activeAppPlanIndex, setActiveAppPlanIndex] = useState<number | null>(null);
+  const [activeAppPlanIndex, setActiveAppPlanIndex] = useState<number>(0);
 
   const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
@@ -161,7 +161,7 @@ const ServicesSection = () => {
   }
   
   const handleAppPlanSelect = (index: number) => {
-    setActiveAppPlanIndex(index === activeAppPlanIndex ? null : index);
+    setActiveAppPlanIndex(index);
   };
 
   useEffect(() => {
@@ -296,10 +296,10 @@ const ServicesSection = () => {
         ) : activeService === 'branding' ? (
              <div className="relative flex h-[500px] w-full items-center justify-center">
                 <button onClick={() => handleBrandingNav((brandingActiveIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="absolute left-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-left-12">
-                  <ChevronLeft size={48} />
+                  <CheckCircle size={48} />
                 </button>
                 <button onClick={() => handleBrandingNav((brandingActiveIndex + 1) % mainServices.branding.length)} className="absolute right-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-right-12">
-                  <ChevronRight size={48} />
+                  <CheckCircle size={48} />
                 </button>
                 
                 <div className="relative h-full w-full max-w-sm flex items-center justify-center [transform-style:preserve-3d]">
@@ -389,109 +389,86 @@ const ServicesSection = () => {
                 </div>
               </div>
         ) : activeService === 'apps' ? (
-           <div className="relative flex h-[600px] w-full items-center justify-center" style={{ perspective: '2000px' }}>
-              {/* Central Hologram Projector */}
-              <div className="absolute z-10 flex flex-col items-center">
-                {/* Energy Sphere */}
-                <div className="relative -mb-4 h-16 w-16">
-                  <div className={cn(
-                    "absolute inset-0 rounded-full bg-neon-yellow/50 blur-lg animate-pulse-sphere",
-                    activeAppPlanIndex !== null && "bg-neon-yellow/50"
-                  )}></div>
-                  <div className={cn(
-                    "absolute inset-2 rounded-full border-2 border-neon-yellow/80 bg-cyber-black",
-                     activeAppPlanIndex !== null && "animate-pulse-fast"
-                  )}></div>
-                </div>
-                {/* Projector Base */}
-                <div className="h-4 w-24 rounded-t-md bg-zinc-800 border-x border-t border-zinc-600"></div>
-                <div className="h-2 w-32 bg-zinc-900 border border-zinc-700"></div>
-              </div>
-              
-              {/* Orbiting Plan Selectors */}
-              <div 
-                className={cn(
-                  "absolute h-full w-full",
-                  activeAppPlanIndex === null ? 'animate-[spin_30s_linear_infinite]' : ''
-                )}
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                {mainServices.apps.map((plan, index) => {
-                  const Icon = plan.icon;
-                  const angle = (index / mainServices.apps.length) * 360;
-                  return (
-                    <div
-                      key={`app-plan-${index}`}
-                      className="absolute left-1/2 top-1/2 h-28 w-28 -m-14 cursor-pointer"
-                      style={{ transform: `rotateY(${angle}deg) translateZ(300px)` }}
+           <div className="relative grid md:grid-cols-3 gap-8 min-h-[600px] border border-neon-orange/20 rounded-lg p-8 bg-black/30 backdrop-blur-sm">
+                {/* Decorative Elements */}
+                <div className="absolute top-4 left-4 w-12 h-12 border-l-2 border-t-2 border-neon-orange/50"></div>
+                <div className="absolute top-4 right-4 w-12 h-12 border-r-2 border-t-2 border-neon-orange/50"></div>
+                <div className="absolute bottom-4 left-4 w-12 h-12 border-l-2 border-b-2 border-neon-orange/50"></div>
+                <div className="absolute bottom-4 right-4 w-12 h-12 border-r-2 border-b-2 border-neon-orange/50"></div>
+                <div className="absolute inset-0 scanline-vertical" style={{'--scanline-color': 'hsl(var(--neon-orange) / 0.05)'}}></div>
+
+                {/* Plan Selectors */}
+                <div className="md:col-span-1 flex flex-col justify-center space-y-4">
+                  {mainServices.apps.map((plan, index) => (
+                    <button
+                      key={plan.title}
                       onClick={() => handleAppPlanSelect(index)}
+                      className={cn(
+                        "relative p-4 rounded-md text-left transition-all duration-300 border-2",
+                        activeAppPlanIndex === index 
+                          ? 'border-neon-orange bg-neon-orange/10 animate-selector-pulse'
+                          : 'border-transparent hover:bg-neon-yellow/5'
+                      )}
                     >
-                      <div className={cn(
-                        "w-full h-full rounded-full border border-neon-yellow/30 bg-black/50 backdrop-blur-sm flex flex-col items-center justify-center text-center p-2 transition-all duration-300 hover:border-neon-yellow hover:bg-neon-yellow/10",
-                      )}>
-                        {Icon && <Icon className="h-8 w-8 text-neon-yellow mb-1" />}
-                        <span className="font-headline text-sm text-neon-yellow">{plan.title}</span>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
+                      <h3 className="font-headline text-xl text-neon-yellow">{plan.title}</h3>
+                      <p className="text-sm text-text-desaturated/70">{plan.price}</p>
+                      {activeAppPlanIndex === index && (
+                        <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-10 bg-neon-orange rounded-r-full shadow-neon"></div>
+                      )}
+                    </button>
+                  ))}
+                </div>
 
-              {/* Projected Hologram Card */}
-              {activeAppPlanIndex !== null && (() => {
-                  const plan = mainServices.apps[activeAppPlanIndex];
-                  return (
-                    <div key={plan.title} className="absolute z-20 w-full max-w-md animate-hologram-glitch">
-                       <div className="hologram-card relative w-full rounded-lg border-2 border-neon-yellow/70 bg-black/60 p-6 backdrop-blur-md">
-                        {/* Scanline Effect */}
-                        <div className="scanline-vertical" style={{ '--scanline-color': 'hsl(var(--neon-yellow) / 0.1)' }}></div>
-                        
-                        {/* Header */}
-                         <div className="mb-4 flex items-start justify-between">
-                            <h3 className="text-3xl font-headline text-neon-yellow glitch" data-text={plan.title}>{plan.title}</h3>
-                            <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
-                              <plan.icon className="h-6 w-6 text-neon-yellow" />
-                            </div>
+                {/* Hologram Projection Area */}
+                <div className="md:col-span-2 relative">
+                  {activeAppPlanIndex !== null && (() => {
+                    const plan = mainServices.apps[activeAppPlanIndex];
+                    return (
+                      <div key={plan.title} className="relative w-full h-full flex items-center justify-center animate-hologram-glitch">
+                        <div className="hologram-card relative w-full rounded-lg border-2 border-neon-orange/70 bg-black/60 p-8 backdrop-blur-md">
+                          {/* Header */}
+                          <div className="mb-4 flex items-start justify-between">
+                              <h3 className="text-3xl font-headline bg-gradient-to-r from-neon-yellow to-neon-orange text-transparent bg-clip-text glitch" data-text={plan.title}>
+                                {plan.title}
+                              </h3>
+                              <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-orange/30">
+                                <plan.icon className="h-6 w-6 text-neon-orange" />
+                              </div>
+                          </div>
+
+                          {/* Price */}
+                          <div className="mb-6">
+                              <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
+                              <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
+                          </div>
+
+                          {/* Features */}
+                          <ul className="space-y-3 font-body mb-6">
+                            {plan.features.map((feature, fIndex) => (
+                              <li key={fIndex} className="flex items-center">
+                                <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-orange" />
+                                <span className="text-sm text-text-desaturated">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+
+                          {/* Details */}
+                          <p className="font-body text-sm leading-relaxed text-text-desaturated/80 mb-8">{plan.details}</p>
+
+                          {/* CTA */}
+                          <a
+                            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full text-center inline-block px-4 py-3 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
+                          >
+                            CONTRATAR AHORA
+                          </a>
                         </div>
-
-                        {/* Price */}
-                         <div className="mb-6">
-                            <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
-                            <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
-                         </div>
-
-                        {/* Features */}
-                         <ul className="space-y-3 font-body mb-6">
-                           {plan.features.map((feature, fIndex) => (
-                             <li key={fIndex} className="flex items-center">
-                               <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
-                               <span className="text-sm text-text-desaturated">{feature}</span>
-                             </li>
-                           ))}
-                         </ul>
-
-                        {/* Details */}
-                        <p className="font-body text-sm leading-relaxed text-text-desaturated/80 mb-8">{plan.details}</p>
-
-                        {/* CTA */}
-                         <a
-                           href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           className="w-full text-center inline-block px-4 py-3 bg-transparent border-2 border-neon-yellow text-neon-yellow font-headline hover:bg-neon-yellow hover:text-cyber-black transition-colors duration-300 hover:shadow-neon"
-                         >
-                           CONTRATAR AHORA
-                         </a>
-                         
-                         {/* Corner brackets */}
-                         <div className="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-neon-yellow/50"></div>
-                         <div className="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-neon-yellow/50"></div>
-                         <div className="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-neon-yellow/50"></div>
-                         <div className="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-neon-yellow/50"></div>
-                       </div>
-                    </div>
-                  )
-              })()}
+                      </div>
+                    )
+                  })()}
+                </div>
            </div>
         ) : (
              <div className="absolute inset-0 flex items-center justify-center">
