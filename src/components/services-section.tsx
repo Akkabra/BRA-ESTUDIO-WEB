@@ -319,21 +319,12 @@ const ServicesSection = () => {
                     onMouseEnter={() => !isMobile && setFlippedStates(prev => ({...prev, [planKey]: true}))}
                     onMouseLeave={() => !isMobile && setFlippedStates(prev => ({...prev, [planKey]: false}))}
                   >
-                     <a
-                        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full h-full [transform-style:preserve-3d]"
-                        onClick={(e) => {
-                          if (!isFlipped) e.preventDefault();
-                          if(isMobile) e.preventDefault()
-                        }}
-                      >
                      <div
                       className={cn(
                         "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-700 ease-in-out cursor-pointer",
                         isFlipped ? '[transform:rotateX(-180deg)]' : '',
                       )}
+                      onClick={() => { if(isMobile) handleCardClick(planKey) }}
                     >
                       {/* Main Service Front Face */}
                       <div className="absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden] border border-neon-yellow/30">
@@ -363,8 +354,12 @@ const ServicesSection = () => {
                       </div>
 
                       {/* Main Service Back Face */}
-                       <div
+                       <a
+                          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center items-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)] border border-neon-orange/50 text-center"
+                          onClick={(e) => e.stopPropagation()}
                        >
                            <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
                            <div className="relative">
@@ -375,12 +370,11 @@ const ServicesSection = () => {
                               <span
                                 className="inline-block px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
                               >
-                                CLIC PARA CONTRATAR
+                                CONTRATAR AHORA
                               </span>
                            </div>
-                       </div>
+                       </a>
                     </div>
-                    </a>
                   </div>
                 );
               })}
@@ -399,5 +393,3 @@ const ServicesSection = () => {
 };
 
 export default ServicesSection;
-
-    
