@@ -10,6 +10,7 @@ const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
   const [flippedStates, setFlippedStates] = useState<Record<number, boolean>>({});
   const isMobile = useIsMobile();
+  const whatsappNumber = "573000000000"; // Replace with your WhatsApp number
 
 
   const handleCardClick = (index: number) => {
@@ -148,7 +149,8 @@ const ServicesSection = () => {
                         className={cn(
                           "absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden]",
                           "transition-all duration-1000 ease-in-out",
-                          "md:group-hover:opacity-0 md:group-hover:blur-lg" // Desktop hover effect
+                          // Desktop hover effect - only if NOT mobile
+                          !isMobile ? "md:group-hover:opacity-0 md:group-hover:blur-lg" : ""
                         )}
                       >
                         <div className="absolute inset-0 rounded-lg border border-neon-yellow/30 md:group-hover:border-neon-yellow"></div>
@@ -190,8 +192,8 @@ const ServicesSection = () => {
                           // Mobile: Rotated on click
                           '[transform:rotateX(180deg)]',
                           isMobile && isFlipped ? 'z-10 [transform:rotateX(0deg)]' : '',
-                          // Desktop: Fades in on hover
-                          "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100"
+                          // Desktop: Fades in on hover - only if NOT mobile
+                          !isMobile ? "md:transform-none md:opacity-0 md:blur-lg md:scale-95 md:group-hover:opacity-100 md:group-hover:blur-0 md:group-hover:scale-100" : ""
                         )}
                       >
                         <div className="absolute inset-0 rounded-lg border border-neon-orange/50"></div>
@@ -207,8 +209,9 @@ const ServicesSection = () => {
                           size="lg"
                           className="mt-6 w-full border-neon-orange text-neon-orange hover:bg-neon-orange hover:text-cyber-black"
                           onClick={(e) => {
-                              if (isMobile) e.stopPropagation();
-                              document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
+                            if (isMobile) e.stopPropagation();
+                            const message = encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`);
+                            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
                           }}
                         >
                           Contratar Plan
