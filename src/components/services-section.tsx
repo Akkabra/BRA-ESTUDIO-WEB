@@ -1,29 +1,36 @@
 'use client';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { CheckCircle, Code, Gem, Package, Palette, Layers, Globe, Smartphone, Rocket, Network } from 'lucide-react';
+import { CheckCircle, Code, Gem, Package, Palette, Layers, Globe, Smartphone, Rocket, Network, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
   const [flippedStates, setFlippedStates] = useState<Record<string, boolean>>({});
+  const [activeIndex, setActiveIndex] = useState(1); // For 3D carousel
   const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
 
   const handleCardClick = (planKey: string) => {
-    if (isMobile) {
-      setFlippedStates(prev => ({
-        ...prev,
-        [planKey]: !prev[planKey],
-      }));
-    }
+    setFlippedStates(prev => ({
+      ...prev,
+      [planKey]: !prev[planKey],
+    }));
   };
   
   const handleWhatsAppRedirect = (e: React.MouseEvent, planTitle: string) => {
     e.stopPropagation();
     const message = encodeURIComponent(`Hola, estoy interesado en contratar el ${planTitle}.`);
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+  };
+
+  const handleCarouselNav = (direction: 'prev' | 'next') => {
+    if (direction === 'next') {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % 3);
+    } else {
+      setActiveIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
+    }
   };
 
   const serviceTypes = [
@@ -92,9 +99,8 @@ const ServicesSection = () => {
           'Diseño de Logotipo (2 conceptos)',
           'Paleta de colores y tipografías',
           'Manual de marca simplificado',
-          'Diseño de tarjeta de presentación',
         ],
-        details: 'El punto de partida perfecto para tu marca. Creamos un logotipo memorable y una identidad visual coherente que te diferenciará de la competencia desde el primer día.'
+        details: 'El punto de partida perfecto para tu marca. Creamos un logotipo memorable y una identidad visual coherente que te diferenciará desde el primer día.'
       },
       {
         title: 'Plan Estratégico',
@@ -105,9 +111,8 @@ const ServicesSection = () => {
           'Análisis de competencia',
           'Estrategia de Tono de Voz',
           'Manual de marca completo',
-          'Diseño de 5 activos digitales',
         ],
-        details: 'Más que un logo, una estrategia. Profundizamos en el ADN de tu marca para construir una identidad sólida, desde el tono de voz hasta las aplicaciones visuales en el mundo digital.'
+        details: 'Más que un logo, una estrategia. Profundizamos en el ADN de tu marca para construir una identidad sólida y unificada, desde el tono de voz hasta las aplicaciones visuales.'
       },
       {
         title: 'Plan 360°',
@@ -116,11 +121,10 @@ const ServicesSection = () => {
         icon: Globe,
         features: [
           'Estrategia de contenido',
-          'Diseño de packaging o producto',
+          'Diseño de packaging',
           'Guía de estilo para fotografía',
-          'Consultoría de marca (2 meses)',
         ],
-        details: 'Una inmersión total en el universo de tu marca. Desde el producto físico hasta la estrategia digital, creamos un ecosistema de marca cohesivo y potente que cautiva y fideliza.'
+        details: 'Una inmersión total en el universo de tu marca. Creamos un ecosistema de marca cohesivo y potente que cautiva y fideliza, desde el producto físico hasta la estrategia digital.'
       }
     ],
     apps: [
@@ -171,6 +175,11 @@ const ServicesSection = () => {
 
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
 
+  const getRotation = (index: number) => {
+    const rotationAngle = 120; // 360 / 3 items
+    return (index - activeIndex) * rotationAngle;
+  };
+  
   return (
     <section id="servicios" className="py-20 cyber-grain relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
@@ -210,90 +219,91 @@ const ServicesSection = () => {
             ))}
           </div>
         </div>
-
+        
         <div className="relative min-h-[550px]">
           {activeService === 'branding' ? (
-             <div className="grid md:grid-cols-3 gap-8 items-center pt-8">
+            <div className="relative w-full h-[400px] flex items-center justify-center" style={{ perspective: '1000px' }}>
+                <div 
+                    className="relative [transform-style:preserve-3d] transition-transform duration-700 ease-in-out w-[280px] h-[280px]"
+                    style={{ transform: `rotateY(${getRotation(activeIndex) * -1}deg)` }}
+                >
                 {currentServicePlans.map((plan, index) => {
                   const Icon = plan.icon;
                   const planKey = `branding-${index}`;
                   const isFlipped = !!flippedStates[planKey];
-                  
+                  const rotationY = (index) * 120;
+                  const isActive = index === activeIndex;
+
                   return (
                     <div
                       key={planKey}
-                      className="group"
-                      style={{ perspective: '1200px' }}
-                      onClick={() => handleCardClick(planKey)}
+                      className={cn(
+                          "absolute w-full h-full [transform-style:preserve-3d] transition-transform duration-700",
+                          !isActive && "opacity-40 scale-75"
+                      )}
+                      style={{ transform: `rotateY(${rotationY}deg) translateZ(280px)`}}
                     >
                       <div
-                        className={cn(
-                          "relative w-full h-[280px] [transform-style:preserve-3d]",
-                          "transition-transform duration-1000 ease-in-out cursor-pointer",
-                          isFlipped && '[transform:rotateY(180deg)]',
-                          "md:group-hover:[transform:rotateY(180deg)]"
-                        )}
+                          className={cn(
+                              "relative w-full h-full [transform-style:preserve-3d] transition-transform duration-1000 ease-in-out",
+                              isFlipped && '[transform:rotateY(180deg)]',
+                          )}
+                          onClick={() => isActive && handleCardClick(planKey)}
                       >
-                        {/* Branding Front Face */}
-                        <div
-                          className={cn(
-                            "absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center no-underline [backface-visibility:hidden]",
-                            "transition-opacity duration-700 ease-in-out"
-                          )}
-                        >
-                          <div className="relative w-72 h-72 flex items-center justify-center">
-                            <div className="absolute inset-0 rounded-full bg-surface-dark/90 transition-all duration-500 scale-90 group-hover:scale-100"></div>
-                            <div className="absolute inset-0 rounded-full border-2 border-neon-orange/70 animate-pulse-fast group-hover:border-neon-orange group-hover:shadow-[0_0_50px_hsl(var(--neon-orange)/0.9)] transition-all duration-300"></div>
-                            <div className="absolute inset-0 rounded-full bg-[linear-gradient(to_right,hsl(var(--border)/0.2)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.2)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
-                            
+                        {/* Front Face */}
+                        <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center text-center no-underline [backface-visibility:hidden] rounded-full border-2 border-neon-orange/80 bg-surface-dark/90 cursor-pointer shadow-[0_0_20px_hsl(var(--neon-orange)/0.4)] animate-pulse-fast hover:shadow-[0_0_40px_hsl(var(--neon-orange)/0.8)] transition-shadow duration-300">
+                           <div className="absolute inset-0 rounded-full bg-[linear-gradient(to_right,hsl(var(--border)/0.1)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.1)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-30"></div>
                             <div className="relative z-10 flex flex-col items-center justify-center p-4">
-                              <Icon className="h-16 w-16 text-neon-orange mb-4 transition-transform duration-300 group-hover:scale-110"/>
-                              <h3 className="font-headline text-3xl text-neon-orange glitch-text">{plan.title}</h3>
-                              <div className="mt-4">
-                                  <span className="text-3xl font-bold text-text-desaturated">{plan.price}</span>
-                                  <p className="text-xs text-text-desaturated/60">{plan.priceDetails}</p>
-                              </div>
-                              <p className="text-xs font-body text-center mt-4 text-neon-orange/70">
-                                <span className='md:hidden'>Toca para más detalles</span>
-                                <span className='hidden md:inline'>Pasa el cursor para más detalles</span>
-                              </p>
+                                <Icon className="h-12 w-12 text-neon-orange mb-3"/>
+                                <h3 className="font-headline text-2xl text-neon-orange glitch-text">{plan.title}</h3>
+                                <div className="mt-2">
+                                    <span className="text-2xl font-bold text-text-desaturated">{plan.price}</span>
+                                    <p className="text-xs text-text-desaturated/60">{plan.priceDetails}</p>
+                                </div>
+                                <p className="text-xs font-body text-center mt-3 text-neon-orange/70">
+                                  Haz clic para ver detalles
+                                </p>
                             </div>
-                          </div>
                         </div>
 
-                        {/* Branding Back Face */}
-                         <div
-                          className={cn(
-                            "absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-full bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]",
-                            "border border-neon-orange/50",
-                          )}
-                        >
-                          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
-                          <div className="text-center relative">
-                            <h4 className="mb-4 text-xl font-headline text-neon-orange">
-                              Detalles del {plan.title}
-                            </h4>
-                            <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
-                            <button
-                              onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
-                              className="px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
-                            >
-                              CONTRATAR AHORA
-                            </button>
-                          </div>
+                        {/* Back Face */}
+                        <div className="absolute inset-0 flex h-full w-full flex-col justify-center rounded-full bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateY(180deg)] border border-neon-orange/50">
+                           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
+                           <div className="text-center relative flex flex-col items-center justify-center h-full">
+                               <h4 className="mb-3 text-lg font-headline text-neon-orange">
+                                   {plan.title}
+                               </h4>
+                               <p className="font-body text-xs leading-relaxed text-text-desaturated/90 mb-4 px-4">
+                                  {plan.details}
+                               </p>
+                               <button
+                                   onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
+                                   className="px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline text-sm hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
+                               >
+                                   CONTRATAR AHORA
+                               </button>
+                           </div>
                         </div>
-
                       </div>
                     </div>
                   );
                 })}
-             </div>
+              </div>
+
+              {/* Navigation */}
+              <button onClick={() => handleCarouselNav('prev')} className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 text-neon-orange/50 hover:text-neon-orange transition-colors p-2 z-20">
+                <ChevronLeft size={48} />
+              </button>
+              <button onClick={() => handleCarouselNav('next')} className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 text-neon-orange/50 hover:text-neon-orange transition-colors p-2 z-20">
+                <ChevronRight size={48} />
+              </button>
+            </div>
           ) : currentServicePlans.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {currentServicePlans.map((plan, index) => {
                 const Icon = plan.icon;
                 const planKey = `${activeService}-${index}`;
-                const isFlipped = isMobile && !!flippedStates[planKey];
+                const isFlipped = !!flippedStates[planKey];
                 
                 return (
                   <div
@@ -304,9 +314,8 @@ const ServicesSection = () => {
                   >
                      <div
                       className={cn(
-                        "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-1000 ease-in-out",
+                        "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-1000 ease-in-out cursor-pointer",
                         isFlipped ? '[transform:rotateX(180deg)]' : '',
-                        !isMobile ? 'group-hover:[transform:rotateX(180deg)]' : ''
                       )}
                     >
                       {/* Main Service Front Face */}
@@ -332,27 +341,31 @@ const ServicesSection = () => {
                             </ul>
                           </div>
                            <p className="text-xs font-body text-center mt-4 text-neon-yellow/70">
-                            <span className='md:hidden'>Toca para más detalles</span>
-                            <span className='hidden md:inline'>Pasa el cursor para más detalles</span>
+                              Haz clic para más detalles
                           </p>
                       </div>
 
                       {/* Main Service Back Face */}
-                       <div className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)] border border-neon-orange/50">
+                       <a
+                          onClick={(e) => e.stopPropagation()}
+                          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center items-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateX(180deg)] border border-neon-orange/50 text-center"
+                       >
                            <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
-                           <div className="text-center relative">
+                           <div className="relative">
                              <h4 className="mb-4 text-xl font-headline text-neon-orange">
-                               Más detalles del {plan.title}
+                               Más sobre {plan.title}
                              </h4>
                              <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
-                              <button
-                                onClick={(e) => handleWhatsAppRedirect(e, plan.title)}
-                                className="px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
+                              <span
+                                className="inline-block px-4 py-2 bg-transparent border-2 border-neon-orange text-neon-orange font-headline hover:bg-neon-orange hover:text-cyber-black transition-colors duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)]"
                               >
                                 CONTRATAR PLAN
-                              </button>
+                              </span>
                            </div>
-                       </div>
+                       </a>
                     </div>
                   </div>
                 );
@@ -361,7 +374,7 @@ const ServicesSection = () => {
           ) : (
              <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-text-desaturated py-16">
-                <p>Próximamente... aquí se mostrarán los paquetes de Apps Móviles.</p>
+                <p>Cargando servicios...</p>
               </div>
             </div>
           )}
@@ -372,5 +385,3 @@ const ServicesSection = () => {
 };
 
 export default ServicesSection;
-
-    
