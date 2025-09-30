@@ -9,8 +9,6 @@ const ServicesSection = () => {
   const [activeService, setActiveService] = useState('web');
   const [flippedStates, setFlippedStates] = useState<Record<string, boolean>>({});
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPhoneOn, setIsPhoneOn] = useState(false);
-  const [activeAppPlanIndex, setActiveAppPlanIndex] = useState(0);
   const [isBrandingInteracted, setIsBrandingInteracted] = useState(false);
 
   const isMobile = useIsMobile();
@@ -214,11 +212,12 @@ const ServicesSection = () => {
         </div>
         
         <div className="relative min-h-[600px]">
-        {activeService === 'web' ? (
+        {activeService === 'web' || activeService === 'apps' ? (
              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {currentServicePlans.map((plan, index) => {
                 const planKey = `${activeService}-${index}`;
                 const isFlipped = !!flippedStates[planKey];
+                const Icon = plan.icon;
                 
                 return (
                   <div
@@ -240,9 +239,11 @@ const ServicesSection = () => {
                           <div>
                             <div className="mb-4 flex items-start justify-between">
                               <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
-                              <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
-                                <plan.icon className="h-6 w-6 text-neon-yellow/70" />
-                              </div>
+                              {Icon && (
+                                <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
+                                  <Icon className="h-6 w-6 text-neon-yellow/70" />
+                                </div>
+                              )}
                             </div>
                             <div className="mb-6">
                               <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
@@ -382,83 +383,6 @@ const ServicesSection = () => {
                     })}
                 </div>
               </div>
-        ) : activeService === 'apps' ? (
-            <div className="flex justify-center items-center h-[600px]">
-                <div className="relative w-[320px] h-[620px] bg-gray-800/30 rounded-[40px] border-4 border-gray-600 shadow-2xl p-2.5 flex items-center">
-                    <div className="absolute top-1/2 -right-3 h-24 w-1.5 bg-gray-600 rounded-r-md transform -translate-y-1/2"></div>
-                    <button
-                        onClick={() => setIsPhoneOn(!isPhoneOn)}
-                        className="absolute top-1/2 -right-3 h-14 w-2.5 bg-gray-500 rounded-r-md transform -translate-y-[120%] flex items-center justify-center group"
-                    >
-                      <Power className={cn("w-4 h-4 text-red-500/50 transition-all", isPhoneOn ? 'text-green-500 animate-pulse' : 'group-hover:text-red-500/80 group-hover:shadow-[0_0_10px_red]')}/>
-                    </button>
-                    
-                    <div className="w-full h-full bg-black rounded-[30px] overflow-hidden relative cyber-grain scanlines">
-                        {isPhoneOn ? (
-                             <div key={activeAppPlanIndex} className="w-full h-full flex flex-col animate-fade-in-slow">
-                                {/* Header */}
-                                <div className="p-4 bg-black/30 backdrop-blur-sm border-b border-neon-cyan/20">
-                                    <div className="flex justify-center items-center mb-4">
-                                       <h3 className="font-headline text-lg text-neon-cyan glitch-subtle" data-text="Planes Móviles">Planes Móviles</h3>
-                                    </div>
-                                    <div className="flex justify-around">
-                                        {mainServices.apps.map((plan, index) => (
-                                            <button 
-                                                key={index}
-                                                onClick={() => setActiveAppPlanIndex(index)}
-                                                className={cn(
-                                                    "text-xs font-headline pb-1 border-b-2 transition-colors",
-                                                    activeAppPlanIndex === index ? "text-neon-cyan border-neon-cyan" : "text-text-desaturated/50 border-transparent hover:text-neon-cyan/70"
-                                                )}
-                                            >
-                                                {plan.title.split(' ')[1] || plan.title}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                                {/* Content */}
-                                <div className="flex-1 p-4 overflow-y-auto">
-                                    <div className="text-center mb-4">
-                                        <mainServices.apps[activeAppPlanIndex].icon className="w-10 h-10 text-neon-cyan mx-auto mb-2"/>
-                                        <h4 className="text-2xl font-headline text-neon-cyan">{mainServices.apps[activeAppPlanIndex].title}</h4>
-                                        <p className="text-2xl font-bold text-text-desaturated">{mainServices.apps[activeAppPlanIndex].price}</p>
-                                        <p className="text-xs text-text-desaturated/60">{mainServices.apps[activeAppPlanIndex].priceDetails}</p>
-                                    </div>
-
-                                    <ul className="space-y-2 font-body text-sm mb-4">
-                                      {mainServices.apps[activeAppPlanIndex].features.map((feature, fIndex) => (
-                                        <li key={fIndex} className="flex items-start">
-                                          <CheckCircle className="mr-2 h-4 w-4 flex-shrink-0 text-neon-cyan mt-0.5" />
-                                          <span className="text-text-desaturated/90">{feature}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                    <p className="text-xs text-text-desaturated/70 mb-6">{mainServices.apps[activeAppPlanIndex].details}</p>
-
-                                    <a
-                                      href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${mainServices.apps[activeAppPlanIndex].title} para Apps Móviles.`)}`}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="w-full inline-block text-center px-4 py-3 bg-neon-cyan/90 text-cyber-black font-headline text-base rounded-md transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-cyan)/0.7)] hover:bg-neon-cyan"
-                                    >
-                                      CONTRATAR AHORA
-                                    </a>
-                                </div>
-                             </div>
-                        ) : (
-                          <div className="absolute inset-0 flex items-center justify-center p-4">
-                              <div className="text-center">
-                                  <div className="text-3xl text-gray-600 animate-boot-up-glitch" data-text="BRA_OS">BRA_OS</div>
-                                  <p className="text-xs text-gray-500 font-code animate-pulse">Presiona el botón para iniciar</p>
-                              </div>
-                          </div>
-                        )}
-                        <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-full flex items-center justify-center px-2">
-                           <div className="w-3 h-3 bg-gray-700 rounded-full"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         ) : (
              <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-text-desaturated py-16">

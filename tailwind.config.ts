@@ -185,21 +185,6 @@ export default {
             '75%': { transform: 'translate(1px, 0)' },
             '100%': { transform: 'translate(0,0)' },
         },
-        'boot-up-glitch': {
-          '0%, 100%': { transform: 'translate(0,0)', opacity: '1' },
-          '25%': { transform: 'translate(2px, -2px)', opacity: '0.8' },
-          '50%': { content: 'attr(data-text)', textShadow: '0 0 5px hsl(var(--neon-cyan)/0.5)', opacity: '1' },
-          '75%': { transform: 'translate(-2px, 2px)', opacity: '0.8' },
-        },
-        'fade-in-slow': {
-          '0%': { opacity: '0' },
-          '50%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        'scanline': {
-          '0%': { transform: 'translateY(-100%)' },
-          '100%': { transform: 'translateY(100%)' },
-        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -214,7 +199,7 @@ export default {
         'glitch-line-2': 'glitch-line-2 0.2s infinite',
         'cyber-pulse': 'cyber-pulse 8s ease-in-out infinite alternate',
         'loading-fill': 'loading-fill 2.5s ease-in-out forwards',
-        'scan': 'scan 2.5s linear infinite',
+        'scan': 'scan 2.s linear infinite',
         'text-flicker': 'text-flicker 1.5s infinite',
         'binary-glitch': 'binary-glitch 2.5s steps(1) infinite',
         'module-enter-1': 'module-enter 0.2s ease-out 0.05s',
@@ -222,9 +207,6 @@ export default {
         'module-enter-3': 'module-enter 0.2s ease-out 0.15s',
         'pulse-fast': 'pulse-fast 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'glitch-subtle': 'glitch-subtle 0.3s infinite alternate',
-        'boot-up-glitch': 'boot-up-glitch 1s steps(2, jump-none) forwards',
-        'fade-in-slow': 'fade-in-slow 1.2s ease-out forwards',
-        'scanline': 'scanline 2s linear infinite',
       },
     },
   },
