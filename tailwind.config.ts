@@ -220,7 +220,7 @@ export default {
         'glitch-subtle': 'glitch-subtle 0.3s infinite alternate',
         'pulse-sphere': 'pulse-sphere 3s ease-in-out infinite',
         'hologram-glitch': 'hologram-glitch 0.6s ease-out forwards',
-        'scanline-vertical': 'scanline-vertical 0.5s linear infinite',
+        'scanline-vertical': 'scanline-vertical 12s linear infinite',
       },
     },
   },

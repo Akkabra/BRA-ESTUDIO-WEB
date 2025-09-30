@@ -11,7 +11,6 @@ const ServicesSection = () => {
   const [isBrandingInteracted, setIsBrandingInteracted] = useState(false);
   const [brandingActiveIndex, setBrandingActiveIndex] = useState(0);
   const [activeAppPlanIndex, setActiveAppPlanIndex] = useState<number | null>(null);
-  const [rotation, setRotation] = useState(0);
 
   const isMobile = useIsMobile();
   const whatsappNumber = "573000000000";
@@ -162,9 +161,7 @@ const ServicesSection = () => {
   }
   
   const handleAppPlanSelect = (index: number) => {
-    setActiveAppPlanIndex(index);
-    const newRotation = -index * (360 / mainServices.apps.length);
-    setRotation(newRotation);
+    setActiveAppPlanIndex(index === activeAppPlanIndex ? null : index);
   };
 
   useEffect(() => {
@@ -177,14 +174,6 @@ const ServicesSection = () => {
     return () => clearInterval(interval);
   }, [activeService, isBrandingInteracted, mainServices.branding.length]);
   
-  useEffect(() => {
-    if (activeService === 'apps') {
-      if (activeAppPlanIndex === null) {
-        setActiveAppPlanIndex(0);
-      }
-    }
-  }, [activeService, activeAppPlanIndex]);
-
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
 
   return (
@@ -407,7 +396,7 @@ const ServicesSection = () => {
                 <div className="relative -mb-4 h-16 w-16">
                   <div className={cn(
                     "absolute inset-0 rounded-full bg-neon-yellow/50 blur-lg animate-pulse-sphere",
-                    activeAppPlanIndex !== null && "bg-neon-orange/50"
+                    activeAppPlanIndex !== null && "bg-neon-yellow/50"
                   )}></div>
                   <div className={cn(
                     "absolute inset-2 rounded-full border-2 border-neon-yellow/80 bg-cyber-black",
@@ -421,8 +410,11 @@ const ServicesSection = () => {
               
               {/* Orbiting Plan Selectors */}
               <div 
-                className="absolute h-full w-full transition-transform duration-1000 ease-in-out" 
-                style={{ transformStyle: 'preserve-3d', transform: `rotateY(${rotation}deg)` }}
+                className={cn(
+                  "absolute h-full w-full",
+                  activeAppPlanIndex === null ? 'animate-[spin_30s_linear_infinite]' : ''
+                )}
+                style={{ transformStyle: 'preserve-3d' }}
               >
                 {mainServices.apps.map((plan, index) => {
                   const Icon = plan.icon;
@@ -452,7 +444,7 @@ const ServicesSection = () => {
                     <div key={plan.title} className="absolute z-20 w-full max-w-md animate-hologram-glitch">
                        <div className="hologram-card relative w-full rounded-lg border-2 border-neon-yellow/70 bg-black/60 p-6 backdrop-blur-md">
                         {/* Scanline Effect */}
-                        <div className="scanline-vertical" style={{ '--scanline-color': 'hsl(var(--neon-orange) / 0.1)' }}></div>
+                        <div className="scanline-vertical" style={{ '--scanline-color': 'hsl(var(--neon-yellow) / 0.1)' }}></div>
                         
                         {/* Header */}
                          <div className="mb-4 flex items-start justify-between">
