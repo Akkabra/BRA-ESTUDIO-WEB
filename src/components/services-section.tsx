@@ -339,7 +339,12 @@ const ServicesSection = () => {
                                 )}
                               >
                                 {/* Front Face */}
-                                <div className={cn("absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 bg-surface-dark/90 p-8 text-center [backface-visibility:hidden]", isActive ? 'border-neon-orange/80 animate-pulse-fast shadow-[0_0_30px_hsl(var(--neon-orange)/0.5),_inset_0_0_15px_hsl(var(--neon-orange)/0.3)]' : 'border-neon-orange/30')}>
+                                <div className={cn(
+                                  "absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 bg-surface-dark/90 p-8 text-center [backface-visibility:hidden]",
+                                  isActive 
+                                    ? 'border-neon-orange/80 animate-pulse-fast shadow-[0_0_30px_hsl(var(--neon-orange)/0.5),_inset_0_0_15px_hsl(var(--neon-orange)/0.3)]' 
+                                    : 'border-neon-orange/30'
+                                )}>
                                   <h3 className="font-headline text-3xl mb-4 text-neon-orange">{plan.title}</h3>
                                   <div className="mt-1 mb-6">
                                       <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
