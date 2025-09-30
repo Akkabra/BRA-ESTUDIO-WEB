@@ -168,22 +168,22 @@ const ServicesSection = () => {
   
   const currentServicePlans = mainServices[activeService as keyof typeof mainServices] || [];
 
-  const PlanCard = ({ plan, isFlipped, onMouseEnter, onMouseLeave }: { plan: any, isFlipped: boolean, onMouseEnter: () => void, onMouseLeave: () => void }) => {
+  const PlanCard = ({ plan }: { plan: any }) => {
     const Icon = plan.icon;
+    const [isFlipped, setIsFlipped] = useState(false);
   
     return (
       <div
         className="group"
         style={{ perspective: '1200px' }}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
+        onMouseEnter={() => setIsFlipped(true)}
+        onMouseLeave={() => setIsFlipped(false)}
       >
         <div
           className={cn(
-            "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-700 ease-in-out cursor-pointer",
-            isFlipped ? '[transform:rotateY(180deg)]' : '',
+            "relative w-full h-[520px] [transform-style:preserve-3d] transition-transform duration-700 ease-in-out",
+            isFlipped ? '[transform:rotateY(180deg)]' : ''
           )}
-          onClick={() => isFlipped && window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`, '_blank')}
         >
           {/* Main Service Front Face */}
           <div className="absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden] border border-neon-yellow/30 transition-all duration-300 group-hover:shadow-neon group-hover:scale-105">
@@ -217,10 +217,11 @@ const ServicesSection = () => {
           {/* Main Service Back Face */}
           <div
             className="absolute inset-0 flex h-full w-full cursor-pointer flex-col justify-center items-center rounded-lg bg-surface-dark/95 p-6 [backface-visibility:hidden] [transform:rotateY(180deg)] border border-neon-orange/50 text-center"
+            onClick={() => window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`, '_blank')}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent scanlines opacity-50"></div>
             <div className="relative">
-              <h4 className="mb-4 text-xl font-headline text-neon-orange">
+              <h4 className="mb-4 text-xl font-headline text-neon-orange glitch-text">
                 Más sobre {plan.title}
               </h4>
               <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
@@ -341,18 +342,12 @@ const ServicesSection = () => {
         <div className="relative min-h-[600px]">
         {activeService === 'web' ? (
              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {currentServicePlans.map((plan, index) => {
-                const planKey = `web-${index}`;
-                return (
+                {currentServicePlans.map((plan, index) => (
                   <PlanCard 
-                    key={planKey}
+                    key={`web-${index}`}
                     plan={plan}
-                    isFlipped={!!flippedStates[planKey]}
-                    onMouseEnter={() => setFlippedStates(prev => ({ ...prev, [planKey]: true }))}
-                    onMouseLeave={() => setFlippedStates(prev => ({ ...prev, [planKey]: false }))}
                   />
-                )
-              })}
+                ))}
             </div>
         ) : activeService === 'branding' ? (
              <div className="relative flex h-[500px] w-full items-center justify-center">
@@ -543,3 +538,5 @@ const ServicesSection = () => {
 };
 
 export default ServicesSection;
+
+    
