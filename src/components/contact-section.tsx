@@ -11,8 +11,6 @@ import {
   Phone, 
   MessageCircle, 
   MapPin, 
-  Instagram, 
-  Facebook, 
   Send
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -28,7 +26,7 @@ const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const whatsappNumber = "573000000000"; // Replace with real number
+  const whatsappNumber = "573145527342";
   const formspreeEndpoint = "https://formspree.io/f/meorebyw";
 
   const services = [
@@ -149,7 +147,7 @@ const ContactSection = () => {
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       placeholder="Tu nombre completo"
-                      className="bg-cyber-black/50 border-neon-yellow/30 text-text-desaturated focus:border-neon-yellow focus:shadow-neon-subtle"
+                      className="bg-cyber-black/50 border-neon-yellow/30 text-text-desaturated focus:border-neon-yellow focus:shadow-neon-intense"
                     />
                   </div>
                   <div>
@@ -162,7 +160,7 @@ const ContactSection = () => {
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       placeholder="tu@email.com"
-                      className="bg-cyber-black/50 border-neon-yellow/30 text-text-desaturated focus:border-neon-yellow focus:shadow-neon-subtle"
+                      className="bg-cyber-black/50 border-neon-yellow/30 text-text-desaturated focus:border-neon-yellow focus:shadow-neon-intense"
                     />
                   </div>
                 </div>
@@ -174,7 +172,7 @@ const ContactSection = () => {
                   <select
                     value={formData.service}
                     onChange={(e) => handleInputChange('service', e.target.value)}
-                    className="w-full p-3 bg-cyber-black/50 border border-neon-yellow/30 rounded-md text-text-desaturated focus:border-neon-yellow focus:outline-none focus:shadow-neon-subtle transition-all duration-300 font-body"
+                    className="w-full p-3 bg-cyber-black/50 border border-neon-yellow/30 rounded-md text-text-desaturated focus:border-neon-yellow focus:outline-none focus:shadow-neon-intense transition-all duration-300 font-body"
                   >
                     <option value="">Selecciona un servicio</option>
                     {services.map((service, index) => (
@@ -195,7 +193,7 @@ const ContactSection = () => {
                     onChange={(e) => handleInputChange('message', e.target.value)}
                     placeholder="Cuéntanos sobre tu proyecto..."
                     rows={5}
-                    className="bg-cyber-black/50 border-neon-yellow/30 text-text-desaturated focus:border-neon-yellow focus:shadow-neon-subtle"
+                    className="bg-cyber-black/50 border-neon-yellow/30 text-text-desaturated focus:border-neon-yellow focus:shadow-neon-intense"
                   />
                 </div>
 
@@ -219,7 +217,7 @@ const ContactSection = () => {
                   type="submit" 
                   variant="hero" 
                   size="lg" 
-                  className="w-full"
+                  className="w-full animate-pulse"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -254,8 +252,8 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <p className="text-text-desaturated font-body">Email</p>
-                    <a href="mailto:info@braestudioweb.com" className="text-neon-yellow hover:underline">
-                      info@braestudioweb.com
+                    <a href="mailto:braestudioweb@gmail.com" className="text-neon-yellow hover:underline glitch-text">
+                      braestudioweb@gmail.com
                     </a>
                   </div>
                 </div>
@@ -266,8 +264,8 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <p className="text-text-desaturated font-body">Teléfono</p>
-                    <a href={`tel:+${whatsappNumber}`} className="text-neon-yellow hover:underline">
-                      +57 300 000 0000
+                    <a href={`tel:+${whatsappNumber}`} className="text-neon-yellow hover:underline glitch-text">
+                      +57 314 552 7342
                     </a>
                   </div>
                 </div>
@@ -278,14 +276,14 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <p className="text-text-desaturated font-body">Ubicación</p>
-                    <p className="text-neon-yellow">Colombia</p>
+                    <p className="text-neon-yellow glitch-text">Itagui, Antioquia</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* WhatsApp CTA */}
-            <Card className="bg-gradient-to-br from-green-600/20 to-green-800/20 border border-green-500/30">
+            <Card className="bg-gradient-to-br from-green-600/20 to-green-800/20 border-2 border-green-500/30 animate-pulse">
               <CardContent className="p-6 text-center">
                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <MessageCircle className="w-8 h-8 text-green-400" />
@@ -299,44 +297,11 @@ const ContactSection = () => {
                 <Button 
                   variant="neon" 
                   onClick={() => window.open(`https://wa.me/${whatsappNumber}?text=Hola, me interesa conocer más sobre sus servicios`, '_blank')}
-                  className="bg-green-500 hover:bg-green-400 text-cyber-black border-green-500"
+                  className="bg-green-500 hover:bg-green-400 text-cyber-black border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.6)] hover:shadow-[0_0_25px_rgba(34,197,94,0.8)]"
                 >
                   <MessageCircle size={20} />
                   ABRIR WHATSAPP
                 </Button>
-              </CardContent>
-            </Card>
-
-            {/* Social Media */}
-            <Card className="bg-surface-dark/90 border border-neon-yellow/30">
-              <CardHeader>
-                <CardTitle className="text-xl font-headline text-neon-yellow">
-                  Síguenos
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex space-x-4">
-                  <a 
-                    href="#" 
-                    className="w-12 h-12 bg-neon-yellow/20 rounded-full flex items-center justify-center hover:bg-neon-yellow/30 transition-colors group"
-                  >
-                    <Instagram className="w-6 h-6 text-neon-yellow group-hover:scale-110 transition-transform" />
-                  </a>
-                  <a 
-                    href="#" 
-                    className="w-12 h-12 bg-neon-yellow/20 rounded-full flex items-center justify-center hover:bg-neon-yellow/30 transition-colors group"
-                  >
-                    <Facebook className="w-6 h-6 text-neon-yellow group-hover:scale-110 transition-transform" />
-                  </a>
-                  <a 
-                    href="#" 
-                    className="w-12 h-12 bg-neon-yellow/20 rounded-full flex items-center justify-center hover:bg-neon-yellow/30 transition-colors group"
-                  >
-                    <svg className="w-6 h-6 text-neon-yellow group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                    </svg>
-                  </a>
-                </div>
               </CardContent>
             </Card>
           </div>
@@ -347,5 +312,3 @@ const ContactSection = () => {
 };
 
 export default ContactSection;
-
-    

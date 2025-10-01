@@ -4,7 +4,7 @@ import { BraLogo } from '@/components/bra-logo';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const whatsappNumber = "573000000000";
+  const whatsappNumber = "573145527342";
 
   const quickLinks = [
     { name: 'Inicio', href: '#inicio' },
@@ -149,10 +149,10 @@ const Footer = () => {
             
             <div className="pt-4">
               <p className="text-sm text-text-desaturated/80 font-body mb-2">
-                📧 info@braestudioweb.com
+                📧 braestudioweb@gmail.com
               </p>
               <p className="text-sm text-text-desaturated/80 font-body">
-                📱 +57 300 000 0000
+                📱 +57 314 552 7342
               </p>
             </div>
           </div>
@@ -190,5 +190,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-    
