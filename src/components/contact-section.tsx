@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 
 
 const ContactSection = () => {
@@ -66,7 +66,7 @@ const ContactSection = () => {
         service: formData.service,
         message: formData.message,
         consent: formData.consent,
-        timestamp: serverTimestamp(),
+        timestamp: new Date(),
       });
 
       toast({
@@ -82,6 +82,7 @@ const ContactSection = () => {
       });
 
     } catch (error) {
+      console.error("Error adding document: ", error);
       toast({
         title: "Error",
         description: "Hubo un problema al enviar tu mensaje. Intenta nuevamente.",
@@ -306,3 +307,5 @@ const ContactSection = () => {
 };
 
 export default ContactSection;
+
+    
