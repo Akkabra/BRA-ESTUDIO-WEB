@@ -134,7 +134,10 @@ const PortfolioSection = () => {
         <div className="container mx-auto px-4 relative z-10">
           {/* Section Header */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-headline font-bold text-neon-yellow mb-6 cyber-title">
+            <h2
+              className="text-4xl md:text-6xl font-headline font-bold text-neon-yellow mb-6 glitch"
+              data-text="PORTAFOLIO"
+            >
               PORTAFOLIO
             </h2>
             <p className="text-xl text-text-desaturated max-w-3xl mx-auto font-body">
