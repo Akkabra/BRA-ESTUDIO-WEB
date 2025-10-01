@@ -14,8 +14,6 @@ import {
   Send
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { db } from '@/lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
 
 
 const ContactSection = () => {
@@ -30,6 +28,7 @@ const ContactSection = () => {
   const { toast } = useToast();
 
   const whatsappNumber = "573145527342";
+  const formspreeEndpoint = "https://formspree.io/f/xgvnyorq";
 
   const services = [
     'Desarrollo Web - Básico',
@@ -60,29 +59,31 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      await addDoc(collection(db, "mensajes_de_contacto"), {
-        name: formData.name,
-        email: formData.email,
-        service: formData.service,
-        message: formData.message,
-        consent: formData.consent,
-        timestamp: new Date(),
+      const response = await fetch(formspreeEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
       });
 
-      toast({
-        title: "¡Mensaje enviado!",
-        description: "Te contactaremos pronto. ¡Gracias por confiar en nosotros!",
-      });
-      setFormData({
-        name: '',
-        email: '',
-        service: '',
-        message: '',
-        consent: false
-      });
-
+      if (response.ok) {
+        toast({
+          title: "¡Mensaje enviado!",
+          description: "Te contactaremos pronto. ¡Gracias por confiar en nosotros!",
+        });
+        setFormData({
+          name: '',
+          email: '',
+          service: '',
+          message: '',
+          consent: false
+        });
+      } else {
+        throw new Error('Error al enviar el formulario');
+      }
     } catch (error) {
-      console.error("Error adding document: ", error);
+      console.error("Error submitting form: ", error);
       toast({
         title: "Error",
         description: "Hubo un problema al enviar tu mensaje. Intenta nuevamente.",
@@ -307,5 +308,3 @@ const ContactSection = () => {
 };
 
 export default ContactSection;
-
-    
