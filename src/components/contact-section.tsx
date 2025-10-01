@@ -14,6 +14,9 @@ import {
   Send
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +30,6 @@ const ContactSection = () => {
   const { toast } = useToast();
 
   const whatsappNumber = "573145527342";
-  const formspreeEndpoint = "https://formspree.io/f/meorebyw";
 
   const services = [
     'Desarrollo Web - Básico',
@@ -58,35 +60,27 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(formspreeEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          service: formData.service,
-          message: formData.message,
-          _subject: `Nuevo contacto de ${formData.name} - ${formData.service}`
-        }),
+      await addDoc(collection(db, "mensajes_de_contacto"), {
+        name: formData.name,
+        email: formData.email,
+        service: formData.service,
+        message: formData.message,
+        consent: formData.consent,
+        timestamp: serverTimestamp(),
       });
 
-      if (response.ok) {
-        toast({
-          title: "¡Mensaje enviado!",
-          description: "Te contactaremos pronto. ¡Gracias por confiar en nosotros!",
-        });
-        setFormData({
-          name: '',
-          email: '',
-          service: '',
-          message: '',
-          consent: false
-        });
-      } else {
-        throw new Error('Error al enviar el formulario');
-      }
+      toast({
+        title: "¡Mensaje enviado!",
+        description: "Te contactaremos pronto. ¡Gracias por confiar en nosotros!",
+      });
+      setFormData({
+        name: '',
+        email: '',
+        service: '',
+        message: '',
+        consent: false
+      });
+
     } catch (error) {
       toast({
         title: "Error",
