@@ -1,5 +1,6 @@
 'use client'
 import React from 'react';
+import Link from 'next/link';
 import { Instagram, Facebook, MessageCircle } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 
@@ -116,9 +117,9 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="text-text-desaturated/80 font-body text-sm">
-          © {currentYear} BRA ESTUDIO WEB — Todos los derechos reservados
-        </div>
+        <Link href="/login" className="text-text-desaturated/80 font-body text-sm cursor-pointer">
+            © {currentYear} BRA ESTUDIO WEB — Todos los derechos reservados
+        </Link>
         
       </div>
 
