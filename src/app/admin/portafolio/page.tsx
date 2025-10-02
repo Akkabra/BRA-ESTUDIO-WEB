@@ -161,7 +161,8 @@ export default function PortfolioAdminPage() {
 
     if (authLoading || !user) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-background text-neon-yellow">
+            <div className="flex min-h-screen flex-col items-center justify-center bg-background text-neon-yellow space-y-4">
+                <BraLogo className="h-20 w-auto mx-auto" />
                 <Loader2 className="h-16 w-16 animate-spin" />
             </div>
         );
@@ -289,5 +290,3 @@ export default function PortfolioAdminPage() {
     </div>
   );
 }
-
-    
