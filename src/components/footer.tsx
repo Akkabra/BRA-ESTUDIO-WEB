@@ -6,24 +6,17 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   const whatsappNumber = "573145527342";
 
-  const quickLinks = [
-    { name: 'Inicio', href: '#inicio' },
-    { name: 'Servicios', href: '#servicios' },
-    { name: 'Portafolio', href: '#portafolio' },
-    { name: 'Contacto', href: '#contacto' }
-  ];
-
   const socialLinks = [
     { 
       name: 'Instagram', 
       icon: Instagram, 
-      href: '#',
+      href: 'https://www.instagram.com/braestudioweb',
       color: 'hover:text-pink-400'
     },
     { 
       name: 'Facebook', 
       icon: Facebook, 
-      href: '#',
+      href: 'https://www.facebook.com/profile.php?id=61561543854293',
       color: 'hover:text-blue-400'
     },
     { 
@@ -39,7 +32,7 @@ const Footer = () => {
           <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
         </svg>
       ), 
-      href: '#',
+      href: 'https://www.tiktok.com/@braestudioweb',
       color: 'hover:text-white'
     }
   ];
@@ -51,135 +44,56 @@ const Footer = () => {
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-full h-px bg-gradient-to-r from-transparent via-neon-yellow/60 to-transparent animate-move-stripes"
+            className="absolute w-full h-px bg-gradient-to-r from-transparent via-neon-yellow/60 to-transparent"
             style={{
               top: `${20 + i * 20}%`,
+              animation: `move-stripes ${8 + i * 2}s linear infinite`,
               animationDelay: `${i * 0.5}s`,
-              animationDuration: '8s'
             }}
           />
         ))}
       </div>
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
-          {/* Logo and Description */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <BraLogo className="h-12 w-auto neon-glow-subtle" />
-              <span className="font-headline text-neon-yellow text-lg font-bold">
-                BRA ESTUDIO WEB
-              </span>
-            </div>
-            <p className="text-text-desaturated font-body leading-relaxed">
-              Transformamos tu visión digital en realidad. Especialistas en desarrollo web, 
-              branding y aplicaciones móviles con un enfoque único y personalizado.
-            </p>
-            <div className="text-sm text-text-desaturated/80 font-body">
-              <p>🎯 Tu visión, nuestro desarrollo</p>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-headline text-neon-yellow">
-              Enlaces Rápidos
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-              {quickLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  className="text-text-desaturated hover:text-neon-yellow transition-colors font-body flex items-center group"
-                >
-                  <span className="w-2 h-2 bg-neon-yellow/50 rounded-full mr-3 group-hover:bg-neon-yellow transition-colors"></span>
-                  {link.name}
-                </a>
-              ))}
-            </div>
-            
-            <div className="pt-4 border-t border-neon-yellow/20">
-              <div className="space-y-2">
-                <a 
-                  href="#" 
-                  className="block text-text-desaturated hover:text-neon-yellow transition-colors font-body text-sm"
-                >
-                  Políticas de Privacidad
-                </a>
-                <a 
-                  href="#" 
-                  className="block text-text-desaturated hover:text-neon-yellow transition-colors font-body text-sm"
-                >
-                  Términos y Condiciones
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Social Media */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-headline text-neon-yellow">
-              Síguenos
-            </h3>
-            <p className="text-text-desaturated font-body">
-              Mantente al día con nuestros últimos proyectos y noticias del mundo digital.
-            </p>
-            <div className="flex space-x-4">
-              {socialLinks.map((social, index) => {
-                const IconComponent = social.icon;
-                return (
-                  <a
-                    key={index}
-                    href={social.href}
-                    target={social.href.startsWith('http') ? '_blank' : undefined}
-                    rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className={`
-                      w-12 h-12 bg-surface-dark border border-neon-yellow/30 rounded-full 
-                      flex items-center justify-center text-text-desaturated 
-                      transition-all duration-300 group
-                      hover:border-neon-yellow hover:shadow-neon-subtle hover:scale-110
-                      ${social.color}
-                    `}
-                  >
-                    <IconComponent className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                  </a>
-                );
-              })}
-            </div>
-            
-            <div className="pt-4">
-              <p className="text-sm text-text-desaturated/80 font-body mb-2">
-                📧 braestudioweb@gmail.com
-              </p>
-              <p className="text-sm text-text-desaturated/80 font-body">
-                📱 +57 314 552 7342
-              </p>
-            </div>
-          </div>
+      <div className="container mx-auto px-4 relative z-10 flex flex-col items-center text-center">
+        
+        {/* Logo */}
+        <div className="mb-6">
+            <BraLogo className="h-16 w-auto neon-glow-subtle pixel-hover"/>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-neon-yellow/20">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-text-desaturated/80 font-body text-sm">
-              © {currentYear} BRA ESTUDIO WEB — Todos los derechos reservados
-            </div>
-            
-            <div className="flex items-center space-x-4 text-sm">
-              <span className="text-text-desaturated/60 font-body">
-                Diseñado con
-              </span>
-              <div className="flex items-center space-x-1">
-                <span className="text-neon-yellow animate-pulse">⚡</span>
-                <span className="text-text-desaturated/60 font-body">y</span>
-                <span className="text-red-400 animate-pulse">❤️</span>
-              </div>
-              <span className="text-text-desaturated/60 font-body">
-                en Colombia
-              </span>
-            </div>
-          </div>
+        {/* Divider */}
+        <div className="w-48 h-px bg-gradient-to-r from-transparent via-neon-yellow to-transparent mb-8 animate-pulse-fast"></div>
+
+        {/* Social Media */}
+        <div className="flex space-x-6 mb-8">
+          {socialLinks.map((social, index) => {
+            const IconComponent = social.icon;
+            return (
+              <a
+                key={index}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`
+                  w-12 h-12 bg-surface-dark border border-neon-yellow/30 rounded-full 
+                  flex items-center justify-center text-text-desaturated 
+                  transition-all duration-300 group
+                  hover:border-neon-yellow hover:shadow-neon-subtle hover:scale-110
+                  ${social.color}
+                `}
+              >
+                <IconComponent className="w-6 h-6 group-hover:scale-110 transition-transform" />
+              </a>
+            );
+          })}
         </div>
+
+        {/* Copyright */}
+        <div className="text-text-desaturated/80 font-body text-sm">
+          © {currentYear} BRA ESTUDIO WEB — Todos los derechos reservados
+        </div>
+        
       </div>
 
       {/* Corner decorative elements */}
