@@ -14,6 +14,11 @@ export default function LoginPage() {
   const router = useRouter();
 
   useEffect(() => {
+    // TEMPORARY: Log the hostname to help debug the unauthorized-domain error.
+    if (typeof window !== 'undefined') {
+      console.log("Authorization Domain Check:", window.location.hostname);
+    }
+
     if (!loading && user && user.email === 'braestudioweb@gmail.com') {
       router.push('/admin/portafolio');
     }
