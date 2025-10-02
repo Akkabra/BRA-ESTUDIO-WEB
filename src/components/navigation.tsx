@@ -53,6 +53,13 @@ const NavigationContent = () => {
             <BraLogo className="h-16 w-auto" style={{ height: '55px'}}/>
           </a>
 
+           {/* Mobile Logo (centered) */}
+          <div className="md:hidden flex-1 flex justify-center">
+            <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="z-50">
+              <BraLogo className="h-16 w-auto" style={{ height: '45px' }} />
+            </a>
+          </div>
+
           {/* Desktop Menu (Centered) */}
           <nav className="hidden md:flex flex-1 items-center justify-center gap-x-10">
             {mainLinks.slice(0, 1).map((link) => (
@@ -118,7 +125,7 @@ const NavigationContent = () => {
           </nav>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center justify-end flex-1 z-50">
+          <div className="md:hidden flex items-center justify-end z-50">
             <button
               className="text-text-desaturated hover:text-neon-yellow transition-colors relative h-8 w-8"
               onClick={() => setIsOpen(!isOpen)}
