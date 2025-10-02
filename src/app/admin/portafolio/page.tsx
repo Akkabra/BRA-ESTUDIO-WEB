@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -21,13 +22,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PlusCircle, Edit, Trash2, Upload, Loader2 } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Upload, Loader2, ArrowLeft } from 'lucide-react';
 import { db, storage } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { BraLogo } from '@/components/bra-logo';
 
 interface Project {
     id: string;
@@ -169,7 +171,11 @@ export default function PortfolioAdminPage() {
     <div className="min-h-screen bg-background text-foreground cyber-grain p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto">
         <header className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch" data-text="Admin Portafolio">
+            <Link href="/" className="flex items-center gap-2 text-neon-yellow hover:text-white transition-colors group">
+              <BraLogo className="h-12 w-auto neon-glow-subtle group-hover:neon-glow-intense transition-all" />
+              <span className="font-headline hidden md:inline">Volver al Sitio</span>
+            </Link>
+          <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch flex-1 text-center" data-text="Admin Portafolio">
             Admin Portafolio
           </h1>
           <Button variant="hero" onClick={handleAddNew}>
@@ -283,3 +289,5 @@ export default function PortfolioAdminPage() {
     </div>
   );
 }
+
+    
