@@ -228,7 +228,7 @@ const PortfolioSection = () => {
             </div>
           </div>
           <LayoutGroup>
-            <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <AnimatePresence>
                 {filteredProjects.map((project, i) => (
                   <motion.div
@@ -324,9 +324,9 @@ const PortfolioSection = () => {
         >
           <div className="absolute inset-0 bg-cyber-black/90 backdrop-blur-md" onClick={() => setSelectedProject(null)} />
           
-          <motion.div layoutId={`card-container-${selectedProject.id}`} className="relative z-10 w-full max-w-4xl">
+          <motion.div layoutId={`card-container-${selectedProject.id}`} className="relative z-10 w-full max-w-md md:max-w-4xl">
             <Dialog open onOpenChange={() => setSelectedProject(null)}>
-              <DialogContent className="max-w-4xl bg-surface-dark border border-neon-yellow/30 text-text-desaturated p-0 overflow-hidden" 
+              <DialogContent className="max-w-md md:max-w-4xl bg-surface-dark border border-neon-yellow/30 text-text-desaturated p-0 overflow-hidden" 
                  style={{ 
                     backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'52\' height=\'52\' viewBox=\'0 0 52 52\'%3E%3Cpath fill=\'hsl(46 93% 51% / 0.02)\' d=\'M0 17.8V0h17.8a26 26 0 0 1 0 52H0V34.2A26 26 0 0 1 0 0zM52 0v17.8a26 26 0 0 1 0 34.2V52H34.2a26 26 0 0 1 0-52H52z\'/%3E%3C/svg%3E")'
                   }}
