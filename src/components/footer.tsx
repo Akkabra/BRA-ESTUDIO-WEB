@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import { Instagram, Facebook, MessageCircle } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 
