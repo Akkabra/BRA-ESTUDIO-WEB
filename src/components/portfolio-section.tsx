@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,10 +10,12 @@ import { ExternalLink, Code, Search } from 'lucide-react';
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { db } from '@/lib/firebase';
+import { collection, getDocs } from "firebase/firestore";
 
 
 interface Project {
-  id: number;
+  id: string; // Changed to string to match firestore id
   title: string;
   type: 'Web' | 'Branding' | 'App';
   description: string;
@@ -58,95 +60,34 @@ const AnimatedTitle = ({ text, className }: { text: string, className?: string }
 };
 
 const PortfolioSection = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [filter, setFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
-  const portfolioImageMap = PlaceHolderImages.reduce((acc, img) => {
-    acc[img.id] = img;
-    return acc;
-  }, {} as Record<string, ImagePlaceholder>);
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "portafolio_proyectos"));
+        const projectsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Project[];
+        setProjects(projectsData);
+      } catch (error) {
+        console.error("Error fetching projects: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const projectsData: Omit<Project, 'image' | 'imageHint'>[] = [
-    {
-      id: 1,
-      title: "E-commerce Moderno",
-      type: "Web",
-      description: "Tienda online completa con carrito de compras",
-      longDescription: "Desarrollo completo de e-commerce con sistema de pagos integrado, gestión de inventario, panel administrativo y optimización SEO. Incluye diseño responsive y animaciones avanzadas.",
-      technologies: ["React", "Node.js", "Stripe", "MongoDB"],
-      developmentTime: "8 semanas",
-      liveUrl: "https://example.com",
-      codeUrl: "https://github.com/example"
-    },
-    {
-      id: 2,
-      title: "Identidad Visual Restaurante",
-      type: "Branding",
-      description: "Branding completo para cadena de restaurantes",
-      longDescription: "Desarrollo de identidad visual completa incluyendo logo, paleta de colores, tipografías, papelería corporativa y aplicaciones en diferentes medios. Incluye manual de marca detallado.",
-      technologies: ["Illustrator", "Photoshop", "InDesign"],
-      developmentTime: "4 semanas"
-    },
-    {
-      id: 3,
-      title: "App Delivery",
-      type: "App",
-      description: "Aplicación móvil para delivery de comida",
-      longDescription: "Aplicación móvil nativa para iOS y Android con sistema de pedidos en tiempo real, tracking GPS, pagos integrados y panel administrativo para restaurantes.",
-      technologies: ["React Native", "Firebase", "Stripe"],
-      developmentTime: "12 semanas",
-      liveUrl: "https://play.google.com/store"
-    },
-    {
-      id: 4,
-      title: "Landing Page Corporativa",
-      type: "Web",
-      description: "Sitio web corporativo con animaciones",
-      longDescription: "Desarrollo de landing page corporativa con animaciones CSS avanzadas, optimización SEO, formularios de contacto y integración con CRM. Diseño completamente responsive.",
-      technologies: ["HTML5", "CSS3", "JavaScript", "GSAP"],
-      developmentTime: "3 semanas",
-      liveUrl: "https://example-corp.com"
-    },
-    {
-      id: 5,
-      title: "Logo & Branding Tech",
-      type: "Branding",
-      description: "Identidad para startup tecnológica",
-      longDescription: "Creación de identidad visual para startup tecnológica, incluyendo naming, logo, aplicaciones digitales y estrategia de marca. Enfoque en transmitir innovación y confianza.",
-      technologies: ["Illustrator", "After Effects", "Figma"],
-      developmentTime: "6 semanas"
-    },
-    {
-      id: 6,
-      title: "App Fitness",
-      type: "App",
-      description: "Aplicación de entrenamiento personal",
-      longDescription: "App móvil para entrenamiento personal con rutinas personalizadas, tracking de progreso, comunidad social y integración con wearables. Incluye versión web complementaria.",
-      technologies: ["Flutter", "Node.js", "PostgreSQL"],
-      developmentTime: "16 semanas",
-      liveUrl: "https://fitness-app.com"
-    }
-  ];
-
-  const imageKeys = Object.keys(portfolioImageMap);
-  
-  const projects: Project[] = projectsData.map((p, i) => {
-    const imageKey = imageKeys[i % imageKeys.length];
-    const imageData = portfolioImageMap[imageKey];
-    return {
-      ...p,
-      image: imageData.imageUrl,
-      imageHint: imageData.imageHint
-    }
-  });
+    fetchProjects();
+  }, []);
 
 
   const filteredProjects = projects.filter(project => {
     const matchesFilter = filter === 'all' || project.type === filter;
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         project.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
+                         (project.technologies && project.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase())));
     return matchesFilter && matchesSearch;
   });
 
@@ -227,84 +168,90 @@ const PortfolioSection = () => {
               )}></div>
             </div>
           </div>
-          <LayoutGroup>
-            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <AnimatePresence>
-                {filteredProjects.map((project, i) => (
-                  <motion.div
-                    key={project.id}
-                    custom={i}
-                    variants={cardVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    layoutId={`card-container-${project.id}`}
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    <Card 
-                      className="bg-surface-dark/90 border border-neon-yellow/30 hover:border-neon-yellow transition-all duration-300 cursor-pointer group transform hover:shadow-neon-intense"
-                      style={{ perspective: '1000px' }}
+          
+          {loading ? (
+             <div className="text-center text-neon-yellow font-headline">Cargando proyectos...</div>
+          ) : (
+            <LayoutGroup>
+              <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <AnimatePresence>
+                  {filteredProjects.map((project, i) => (
+                    <motion.div
+                      key={project.id}
+                      custom={i}
+                      variants={cardVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      layoutId={`card-container-${project.id}`}
+                      onClick={() => setSelectedProject(project)}
                     >
-                      <motion.div 
-                        whileHover={{ scale: 1.05, rotateY: -10, rotateX: 5 }}
-                        transition={{ duration: 0.4, ease: 'easeOut' }}
-                        className="relative overflow-hidden rounded-t-lg"
+                      <Card 
+                        className="bg-surface-dark/90 border border-neon-yellow/30 hover:border-neon-yellow transition-all duration-300 cursor-pointer group transform hover:shadow-neon-intense"
+                        style={{ perspective: '1000px' }}
                       >
-                        <Image 
-                          src={project.image} 
-                          alt={project.title}
-                          width={600}
-                          height={338}
-                          data-ai-hint={project.imageHint}
-                          className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
-                        <div className="absolute top-2 right-2">
-                          <Badge 
-                            variant="secondary" 
-                            className={`
-                              ${project.type === 'Web' ? 'bg-blue-500/80' : 
-                                project.type === 'Branding' ? 'bg-purple-500/80' : 'bg-green-500/80'} 
-                              text-white group-hover:animate-pulse
-                            `}
-                          >
-                            {project.type}
-                          </Badge>
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-cyber-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                          <Button variant="neon" size="sm">
-                            VER MÁS
-                          </Button>
-                        </div>
-                      </motion.div>
-                      
-                      <CardContent className="p-6">
-                        <h3 className="text-xl font-headline text-neon-yellow mb-2 group-hover:glitch-text transition-colors">
-                          {project.title}
-                        </h3>
-                        <p className="text-text-desaturated font-body mb-4 line-clamp-2">
-                          {project.description}
-                        </p>
-                        <div className="flex flex-wrap gap-2">
-                          {project.technologies.slice(0, 3).map((tech, index) => (
-                            <Badge key={index} variant="outline" className="text-xs border-neon-yellow/50 text-neon-yellow/80 group-hover:border-neon-yellow group-hover:text-neon-yellow transition-colors">
-                              {tech}
+                        <motion.div 
+                          whileHover={{ scale: 1.05, rotateY: -10, rotateX: 5 }}
+                          transition={{ duration: 0.4, ease: 'easeOut' }}
+                          className="relative overflow-hidden rounded-t-lg"
+                        >
+                          <Image 
+                            src={project.image || 'https://picsum.photos/seed/default/600/338'} 
+                            alt={project.title}
+                            width={600}
+                            height={338}
+                            data-ai-hint={project.imageHint || 'project image'}
+                            className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                          <div className="absolute top-2 right-2">
+                            <Badge 
+                              variant="secondary" 
+                              className={`
+                                ${project.type === 'Web' ? 'bg-blue-500/80' : 
+                                  project.type === 'Branding' ? 'bg-purple-500/80' : 'bg-green-500/80'} 
+                                text-white group-hover:animate-pulse
+                              `}
+                            >
+                              {project.type}
                             </Badge>
-                          ))}
-                          {project.technologies.length > 3 && (
-                            <Badge variant="outline" className="text-xs border-neon-yellow/50 text-neon-yellow/80">
-                              +{project.technologies.length - 3}
-                            </Badge>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          </LayoutGroup>
+                          </div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-cyber-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                            <Button variant="neon" size="sm">
+                              VER MÁS
+                            </Button>
+                          </div>
+                        </motion.div>
+                        
+                        <CardContent className="p-6">
+                          <h3 className="text-xl font-headline text-neon-yellow mb-2 group-hover:glitch-text transition-colors">
+                            {project.title}
+                          </h3>
+                          <p className="text-text-desaturated font-body mb-4 line-clamp-2">
+                            {project.description}
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {project.technologies && project.technologies.slice(0, 3).map((tech, index) => (
+                              <Badge key={index} variant="outline" className="text-xs border-neon-yellow/50 text-neon-yellow/80 group-hover:border-neon-yellow group-hover:text-neon-yellow transition-colors">
+                                {tech}
+                              </Badge>
+                            ))}
+                            {project.technologies && project.technologies.length > 3 && (
+                              <Badge variant="outline" className="text-xs border-neon-yellow/50 text-neon-yellow/80">
+                                +{project.technologies.length - 3}
+                              </Badge>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+            </LayoutGroup>
+          )}
 
-          {filteredProjects.length === 0 && (
+
+          {!loading && filteredProjects.length === 0 && (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl font-headline text-neon-yellow mb-2">No se encontraron proyectos</h3>
@@ -342,11 +289,11 @@ const PortfolioSection = () => {
                 <div className="grid md:grid-cols-2 gap-6 p-6 pt-0">
                   <div className="relative">
                     <Image 
-                      src={selectedProject.image} 
+                      src={selectedProject.image || 'https://picsum.photos/seed/modal/600/400'} 
                       alt={selectedProject.title}
                       width={600}
                       height={400}
-                      data-ai-hint={selectedProject.imageHint}
+                      data-ai-hint={selectedProject.imageHint || 'project image'}
                       className="w-full h-64 object-cover rounded-lg border-2 border-neon-yellow/30"
                     />
                     <div className="scanlines absolute inset-0 rounded-lg pointer-events-none opacity-20" />
@@ -363,7 +310,7 @@ const PortfolioSection = () => {
                     <div>
                       <h4 className="font-semibold text-neon-yellow mb-2 font-body">Tecnologías</h4>
                       <div className="flex flex-wrap gap-2">
-                        {selectedProject.technologies.map((tech, index) => (
+                        {selectedProject.technologies && selectedProject.technologies.map((tech, index) => (
                           <Badge key={index} variant="outline" className="border-neon-yellow/50 text-neon-yellow/80">
                             {tech}
                           </Badge>
@@ -385,6 +332,16 @@ const PortfolioSection = () => {
                         >
                           <ExternalLink size={16} />
                           VER PÁGINA WEB
+                        </Button>
+                      )}
+                       {selectedProject.codeUrl && (
+                        <Button 
+                          variant="outline"
+                          onClick={() => window.open(selectedProject.codeUrl, '_blank')}
+                          className="border-neon-yellow/50 text-neon-yellow/80"
+                        >
+                          <Code size={16} />
+                           VER CODIGO
                         </Button>
                       )}
                     </div>
