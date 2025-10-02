@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
+import { AuthProvider } from '@/hooks/useAuth.tsx';
 
 export const metadata: Metadata = {
   title:
@@ -47,10 +48,12 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased cyber-grain">
-        <TooltipProvider>
-          {children}
-          <Toaster />
-        </TooltipProvider>
+        <AuthProvider>
+          <TooltipProvider>
+            {children}
+            <Toaster />
+          </TooltipProvider>
+        </AuthProvider>
       </body>
     </html>
   );
