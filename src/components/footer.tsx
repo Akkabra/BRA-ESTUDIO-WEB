@@ -37,16 +37,23 @@ const Footer = () => {
     }
   ];
 
+  const quickLinks = [
+    { name: 'Inicio', href: '#inicio' },
+    { name: 'Servicios', href: '#servicios' },
+    { name: 'Portafolio', href: '#portafolio' },
+    { name: 'Contacto', href: '#contacto' },
+  ];
+
   return (
     <footer className="relative bg-cyber-black border-t border-neon-yellow/20 py-16 overflow-hidden">
       {/* Background decoration with moving stripes */}
-      <div className="absolute inset-0 opacity-10">
-        {[...Array(5)].map((_, i) => (
+      <div className="absolute inset-0 opacity-20">
+        {[...Array(10)].map((_, i) => (
           <div
             key={i}
             className="absolute w-full h-px bg-gradient-to-r from-transparent via-neon-yellow/60 to-transparent"
             style={{
-              top: `${20 + i * 20}%`,
+              top: `${10 + i * 10}%`,
               animation: `move-stripes ${8 + i * 2}s linear infinite`,
               animationDelay: `${i * 0.5}s`,
             }}
@@ -58,12 +65,30 @@ const Footer = () => {
       <div className="container mx-auto px-4 relative z-10 flex flex-col items-center text-center">
         
         {/* Logo */}
-        <div className="mb-6">
+        <div className="mb-4">
             <BraLogo className="h-16 w-auto neon-glow-subtle pixel-hover"/>
         </div>
 
+        {/* Slogan */}
+        <p className="text-neon-yellow font-body mb-6 text-sm md:text-base">
+          tu marca, sin ataduras de plantillas, así nace tu web
+        </p>
+
         {/* Divider */}
-        <div className="w-48 h-px bg-gradient-to-r from-transparent via-neon-yellow to-transparent mb-8 animate-pulse-fast"></div>
+        <div className="w-48 h-px bg-gradient-to-r from-transparent via-neon-yellow to-transparent mb-6 animate-pulse-fast"></div>
+
+        {/* Quick Links */}
+        <nav className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 mb-8 font-body text-sm text-text-desaturated">
+          {quickLinks.map((link, index) => (
+            <React.Fragment key={link.name}>
+              <a href={link.href} className="hover:text-neon-yellow hover:brightness-125 transition-all duration-300">
+                {link.name}
+              </a>
+              {index < quickLinks.length - 1 && <span className="text-neon-yellow/50">•</span>}
+            </React.Fragment>
+          ))}
+        </nav>
+
 
         {/* Social Media */}
         <div className="flex space-x-6 mb-8">
