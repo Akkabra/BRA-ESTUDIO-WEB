@@ -58,7 +58,7 @@ export default function PortfolioAdminPage() {
     const { toast } = useToast();
 
     const cloudinaryCloudName = 'dlbccebvx';
-    const cloudinaryUploadPreset = 'bra_upload';
+    const cloudinaryUploadPreset = 'ml_default';
 
     useEffect(() => {
         if (!authLoading) {
