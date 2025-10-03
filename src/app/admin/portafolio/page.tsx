@@ -22,7 +22,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PlusCircle, Edit, Trash2, Loader2, UploadCloud } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Loader2 } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '@/hooks/useAuth';
@@ -54,7 +54,6 @@ export default function PortfolioAdminPage() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState<Project | null>(null);
     const [formData, setFormData] = useState<Partial<Project>>({});
-    const [isUploading, setIsUploading] = useState(false);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -108,42 +107,6 @@ export default function PortfolioAdminPage() {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
     };
-    
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        setIsUploading(true);
-
-        const cloudinaryCloudName = 'dlbccebvx';
-        const cloudinaryUploadPreset = 'bra_upload';
-        const url = `https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`;
-        
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', cloudinaryUploadPreset);
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                body: formData,
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setFormData(prev => ({ ...prev, image: data.secure_url }));
-                toast({ title: "Imagen subida", description: "La imagen se ha subido correctamente." });
-            } else {
-                toast({ variant: "destructive", title: "Error de subida", description: data.error?.message || "No se pudo subir la imagen." });
-            }
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            toast({ variant: "destructive", title: "Error de red", description: "No se pudo conectar con el servicio de subida." });
-        } finally {
-            setIsUploading(false);
-        }
-    };
 
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -172,7 +135,7 @@ export default function PortfolioAdminPage() {
     if (authLoading || !user) {
         return (
             <div className="flex min-h-screen flex-col items-center justify-center bg-background text-neon-yellow space-y-4">
-                <div className='flex justify-center w-full'>
+                 <div className='flex justify-center w-full'>
                     <BraLogo className="h-20 w-auto mx-auto" />
                 </div>
                 <Loader2 className="h-16 w-16 animate-spin" />
@@ -274,22 +237,8 @@ export default function PortfolioAdminPage() {
                         <Input id="codeUrl" name="codeUrl" value={formData.codeUrl || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" />
                     </div>
                     <div className='grid gap-2'>
-                        <Label htmlFor="image" className="text-neon-yellow/80">Imagen</Label>
-                         <Input 
-                            id="image-upload" 
-                            type="file" 
-                            onChange={handleImageUpload} 
-                            className="bg-cyber-black/50 border-neon-yellow/30 file:bg-neon-yellow file:text-cyber-black file:border-0 file:px-4 file:py-2 file:mr-4 file:font-headline"
-                            disabled={isUploading}
-                        />
-
-                        {isUploading && (
-                           <div className="flex items-center gap-2 text-neon-yellow/80">
-                               <Loader2 className="animate-spin h-4 w-4" />
-                               <span>Subiendo imagen...</span>
-                           </div>
-                        )}
-
+                        <Label htmlFor="image" className="text-neon-yellow/80">URL de la Imagen</Label>
+                        <Input id="image" name="image" value={formData.image || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="https://ejemplo.com/imagen.png" />
                         {formData.image && (
                            <div className="mt-2 relative w-full h-32">
                              <Image src={formData.image} alt="Vista previa" fill className="object-contain rounded-md" />
@@ -300,7 +249,7 @@ export default function PortfolioAdminPage() {
                         <DialogClose asChild>
                             <Button type="button" variant="secondary">Cancelar</Button>
                         </DialogClose>
-                        <Button type="submit" variant="hero" disabled={isUploading}>
+                        <Button type="submit" variant="hero">
                             {editingProject ? 'Guardar Cambios' : 'Crear Proyecto'}
                         </Button>
                     </DialogFooter>
@@ -313,3 +262,4 @@ export default function PortfolioAdminPage() {
     
 
     
+
