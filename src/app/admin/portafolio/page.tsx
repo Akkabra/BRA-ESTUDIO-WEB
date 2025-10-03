@@ -22,10 +22,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PlusCircle, Edit, Trash2, Upload, Loader2, ArrowLeft } from 'lucide-react';
-import { db, storage } from '@/lib/firebase';
+import { PlusCircle, Edit, Trash2, Loader2 } from 'lucide-react';
+import { db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -53,8 +52,6 @@ export default function PortfolioAdminPage() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState<Project | null>(null);
     const [formData, setFormData] = useState<Partial<Project>>({});
-    const [uploading, setUploading] = useState(false);
-    const [uploadProgress, setUploadProgress] = useState(0);
 
     useEffect(() => {
         if (!authLoading) {
@@ -107,37 +104,6 @@ export default function PortfolioAdminPage() {
         }
     };
     
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
-            uploadImage(file);
-        }
-    };
-
-    const uploadImage = (file: File) => {
-        const storageRef = ref(storage, `portafolio/${Date.now()}_${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-
-        setUploading(true);
-        uploadTask.on('state_changed',
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setUploadProgress(progress);
-            },
-            (error) => {
-                console.error("Upload failed:", error);
-                alert("La subida de la imagen falló.");
-                setUploading(false);
-            },
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    setFormData(prev => ({ ...prev, image: downloadURL }));
-                    setUploading(false);
-                });
-            }
-        );
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
@@ -262,14 +228,8 @@ export default function PortfolioAdminPage() {
                         <Input id="codeUrl" name="codeUrl" value={formData.codeUrl || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" />
                     </div>
                     <div className='grid gap-2'>
-                        <Label htmlFor="image" className="text-neon-yellow/80">Imagen Principal</Label>
-                        <Input id="image" type="file" onChange={handleFileChange} className="bg-cyber-black/50 border-neon-yellow/30" accept="image/*" />
-                        {uploading && (
-                            <div className="flex items-center gap-2 text-sm text-neon-yellow">
-                                <Loader2 className="h-4 w-4 animate-spin"/>
-                                <span>Subiendo... {uploadProgress.toFixed(2)}%</span>
-                            </div>
-                        )}
+                        <Label htmlFor="image" className="text-neon-yellow/80">URL de la Imagen</Label>
+                        <Input id="image" name="image" value={formData.image || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="https://ejemplo.com/imagen.png" />
                         {formData.image && (
                            <div className="mt-2 relative w-full h-32">
                              <Image src={formData.image} alt="Vista previa" fill className="object-contain rounded-md" />
@@ -280,8 +240,8 @@ export default function PortfolioAdminPage() {
                         <DialogClose asChild>
                             <Button type="button" variant="secondary">Cancelar</Button>
                         </DialogClose>
-                        <Button type="submit" variant="hero" disabled={uploading}>
-                            {uploading ? 'Subiendo imagen...' : (editingProject ? 'Guardar Cambios' : 'Crear Proyecto')}
+                        <Button type="submit" variant="hero">
+                            {editingProject ? 'Guardar Cambios' : 'Crear Proyecto'}
                         </Button>
                     </DialogFooter>
                 </form>
