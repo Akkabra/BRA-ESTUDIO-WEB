@@ -22,7 +22,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PlusCircle, Edit, Trash2, Loader2 } from 'lucide-react';
+import { PlusCircle, Trash2, Loader2, Image as ImageIcon } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '@/hooks/useAuth';
@@ -172,9 +172,17 @@ export default function PortfolioAdminPage() {
               <BraLogo className="h-12 w-auto neon-glow-subtle group-hover:neon-glow-intense transition-all" />
               <span className="font-headline hidden md:inline">Volver al Sitio</span>
             </Link>
-          <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch flex-1 text-center" data-text="Admin Portafolio">
-            Admin Portafolio
-          </h1>
+          <div className="flex-1 flex justify-center items-center gap-4">
+            <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch" data-text="Admin Portafolio">
+                Admin Portafolio
+            </h1>
+            <Link href="/admin/hero-gallery" passHref>
+                <Button variant="outline" className="border-neon-yellow/50 text-neon-yellow/80 hover:bg-neon-yellow/10 hover:text-neon-yellow">
+                    <ImageIcon className="mr-2 h-4 w-4" />
+                    Gestionar Galería Hero
+                </Button>
+            </Link>
+          </div>
           <Button variant="hero" onClick={handleAddNew}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Añadir Nuevo Proyecto
@@ -257,7 +265,7 @@ export default function PortfolioAdminPage() {
                         <Label htmlFor="codeUrl" className="text-neon-yellow/80">URL del Repositorio</Label>
                         <Input id="codeUrl" name="codeUrl" value={formData.codeUrl || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" />
                     </div>
-                    <div className='grid gap-2'>
+                     <div className='grid gap-2'>
                         <Label htmlFor="image" className="text-neon-yellow/80">URL de la Imagen</Label>
                         <Input id="image" name="image" value={formData.image || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="https://ejemplo.com/imagen.png" />
                         {formData.image && (
@@ -283,6 +291,7 @@ export default function PortfolioAdminPage() {
     
 
     
+
 
 
 

@@ -3,24 +3,53 @@
 import { useState, useEffect } from 'react';
 import { BraLogo } from '@/components/bra-logo';
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { db } from '@/lib/firebase';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+
+interface HeroImage {
+  id: string;
+  imageUrl: string;
+  createdAt: any;
+}
 
 const HeroSection = () => {
-  const heroImages = PlaceHolderImages.filter(img =>
-    img.id.startsWith('hero-carousel')
-  );
+  const [heroImages, setHeroImages] = useState<HeroImage[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const imageInterval = setInterval(() => {
-      setCurrentImageIndex(prevIndex =>
-        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000); // Change image every 5 seconds
-
-    return () => {
-      clearInterval(imageInterval);
+    const fetchImages = async () => {
+      try {
+        const imagesCollection = collection(db, 'hero_backgrounds');
+        const q = query(imagesCollection, orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const imagesData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as HeroImage[];
+        setHeroImages(imagesData);
+      } catch (error) {
+        console.error("Error fetching hero images: ", error);
+      } finally {
+        setLoading(false);
+      }
     };
+
+    fetchImages();
+  }, []);
+
+  useEffect(() => {
+    if (heroImages.length > 1) {
+      const imageInterval = setInterval(() => {
+        setCurrentImageIndex(prevIndex =>
+          (prevIndex + 1) % heroImages.length
+        );
+      }, 5000); // Change image every 5 seconds
+
+      return () => {
+        clearInterval(imageInterval);
+      };
+    }
   }, [heroImages.length]);
 
   return (
@@ -30,19 +59,24 @@ const HeroSection = () => {
     >
       {/* Background Image Carousel */}
       <div className="absolute inset-0 z-0 h-screen w-full">
-        {heroImages.map((image, index) => (
-          <Image
-            key={image.id}
-            src={image.imageUrl}
-            alt={image.description}
-            fill
-            data-ai-hint={image.imageHint}
-            className={`object-cover transition-opacity duration-1000 ease-in-out ${
-              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-            priority={index === 0}
-          />
-        ))}
+        {!loading && heroImages.length > 0 ? (
+          heroImages.map((image, index) => (
+            <Image
+              key={image.id}
+              src={image.imageUrl}
+              alt="BRA ESTUDIO WEB Background"
+              fill
+              className={`object-cover transition-opacity duration-1000 ease-in-out ${
+                index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+              priority={index === 0}
+            />
+          ))
+        ) : (
+          <div className="w-full h-full bg-cyber-black flex items-center justify-center">
+            {loading && <Loader2 className="h-16 w-16 animate-spin text-neon-yellow" />}
+          </div>
+        )}
       </div>
       
       {/* Scanner Beam Effect */}
@@ -172,5 +206,9 @@ const HeroSection = () => {
     </section>
   );
 };
+
+// Add Loader2 to the import if it's not already there.
+// It seems it's not used in this version but good practice to have it for loading states.
+import { Loader2 } from 'lucide-react';
 
 export default HeroSection;
