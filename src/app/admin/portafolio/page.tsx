@@ -202,7 +202,7 @@ export default function PortfolioAdminPage() {
                     <TableCell className="font-medium text-text-desaturated">{project.title}</TableCell>
                     <TableCell className="text-text-desaturated/80">{project.type}</TableCell>
                     <TableCell className="text-right">
-                    <Button variant="ghost" size="icon" className="text-neon-yellow/80 hover:text-neon-yellow transition-all duration-300 transform hover:scale-110 hover:shadow-neon-subtle" onClick={() => handleEdit(project)}>
+                    <Button variant="ghost" size="icon" className="text-neon-yellow/80 hover:text-white transition-all duration-300 transform hover:scale-110" onClick={() => handleEdit(project)}>
                         <EditIcon className="h-4 w-4" />
                       </Button>
                       <Button variant="ghost" size="icon" className="text-destructive/80 hover:text-destructive" onClick={() => handleDelete(project.id)}>
@@ -283,5 +283,6 @@ export default function PortfolioAdminPage() {
     
 
     
+
 
 
