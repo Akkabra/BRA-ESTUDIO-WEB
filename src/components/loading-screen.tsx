@@ -11,6 +11,9 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
         isExiting && 'animate-pixel-dissolve-out'
       )}
     >
+      {/* Scanner Beam Effect */}
+      <div className="scanner-beam"></div>
+
       {/* Background Effects: Particles, Scanline, Grid */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Neon Particles */}
