@@ -22,13 +22,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { PlusCircle, Edit, Trash2, Loader2 } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Loader2, UploadCloud } from 'lucide-react';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { BraLogo } from '@/components/bra-logo';
+import { useToast } from '@/hooks/use-toast';
+
 
 interface Project {
     id: string;
@@ -52,6 +54,11 @@ export default function PortfolioAdminPage() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState<Project | null>(null);
     const [formData, setFormData] = useState<Partial<Project>>({});
+    const [isUploading, setIsUploading] = useState(false);
+    const { toast } = useToast();
+
+    const cloudinaryCloudName = 'dlbccebvx';
+    const cloudinaryUploadPreset = 'bra_upload';
 
     useEffect(() => {
         if (!authLoading) {
@@ -88,9 +95,10 @@ export default function PortfolioAdminPage() {
             try {
                 await deleteDoc(doc(db, "portafolio_proyectos", projectId));
                 await fetchProjects(); // Refresh list
+                toast({ title: "Proyecto eliminado", description: "El proyecto ha sido eliminado exitosamente." });
             } catch (error) {
                 console.error("Error deleting project: ", error);
-                alert("Error al eliminar el proyecto.");
+                toast({ variant: "destructive", title: "Error", description: "No se pudo eliminar el proyecto." });
             }
         }
     };
@@ -104,6 +112,37 @@ export default function PortfolioAdminPage() {
         }
     };
     
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', file);
+        uploadFormData.append('upload_preset', cloudinaryUploadPreset);
+
+        try {
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, {
+                method: 'POST',
+                body: uploadFormData,
+            });
+
+            if (!response.ok) {
+                throw new Error('Image upload failed');
+            }
+
+            const data = await response.json();
+            setFormData(prev => ({ ...prev, image: data.secure_url }));
+            toast({ title: "Imagen subida", description: "La imagen se ha subido correctamente." });
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            toast({ variant: "destructive", title: "Error de subida", description: "No se pudo subir la imagen. Inténtalo de nuevo." });
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
@@ -111,8 +150,10 @@ export default function PortfolioAdminPage() {
             if (editingProject) {
                 const projectDoc = doc(db, "portafolio_proyectos", editingProject.id);
                 await updateDoc(projectDoc, { ...formData, updatedAt: serverTimestamp() });
+                toast({ title: "Proyecto actualizado", description: "Los cambios se han guardado exitosamente." });
             } else {
                 await addDoc(collection(db, "portafolio_proyectos"), { ...formData, createdAt: serverTimestamp() });
+                toast({ title: "Proyecto creado", description: "El nuevo proyecto se ha añadido al portafolio." });
             }
             
             await fetchProjects();
@@ -121,7 +162,7 @@ export default function PortfolioAdminPage() {
             setFormData({});
         } catch (error) {
             console.error("Error saving project:", error);
-            alert("Error al guardar el proyecto.");
+            toast({ variant: "destructive", title: "Error", description: "No se pudo guardar el proyecto." });
         }
     };
 
@@ -228,8 +269,22 @@ export default function PortfolioAdminPage() {
                         <Input id="codeUrl" name="codeUrl" value={formData.codeUrl || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" />
                     </div>
                     <div className='grid gap-2'>
-                        <Label htmlFor="image" className="text-neon-yellow/80">URL de la Imagen</Label>
-                        <Input id="image" name="image" value={formData.image || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="https://ejemplo.com/imagen.png" />
+                        <Label htmlFor="image" className="text-neon-yellow/80">Imagen</Label>
+                         <Input 
+                            id="image-upload" 
+                            type="file" 
+                            onChange={handleImageUpload} 
+                            className="bg-cyber-black/50 border-neon-yellow/30 file:bg-neon-yellow file:text-cyber-black file:border-0 file:px-4 file:py-2 file:mr-4 file:font-headline"
+                            disabled={isUploading}
+                        />
+
+                        {isUploading && (
+                           <div className="flex items-center gap-2 text-neon-yellow/80">
+                               <Loader2 className="animate-spin h-4 w-4" />
+                               <span>Subiendo imagen...</span>
+                           </div>
+                        )}
+
                         {formData.image && (
                            <div className="mt-2 relative w-full h-32">
                              <Image src={formData.image} alt="Vista previa" fill className="object-contain rounded-md" />
@@ -240,7 +295,7 @@ export default function PortfolioAdminPage() {
                         <DialogClose asChild>
                             <Button type="button" variant="secondary">Cancelar</Button>
                         </DialogClose>
-                        <Button type="submit" variant="hero">
+                        <Button type="submit" variant="hero" disabled={isUploading}>
                             {editingProject ? 'Guardar Cambios' : 'Crear Proyecto'}
                         </Button>
                     </DialogFooter>
