@@ -45,6 +45,21 @@ interface Project {
     [key: string]: any;
 }
 
+const EditIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+    </svg>
+  );
+
 
 export default function PortfolioAdminPage() {
     const { user, loading: authLoading } = useAuth();
@@ -113,12 +128,17 @@ export default function PortfolioAdminPage() {
         e.preventDefault();
         
         try {
+            const dataToSave = {
+                ...formData,
+                updatedAt: serverTimestamp()
+            };
+    
             if (editingProject) {
                 const projectDoc = doc(db, "portafolio_proyectos", editingProject.id);
-                await updateDoc(projectDoc, { ...formData, updatedAt: serverTimestamp() });
+                await updateDoc(projectDoc, dataToSave);
                 toast({ title: "Proyecto actualizado", description: "Los cambios se han guardado exitosamente." });
             } else {
-                await addDoc(collection(db, "portafolio_proyectos"), { ...formData, createdAt: serverTimestamp() });
+                await addDoc(collection(db, "portafolio_proyectos"), { ...dataToSave, createdAt: serverTimestamp() });
                 toast({ title: "Proyecto creado", description: "El nuevo proyecto se ha añadido al portafolio." });
             }
             
@@ -131,6 +151,7 @@ export default function PortfolioAdminPage() {
             toast({ variant: "destructive", title: "Error", description: "No se pudo guardar el proyecto." });
         }
     };
+    
 
     if (authLoading || !user) {
         return (
@@ -181,8 +202,8 @@ export default function PortfolioAdminPage() {
                     <TableCell className="font-medium text-text-desaturated">{project.title}</TableCell>
                     <TableCell className="text-text-desaturated/80">{project.type}</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" className="text-neon-yellow/80 hover:text-neon-yellow" onClick={() => handleEdit(project)}>
-                        <Edit className="h-4 w-4" />
+                    <Button variant="ghost" size="icon" className="text-neon-yellow/80 hover:text-neon-yellow transition-all duration-300 transform hover:scale-110 hover:shadow-neon-subtle" onClick={() => handleEdit(project)}>
+                        <EditIcon className="h-4 w-4" />
                       </Button>
                       <Button variant="ghost" size="icon" className="text-destructive/80 hover:text-destructive" onClick={() => handleDelete(project.id)}>
                         <Trash2 className="h-4 w-4" />
@@ -262,4 +283,5 @@ export default function PortfolioAdminPage() {
     
 
     
+
 
