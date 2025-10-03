@@ -57,9 +57,6 @@ export default function PortfolioAdminPage() {
     const [isUploading, setIsUploading] = useState(false);
     const { toast } = useToast();
 
-    const cloudinaryCloudName = 'dlbccebvx';
-    const cloudinaryUploadPreset = 'ml_default';
-
     useEffect(() => {
         if (!authLoading) {
             if (user && user.email === 'braestudioweb@gmail.com') {
@@ -112,43 +109,40 @@ export default function PortfolioAdminPage() {
         }
     };
     
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
         setIsUploading(true);
-        
+
+        const cloudinaryCloudName = 'dlbccebvx';
+        const cloudinaryUploadPreset = 'bra_upload';
         const url = `https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`;
-        const xhr = new XMLHttpRequest();
-        const fd = new FormData();
         
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', cloudinaryUploadPreset);
 
-        // Event listeners to handle success or failure
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                setIsUploading(false);
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    // File uploaded successfully
-                    const response = JSON.parse(xhr.responseText);
-                    setFormData(prev => ({ ...prev, image: response.secure_url }));
-                    toast({ title: "Imagen subida", description: "La imagen se ha subido correctamente." });
-                } else {
-                    // Handle error
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        toast({ variant: "destructive", title: "Error de subida", description: response.error?.message || "No se pudo subir la imagen. Inténtalo de nuevo." });
-                    } catch (parseError) {
-                        toast({ variant: "destructive", title: "Error de subida", description: "Ocurrió un error inesperado al subir la imagen." });
-                    }
-                }
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setFormData(prev => ({ ...prev, image: data.secure_url }));
+                toast({ title: "Imagen subida", description: "La imagen se ha subido correctamente." });
+            } else {
+                toast({ variant: "destructive", title: "Error de subida", description: data.error?.message || "No se pudo subir la imagen." });
             }
-        };
-
-        fd.append('upload_preset', cloudinaryUploadPreset);
-        fd.append('file', file);
-        xhr.send(fd);
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            toast({ variant: "destructive", title: "Error de red", description: "No se pudo conectar con el servicio de subida." });
+        } finally {
+            setIsUploading(false);
+        }
     };
 
 
