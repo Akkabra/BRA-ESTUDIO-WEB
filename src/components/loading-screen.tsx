@@ -59,7 +59,7 @@ const LoadingScreen = ({ isExiting }: { isExiting?: boolean }) => {
         </p>
 
         <p className="font-headline text-xs text-neon-yellow/70 tracking-[0.2em] animate-pulse mt-4">
-            CARGANDO PROYECTO...
+            Desplegando BRA ESTUDIO WEB...
         </p>
 
       </div>
