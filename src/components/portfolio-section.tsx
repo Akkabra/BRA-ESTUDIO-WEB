@@ -122,7 +122,9 @@ const PortfolioSection = () => {
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <AnimatedTitle text="PORTAFOLIO" className="glitch" data-text="PORTAFOLIO"/>
+          <h2 className="text-4xl md:text-6xl font-headline font-bold text-neon-yellow mb-6 glitch" data-text="PORTAFOLIO">
+              PORTAFOLIO
+            </h2>
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
