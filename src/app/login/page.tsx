@@ -66,8 +66,8 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground cyber-grain p-4">
-        <div className="w-full max-w-sm text-center">
-            <BraLogo className="h-20 w-auto mx-auto mb-8" />
+        <div className="w-full max-w-sm text-center flex flex-col items-center">
+            <BraLogo className="h-20 w-auto mb-8" />
             <h1 className="text-3xl font-headline text-neon-yellow mb-4 glitch" data-text="Admin Login">
                 Admin Login
             </h1>
@@ -91,7 +91,7 @@ export default function LoginPage() {
                     <Button variant="outline" onClick={handleSignOut}>Cerrar Sesión</Button>
                 </div>
             ) : (
-                <form onSubmit={handleLogin} className="space-y-6 text-left">
+                <form onSubmit={handleLogin} className="space-y-6 text-left w-full">
                     <div className="grid w-full items-center gap-1.5">
                         <Label htmlFor="email" className="text-neon-yellow/80">Email</Label>
                         <Input 
