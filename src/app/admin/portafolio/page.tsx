@@ -133,7 +133,7 @@ export default function PortfolioAdminPage() {
                 setFormData(prev => ({ ...prev, image: data.secure_url }));
                 toast({ title: "Imagen subida", description: "La imagen se ha subido correctamente." });
             } else {
-                 throw new Error(data.error?.message || 'Image upload failed');
+                toast({ variant: "destructive", title: "Error de subida", description: data.error?.message || "No se pudo subir la imagen. Inténtalo de nuevo." });
             }
         } catch (error) {
             console.error('Error uploading image:', error);
@@ -306,3 +306,4 @@ export default function PortfolioAdminPage() {
     </div>
   );
 }
+    
