@@ -45,6 +45,9 @@ const HeroSection = () => {
         ))}
       </div>
       
+      {/* Scanner Beam Effect */}
+      <div className="scanner-beam"></div>
+      
       {/* Neon Particles */}
       <div className="absolute inset-0 z-[1] h-full w-full overflow-hidden">
         <div className="neon-particles"></div>
