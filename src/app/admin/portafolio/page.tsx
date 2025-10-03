@@ -127,16 +127,17 @@ export default function PortfolioAdminPage() {
                 body: uploadFormData,
             });
 
-            if (!response.ok) {
-                throw new Error('Image upload failed');
-            }
-
             const data = await response.json();
-            setFormData(prev => ({ ...prev, image: data.secure_url }));
-            toast({ title: "Imagen subida", description: "La imagen se ha subido correctamente." });
+
+            if (response.ok) {
+                setFormData(prev => ({ ...prev, image: data.secure_url }));
+                toast({ title: "Imagen subida", description: "La imagen se ha subido correctamente." });
+            } else {
+                 throw new Error(data.error?.message || 'Image upload failed');
+            }
         } catch (error) {
             console.error('Error uploading image:', error);
-            toast({ variant: "destructive", title: "Error de subida", description: "No se pudo subir la imagen. Inténtalo de nuevo." });
+            toast({ variant: "destructive", title: "Error de subida", description: (error as Error).message || "No se pudo subir la imagen. Inténtalo de nuevo." });
         } finally {
             setIsUploading(false);
         }
