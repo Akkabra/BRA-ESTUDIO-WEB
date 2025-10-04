@@ -48,6 +48,9 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased cyber-grain">
+        <a href="#main-content" className="skip-to-content-link">
+          Saltar al Contenido Principal
+        </a>
         <AuthProvider>
           <TooltipProvider>
             {children}

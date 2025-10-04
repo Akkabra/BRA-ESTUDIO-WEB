@@ -96,6 +96,35 @@ All colors MUST be HSL.
     overflow-y: scroll;
   }
 
+  /* Skip to content link styles */
+  .skip-to-content-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: -999;
+    padding: 1rem;
+    background-color: hsl(var(--cyber-black));
+    color: hsl(var(--neon-yellow));
+    border: 1px solid hsl(var(--neon-yellow));
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-family: 'Orbitron', monospace;
+  }
+
+  .skip-to-content-link:focus,
+  .skip-to-content-link:active {
+    left: 1rem;
+    top: 1rem;
+    width: auto;
+    height: auto;
+    overflow: auto;
+    z-index: 1000;
+  }
+
+
   /* Cyberpunk Base Styles */
   .cyber-grain {
     background-image: 

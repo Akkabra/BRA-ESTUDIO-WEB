@@ -39,7 +39,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation activeSection={activeSection} />
-      <main>
+      <main id="main-content">
         <ScrollspySection
           id="inicio"
           onInViewChange={(inView) => handleInViewChange(inView, 'inicio')}
