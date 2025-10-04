@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { CheckCircle, Code, Gem, Package, Smartphone, Rocket, Network } from 'lucide-react';
+import { CheckCircle, Code, Gem, Package, Smartphone, Rocket, Network, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 
@@ -352,10 +352,10 @@ const ServicesSection = () => {
         ) : activeService === 'branding' ? (
              <div className="relative flex h-[500px] w-full items-center justify-center">
                 <button onClick={() => handleBrandingNav((brandingActiveIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="absolute left-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-left-12">
-                  <CheckCircle size={48} />
+                  <ChevronLeft size={48} />
                 </button>
                 <button onClick={() => handleBrandingNav((brandingActiveIndex + 1) % mainServices.branding.length)} className="absolute right-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-right-12">
-                  <CheckCircle size={48} />
+                  <ChevronRight size={48} />
                 </button>
                 
                 <div className="relative h-full w-full max-w-sm flex items-center justify-center [transform-style:preserve-3d]">
@@ -538,5 +538,3 @@ const ServicesSection = () => {
 };
 
 export default ServicesSection;
-
-    
