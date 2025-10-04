@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
-import { BraLogo } from '@/components/bra-logo';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import {
@@ -144,7 +143,17 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
           </nav>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center justify-end z-50 flex-1">
+          <div className="md:hidden flex items-center justify-between z-50 flex-1">
+            <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')}>
+               <Image
+                src="/LOGODOS.png"
+                alt="BRA ESTUDIO WEB Logo"
+                width={150}
+                height={40}
+                className="h-6 w-auto"
+                priority
+              />
+            </a>
             <button
               className="text-text-desaturated hover:text-neon-yellow transition-colors relative h-8 w-8"
               onClick={() => setIsOpen(!isOpen)}
@@ -163,10 +172,7 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
         )}
       >
         <div className="flex h-full flex-col items-center justify-center space-y-10 text-center">
-        <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="z-50">
-            <BraLogo className="h-16 w-auto" />
-        </a>
-          <nav className="flex flex-col items-center space-y-8 pt-20">
+          <nav className="flex flex-col items-center space-y-8">
             {allNavLinks.map((link, index) => (
               <a
                 key={link.name}
