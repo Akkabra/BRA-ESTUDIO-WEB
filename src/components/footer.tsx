@@ -107,10 +107,9 @@ const Footer = () => {
                   flex items-center justify-center text-text-desaturated 
                   transition-all duration-300 group
                   hover:border-neon-yellow hover:shadow-neon-subtle hover:scale-110
-                  ${social.color}
                 `}
               >
-                <IconComponent className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                <IconComponent className="w-6 h-6 group-hover:scale-110 transition-transform group-hover:glitch-text" />
               </a>
             );
           })}
