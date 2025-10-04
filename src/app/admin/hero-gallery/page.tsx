@@ -22,6 +22,7 @@ import Image from 'next/image';
 import { BraLogo } from '@/components/bra-logo';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
+import { optimizeCloudinaryImage } from '@/lib/utils';
 
 interface HeroImage {
     id: string;
@@ -137,7 +138,7 @@ export default function HeroGalleryAdminPage() {
                 {images.map((image) => (
                   <Card key={image.id} className="relative group overflow-hidden border-neon-yellow/20 bg-cyber-black">
                      <CardContent className="p-0">
-                        <Image src={image.imageUrl} alt="Imagen de fondo del hero" width={400} height={225} className="w-full h-40 object-cover" />
+                        <Image src={optimizeCloudinaryImage(image.imageUrl)} alt="Imagen de fondo del hero" width={400} height={225} className="w-full h-40 object-cover" />
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                             <Button variant="destructive" size="icon" onClick={() => handleDelete(image.id)}>
                                 <Trash2 className="h-5 w-5" />
@@ -171,7 +172,7 @@ export default function HeroGalleryAdminPage() {
                         <Input id="imageUrl" name="imageUrl" value={formData.imageUrl} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="https://ejemplo.com/imagen.png" required />
                         {formData.imageUrl && (
                            <div className="mt-2 relative w-full h-32">
-                             <Image src={formData.imageUrl} alt="Vista previa" fill className="object-contain rounded-md" />
+                             <Image src={optimizeCloudinaryImage(formData.imageUrl)} alt="Vista previa" fill className="object-contain rounded-md" />
                            </div>
                         )}
                     </div>

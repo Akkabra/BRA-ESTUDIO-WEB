@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { ExternalLink, Code, Search } from 'lucide-react';
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { cn, optimizeCloudinaryImage } from '@/lib/utils';
 import { db } from '@/lib/firebase';
 import { collection, getDocs } from "firebase/firestore";
 
@@ -198,7 +198,7 @@ const PortfolioSection = () => {
                           className="relative overflow-hidden rounded-t-lg"
                         >
                           <Image 
-                            src={project.image || 'https://picsum.photos/seed/default/600/338'} 
+                            src={optimizeCloudinaryImage(project.image || 'https://picsum.photos/seed/default/600/338')} 
                             alt={project.title}
                             width={600}
                             height={338}
@@ -291,7 +291,7 @@ const PortfolioSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 max-h-[80vh] overflow-y-auto">
                   <div className="relative">
                     <Image 
-                      src={selectedProject.image || 'https://picsum.photos/seed/modal/600/400'} 
+                      src={optimizeCloudinaryImage(selectedProject.image || 'https://picsum.photos/seed/modal/600/400')} 
                       alt={selectedProject.title}
                       width={600}
                       height={400}

@@ -5,6 +5,7 @@ import { BraLogo } from '@/components/bra-logo';
 import Image from 'next/image';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { optimizeCloudinaryImage } from '@/lib/utils';
 
 interface HeroImage {
   id: string;
@@ -63,7 +64,7 @@ const HeroSection = () => {
           heroImages.map((image, index) => (
             <Image
               key={image.id}
-              src={image.imageUrl}
+              src={optimizeCloudinaryImage(image.imageUrl)}
               alt="BRA ESTUDIO WEB Background"
               fill
               className={`object-cover transition-opacity duration-1000 ease-in-out ${

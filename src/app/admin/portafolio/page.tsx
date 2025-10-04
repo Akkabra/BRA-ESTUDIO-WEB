@@ -30,6 +30,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { BraLogo } from '@/components/bra-logo';
 import { useToast } from '@/hooks/use-toast';
+import { optimizeCloudinaryImage } from '@/lib/utils';
 
 
 interface Project {
@@ -66,7 +67,7 @@ export default function PortfolioAdminPage() {
     const router = useRouter();
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] useState(false);
     const [editingProject, setEditingProject] = useState<Project | null>(null);
     const [formData, setFormData] = useState<Partial<Project>>({});
     const { toast } = useToast();
@@ -284,7 +285,7 @@ export default function PortfolioAdminPage() {
                         <Input id="image" name="image" value={formData.image || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="https://ejemplo.com/imagen.png" />
                         {formData.image && (
                            <div className="mt-2 relative w-full h-32">
-                             <Image src={formData.image} alt="Vista previa" fill className="object-contain rounded-md" />
+                             <Image src={optimizeCloudinaryImage(formData.image)} alt="Vista previa" fill className="object-contain rounded-md" />
                            </div>
                         )}
                     </div>
@@ -305,6 +306,7 @@ export default function PortfolioAdminPage() {
     
 
     
+
 
 
 
