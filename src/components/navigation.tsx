@@ -53,16 +53,9 @@ const NavigationContent = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="hidden md:inline-block flex-shrink-0 z-50">
-            <BraLogo className="h-16 w-auto" style={{ height: '55px'}}/>
+          <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="flex-shrink-0 z-50 md:flex-initial flex-1 md:flex-none">
+            <BraLogo className="h-12 md:h-14 w-auto"/>
           </a>
-
-           {/* Mobile Logo (centered) */}
-          <div className="md:hidden flex-1 flex justify-center">
-            <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="z-50">
-              <BraLogo className="h-16 w-auto" style={{ height: '45px' }} />
-            </a>
-          </div>
 
           {/* Desktop Menu (Centered) */}
           <nav className="hidden md:flex flex-1 items-center justify-center gap-x-10">
@@ -148,6 +141,9 @@ const NavigationContent = () => {
         )}
       >
         <div className="flex h-full flex-col items-center justify-center space-y-10 text-center">
+        <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="absolute top-20 z-50">
+            <BraLogo className="h-16 w-auto" />
+        </a>
           <nav className="flex flex-col items-center space-y-8 pt-20">
             {[...mainLinks.slice(0,1), {name: 'Servicios', href: '#servicios'}, ...mainLinks.slice(1)].map((link, index) => (
               <a
