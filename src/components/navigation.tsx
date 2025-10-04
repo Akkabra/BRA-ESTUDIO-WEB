@@ -52,10 +52,9 @@ const NavigationContent = () => {
     <>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="flex-shrink-0 z-50 md:flex-initial flex-1 md:flex-none">
-            <BraLogo className="h-12 md:h-14 w-auto"/>
-          </a>
+          <div className="flex-shrink-0 z-50">
+            {/* Logo eliminado */}
+          </div>
 
           {/* Desktop Menu (Centered) */}
           <nav className="hidden md:flex flex-1 items-center justify-center gap-x-10">
@@ -122,7 +121,7 @@ const NavigationContent = () => {
           </nav>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center justify-end z-50">
+          <div className="md:hidden flex items-center justify-end z-50 flex-1">
             <button
               className="text-text-desaturated hover:text-neon-yellow transition-colors relative h-8 w-8"
               onClick={() => setIsOpen(!isOpen)}
