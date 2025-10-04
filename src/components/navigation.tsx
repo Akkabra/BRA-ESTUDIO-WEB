@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -54,7 +55,14 @@ const NavigationContent = () => {
         <div className="flex items-center justify-between h-20">
           <div className="hidden md:block flex-shrink-0 z-50">
             <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="pixel-nav-link">
-                <BraLogo className="h-12 w-auto neon-glow-subtle transition-all duration-300 hover:neon-glow-intense" />
+                <Image
+                    src="/LOGODOS.png"
+                    alt="BRA ESTUDIO WEB Logo"
+                    width={150}
+                    height={40}
+                    className="h-12 w-auto neon-glow-subtle transition-all duration-300 hover:neon-glow-intense"
+                    priority
+                />
             </a>
           </div>
 
@@ -142,7 +150,7 @@ const NavigationContent = () => {
         )}
       >
         <div className="flex h-full flex-col items-center justify-center space-y-10 text-center">
-        <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="absolute top-20 z-50">
+        <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="z-50">
             <BraLogo className="h-16 w-auto" />
         </a>
           <nav className="flex flex-col items-center space-y-8 pt-20">
