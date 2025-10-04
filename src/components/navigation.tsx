@@ -148,10 +148,7 @@ const NavigationContent = () => {
         )}
       >
         <div className="flex h-full flex-col items-center justify-center space-y-10 text-center">
-            <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="absolute top-5">
-              <BraLogo className="h-20 w-auto"/>
-            </a>
-          <nav className="flex flex-col items-center space-y-8">
+          <nav className="flex flex-col items-center space-y-8 pt-20">
             {[...mainLinks.slice(0,1), {name: 'Servicios', href: '#servicios'}, ...mainLinks.slice(1)].map((link, index) => (
               <a
                 key={link.name}
