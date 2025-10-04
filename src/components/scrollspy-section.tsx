@@ -25,13 +25,21 @@ const ScrollspySection = ({
     onInViewChange(inView, id);
   }, [inView, id, onInViewChange]);
 
+  const { ref: animationRef, inView: animationInView } = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
+
   return (
     <div
       id={id}
-      ref={ref}
+      ref={(node) => {
+        ref(node);
+        animationRef(node);
+      }}
       className={cn(
         'transition-all duration-700 ease-out',
-        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
+        animationInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
         className
       )}
     >

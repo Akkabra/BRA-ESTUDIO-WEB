@@ -8,11 +8,12 @@ import PortfolioSection from '@/components/portfolio-section';
 import ContactSection from '@/components/contact-section';
 import Footer from '@/components/footer';
 import LoadingScreen from '@/components/loading-screen';
-import AnimatedSection from '@/components/animated-section';
+import ScrollspySection from '@/components/scrollspy-section';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [exiting, setExiting] = useState(false);
+  const [activeSection, setActiveSection] = useState('inicio');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,26 +26,44 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleInViewChange = (inView: boolean, id: string) => {
+    if (inView) {
+      setActiveSection(id);
+    }
+  };
+
   if (loading) {
     return <LoadingScreen isExiting={exiting} />;
   }
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      <Navigation activeSection={activeSection} />
       <main>
-        <AnimatedSection>
+        <ScrollspySection
+          id="inicio"
+          onInViewChange={(inView) => handleInViewChange(inView, 'inicio')}
+        >
           <HeroSection />
-        </AnimatedSection>
-        <AnimatedSection>
+        </ScrollspySection>
+        <ScrollspySection
+          id="servicios"
+          onInViewChange={(inView) => handleInViewChange(inView, 'servicios')}
+        >
           <ServicesSection />
-        </AnimatedSection>
-        <AnimatedSection>
+        </ScrollspySection>
+        <ScrollspySection
+          id="portafolio"
+          onInViewChange={(inView) => handleInViewChange(inView, 'portafolio')}
+        >
           <PortfolioSection />
-        </AnimatedSection>
-        <AnimatedSection>
+        </ScrollspySection>
+        <ScrollspySection
+          id="contacto"
+          onInViewChange={(inView) => handleInViewChange(inView, 'contacto')}
+        >
           <ContactSection />
-        </AnimatedSection>
+        </ScrollspySection>
       </main>
       <Footer />
     </div>

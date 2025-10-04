@@ -323,6 +323,10 @@ All colors MUST be HSL.
     color: hsl(var(--neon-yellow));
   }
   
+  .active-link {
+    color: hsl(var(--neon-yellow));
+    text-shadow: 0 0 5px hsl(var(--neon-yellow) / 0.7);
+  }
 
   /* Moving Stripes Animation */
   @keyframes move-stripes {

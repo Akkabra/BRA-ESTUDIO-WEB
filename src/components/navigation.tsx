@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-const NavigationContent = () => {
+const NavigationContent = ({ activeSection }: { activeSection: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isServicesMenuOpen, setServicesMenuOpen] = useState(false);
 
@@ -42,6 +42,13 @@ const NavigationContent = () => {
     { name: 'Portafolio', href: '#portafolio' },
     { name: 'Contacto', href: '#contacto' },
   ];
+  
+  const allNavLinks = [
+    { name: 'Inicio', href: '#inicio' },
+    { name: 'Servicios', href: '#servicios' },
+    { name: 'Portafolio', href: '#portafolio' },
+    { name: 'Contacto', href: '#contacto' },
+  ];
 
   const services = [
     { name: 'Desarrollo Web', description: 'Soluciones web a medida', animation: 'animate-module-enter-1' },
@@ -54,16 +61,16 @@ const NavigationContent = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <div className="hidden md:block flex-shrink-0 z-50">
-            <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="pixel-nav-link">
-                <Image
-                    src="/LOGODOS.png"
-                    alt="BRA ESTUDIO WEB Logo"
-                    width={150}
-                    height={40}
-                    className="h-6 w-auto"
-                    priority
-                />
-            </a>
+             <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')}>
+              <Image
+                src="/LOGODOS.png"
+                alt="BRA ESTUDIO WEB Logo"
+                width={150}
+                height={40}
+                className="h-6 w-auto"
+                priority
+              />
+             </a>
           </div>
 
           {/* Desktop Menu (Centered) */}
@@ -73,7 +80,9 @@ const NavigationContent = () => {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  className="font-headline text-text-desaturated transition-all duration-300 relative pixel-nav-link"
+                  className={cn("font-headline text-text-desaturated transition-all duration-300 relative pixel-nav-link", {
+                    'active-link': activeSection === link.href.substring(1)
+                  })}
                 >
                   <span className="link-text">{link.name}</span>
                 </a>
@@ -84,7 +93,9 @@ const NavigationContent = () => {
                 <button
                   onMouseEnter={() => setServicesMenuOpen(true)}
                   onMouseLeave={() => setServicesMenuOpen(false)}
-                  className="font-headline text-text-desaturated transition-all duration-300 flex items-center gap-1 group cursor-pointer relative hover:text-neon-yellow focus:outline-none"
+                  className={cn("font-headline text-text-desaturated transition-all duration-300 flex items-center gap-1 group cursor-pointer relative hover:text-neon-yellow focus:outline-none", {
+                    'active-link': activeSection === 'servicios'
+                  })}
                 >
                   <span>Servicios</span>
                   <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180" />
@@ -123,7 +134,9 @@ const NavigationContent = () => {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  className="font-headline text-text-desaturated transition-all duration-300 relative pixel-nav-link"
+                  className={cn("font-headline text-text-desaturated transition-all duration-300 relative pixel-nav-link", {
+                    'active-link': activeSection === link.href.substring(1)
+                  })}
                 >
                    <span className="link-text">{link.name}</span>
                 </a>
@@ -154,12 +167,14 @@ const NavigationContent = () => {
             <BraLogo className="h-16 w-auto" />
         </a>
           <nav className="flex flex-col items-center space-y-8 pt-20">
-            {[...mainLinks.slice(0,1), {name: 'Servicios', href: '#servicios'}, ...mainLinks.slice(1)].map((link, index) => (
+            {allNavLinks.map((link, index) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
-                className="text-3xl font-headline text-text-desaturated hover:text-neon-yellow transition-transform duration-300 hover:scale-110 animate-fade-in-up"
+                className={cn("text-3xl font-headline text-text-desaturated hover:text-neon-yellow transition-transform duration-300 hover:scale-110 animate-fade-in-up", {
+                  'active-link': activeSection === link.href.substring(1)
+                })}
                 style={{ animationDelay: `${index * 100 + 300}ms`, animationFillMode: 'backwards' }}
               >
                 {link.name}
@@ -173,7 +188,7 @@ const NavigationContent = () => {
 };
 
 
-const Navigation = () => {
+const Navigation = ({ activeSection }: { activeSection: string }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -191,7 +206,7 @@ const Navigation = () => {
         isScrolled ? 'bg-cyber-black/80 backdrop-blur-lg border-b border-neon-yellow/20' : 'bg-transparent pt-2'
       )}
     >
-      <NavigationContent/>
+      <NavigationContent activeSection={activeSection}/>
     </header>
   )
 }
