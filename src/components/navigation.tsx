@@ -52,8 +52,10 @@ const NavigationContent = () => {
     <>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          <div className="flex-shrink-0 z-50">
-            {/* Logo eliminado */}
+          <div className="hidden md:block flex-shrink-0 z-50">
+            <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')} className="pixel-nav-link">
+                <BraLogo className="h-12 w-auto neon-glow-subtle transition-all duration-300 hover:neon-glow-intense" />
+            </a>
           </div>
 
           {/* Desktop Menu (Centered) */}
