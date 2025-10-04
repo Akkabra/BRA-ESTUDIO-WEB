@@ -135,8 +135,8 @@ const PortfolioSection = () => {
             </motion.p>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-            <div className="flex flex-wrap gap-3">
+          <div className="flex flex-col md:flex-row flex-wrap justify-between items-center mb-12 gap-6">
+            <div className="flex flex-wrap gap-3 justify-center">
               {filterTypes.map((type) => (
                 <button
                   key={type.key}
@@ -153,7 +153,7 @@ const PortfolioSection = () => {
               ))}
             </div>
 
-            <div className="relative">
+            <div className="relative w-full md:w-auto">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-desaturated w-4 h-4 z-10" />
               <input
                 type="text"
@@ -162,7 +162,7 @@ const PortfolioSection = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onFocus={() => setIsSearching(true)}
                 onBlur={() => setIsSearching(false)}
-                className="pl-10 pr-4 py-2 bg-surface-dark/70 border border-neon-yellow/30 rounded-md text-text-desaturated placeholder-text-desaturated/60 focus:border-neon-yellow focus:outline-none focus:shadow-neon-subtle transition-all duration-300 w-64 font-body"
+                className="pl-10 pr-4 py-2 bg-surface-dark/70 border border-neon-yellow/30 rounded-md text-text-desaturated placeholder-text-desaturated/60 focus:border-neon-yellow focus:outline-none focus:shadow-neon-subtle transition-all duration-300 w-full md:w-64 font-body"
               />
                <div className={cn(
                 "absolute inset-0 border-neon-yellow/50 rounded-md pointer-events-none transition-all duration-300",
@@ -266,7 +266,7 @@ const PortfolioSection = () => {
       <AnimatePresence>
       {selectedProject && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -275,12 +275,12 @@ const PortfolioSection = () => {
           
           <motion.div layoutId={`card-container-${selectedProject.id}`} className="relative z-10 w-full max-w-md md:max-w-4xl">
             <Dialog open onOpenChange={() => setSelectedProject(null)}>
-              <DialogContent className="max-w-md md:max-w-4xl bg-surface-dark border border-neon-yellow/30 text-text-desaturated p-0 overflow-hidden" 
+              <DialogContent className="w-full max-w-md md:max-w-4xl bg-surface-dark border border-neon-yellow/30 text-text-desaturated p-0 overflow-hidden" 
                  style={{ 
                     backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'52\' height=\'52\' viewBox=\'0 0 52 52\'%3E%3Cpath fill=\'hsl(46 93% 51% / 0.02)\' d=\'M0 17.8V0h17.8a26 26 0 0 1 0 52H0V34.2A26 26 0 0 1 0 0zM52 0v17.8a26 26 0 0 1 0 34.2V52H34.2a26 26 0 0 1 0-52H52z\'/%3E%3C/svg%3E")'
                   }}
               >
-                <DialogHeader className="p-6">
+                <DialogHeader className="p-6 pb-0">
                   <motion.div layoutId={`title-${selectedProject.id}`}>
                     <DialogTitle className="text-3xl font-headline text-neon-yellow mb-2 glitch" data-text={selectedProject.title}>
                       {selectedProject.title}
@@ -288,7 +288,7 @@ const PortfolioSection = () => {
                   </motion.div>
                 </DialogHeader>
                 
-                <div className="grid md:grid-cols-2 gap-6 p-6 pt-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 max-h-[80vh] overflow-y-auto">
                   <div className="relative">
                     <Image 
                       src={selectedProject.image || 'https://picsum.photos/seed/modal/600/400'} 
@@ -296,7 +296,7 @@ const PortfolioSection = () => {
                       width={600}
                       height={400}
                       data-ai-hint={selectedProject.imageHint || 'project image'}
-                      className="w-full h-64 object-cover rounded-lg border-2 border-neon-yellow/30"
+                      className="w-full h-auto object-cover rounded-lg border-2 border-neon-yellow/30"
                     />
                     <div className="scanlines absolute inset-0 rounded-lg pointer-events-none opacity-20" />
                   </div>
@@ -325,12 +325,12 @@ const PortfolioSection = () => {
                       <p className="text-text-desaturated font-body">{selectedProject.developmentTime}</p>
                     </div>
                     
-                    <div className="flex gap-3 pt-4">
+                    <div className="flex flex-wrap gap-3 pt-4">
                       {selectedProject.liveUrl && (
                         <Button 
                           variant="neon" 
                           onClick={() => window.open(selectedProject.liveUrl, '_blank')}
-                          className="animate-pulse"
+                          className="animate-pulse w-full sm:w-auto"
                         >
                           <ExternalLink size={16} />
                           VER PÁGINA WEB
@@ -340,7 +340,7 @@ const PortfolioSection = () => {
                         <Button 
                           variant="outline"
                           onClick={() => window.open(selectedProject.codeUrl, '_blank')}
-                          className="border-neon-yellow/50 text-neon-yellow/80"
+                          className="border-neon-yellow/50 text-neon-yellow/80 w-full sm:w-auto"
                         >
                           <Code size={16} />
                            VER CODIGO
