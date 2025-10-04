@@ -112,15 +112,15 @@ export default function HeroGalleryAdminPage() {
     return (
     <div className="min-h-screen bg-background text-foreground cyber-grain p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto">
-        <header className="flex justify-between items-center mb-8 gap-4">
+        <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <Link href="/admin/portafolio" className="flex items-center gap-2 text-neon-yellow hover:text-white transition-colors group">
-              <BraLogo className="h-12 w-auto neon-glow-subtle group-hover:neon-glow-intense transition-all" />
+              <BraLogo className="h-10 w-auto neon-glow-subtle group-hover:neon-glow-intense transition-all" />
               <span className="font-headline hidden md:inline">Admin Portafolio</span>
             </Link>
           <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch flex-1 text-center" data-text="Galería Hero">
             Galería Hero
           </h1>
-          <Button variant="hero" onClick={handleAddNew}>
+          <Button variant="hero" onClick={handleAddNew} className="w-full md:w-auto">
             <PlusCircle className="mr-2 h-4 w-4" />
             Añadir Nueva Imagen
           </Button>
@@ -159,7 +159,7 @@ export default function HeroGalleryAdminPage() {
       </div>
       
        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogContent className="max-w-md bg-surface-dark border border-neon-yellow/30 text-text-desaturated">
+            <DialogContent className="w-full max-w-[95vw] md:max-w-md bg-surface-dark border border-neon-yellow/30 text-text-desaturated">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-headline text-neon-yellow">
                         Añadir Nueva Imagen al Hero
@@ -175,11 +175,11 @@ export default function HeroGalleryAdminPage() {
                            </div>
                         )}
                     </div>
-                    <DialogFooter className="mt-4">
+                    <DialogFooter className="mt-4 flex-col sm:flex-row gap-2">
                         <DialogClose asChild>
-                            <Button type="button" variant="secondary">Cancelar</Button>
+                            <Button type="button" variant="secondary" className="w-full sm:w-auto">Cancelar</Button>
                         </DialogClose>
-                        <Button type="submit" variant="hero">
+                        <Button type="submit" variant="hero" className="w-full sm:w-auto">
                             Añadir Imagen
                         </Button>
                     </DialogFooter>

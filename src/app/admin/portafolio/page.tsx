@@ -167,66 +167,80 @@ export default function PortfolioAdminPage() {
     return (
     <div className="min-h-screen bg-background text-foreground cyber-grain p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto">
-        <header className="flex justify-between items-center mb-8">
-            <Link href="/" className="flex items-center gap-2 text-neon-yellow hover:text-white transition-colors group">
-              <BraLogo className="h-12 w-auto neon-glow-subtle group-hover:neon-glow-intense transition-all" />
-              <span className="font-headline hidden md:inline">Volver al Sitio</span>
-            </Link>
-          <div className="flex-1 flex justify-center items-center gap-4">
-            <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch" data-text="Admin Portafolio">
-                Admin Portafolio
-            </h1>
-            <Link href="/admin/hero-gallery" passHref>
-                <Button variant="outline" className="border-neon-yellow/50 text-neon-yellow/80 hover:bg-neon-yellow/10 hover:text-neon-yellow">
-                    <ImageIcon className="mr-2 h-4 w-4" />
-                    Gestionar Galería Hero
+      <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div className="flex items-center justify-between w-full md:w-auto">
+                <Link href="/" className="flex items-center gap-2 text-neon-yellow hover:text-white transition-colors group">
+                    <BraLogo className="h-10 w-auto neon-glow-subtle group-hover:neon-glow-intense transition-all" />
+                    <span className="font-headline hidden md:inline">Volver al Sitio</span>
+                </Link>
+                <div className="md:hidden">
+                    <Button variant="hero" onClick={handleAddNew}>
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Añadir
+                    </Button>
+                </div>
+            </div>
+            
+            <div className="flex-1 flex flex-col md:flex-row justify-center items-center gap-4 w-full">
+                <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch text-center" data-text="Admin Portafolio">
+                    Admin Portafolio
+                </h1>
+                <Link href="/admin/hero-gallery" passHref>
+                    <Button variant="outline" className="border-neon-yellow/50 text-neon-yellow/80 hover:bg-neon-yellow/10 hover:text-neon-yellow w-full md:w-auto">
+                        <ImageIcon className="mr-2 h-4 w-4" />
+                        Galería Hero
+                    </Button>
+                </Link>
+            </div>
+
+            <div className="hidden md:block">
+                <Button variant="hero" onClick={handleAddNew}>
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Añadir Nuevo Proyecto
                 </Button>
-            </Link>
-          </div>
-          <Button variant="hero" onClick={handleAddNew}>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Añadir Nuevo Proyecto
-          </Button>
+            </div>
         </header>
 
-        <div className="bg-surface-dark/90 border border-neon-yellow/30 p-4 rounded-lg">
+        <div className="bg-surface-dark/90 border border-neon-yellow/30 rounded-lg overflow-hidden">
           {loading ? (
             <div className="flex justify-center items-center py-8">
                 <Loader2 className="h-8 w-8 animate-spin text-neon-yellow"/>
                 <p className="ml-4 text-neon-yellow">Cargando proyectos...</p>
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow className="border-b-neon-yellow/20 hover:bg-surface-dark/50">
-                  <TableHead className="text-neon-yellow font-headline">Título</TableHead>
-                  <TableHead className="text-neon-yellow font-headline">Tipo</TableHead>
-                  <TableHead className="text-right text-neon-yellow font-headline">Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {projects.map((project) => (
-                  <TableRow key={project.id} className="border-b-neon-yellow/10 hover:bg-neon-yellow/5">
-                    <TableCell className="font-medium text-text-desaturated">{project.title}</TableCell>
-                    <TableCell className="text-text-desaturated/80">{project.type}</TableCell>
-                    <TableCell className="text-right">
-                    <Button variant="ghost" size="icon" className="text-neon-yellow/80 hover:text-white transition-all duration-300 transform hover:scale-110" onClick={() => handleEdit(project)}>
-                        <EditIcon className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="text-destructive/80 hover:text-destructive" onClick={() => handleDelete(project.id)}>
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <div className="overflow-x-auto">
+                <Table>
+                <TableHeader>
+                    <TableRow className="border-b-neon-yellow/20 hover:bg-surface-dark/50">
+                    <TableHead className="text-neon-yellow font-headline">Título</TableHead>
+                    <TableHead className="text-neon-yellow font-headline">Tipo</TableHead>
+                    <TableHead className="text-right text-neon-yellow font-headline">Acciones</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {projects.map((project) => (
+                    <TableRow key={project.id} className="border-b-neon-yellow/10 hover:bg-neon-yellow/5">
+                        <TableCell className="font-medium text-text-desaturated whitespace-nowrap">{project.title}</TableCell>
+                        <TableCell className="text-text-desaturated/80">{project.type}</TableCell>
+                        <TableCell className="text-right">
+                        <Button variant="ghost" size="icon" className="text-neon-yellow/80 hover:text-white transition-all duration-300 transform hover:scale-110" onClick={() => handleEdit(project)}>
+                            <EditIcon className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="text-destructive/80 hover:text-destructive" onClick={() => handleDelete(project.id)}>
+                            <Trash2 className="h-4 w-4" />
+                        </Button>
+                        </TableCell>
+                    </TableRow>
+                    ))}
+                </TableBody>
+                </Table>
+            </div>
           )}
         </div>
       </div>
       
        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogContent className="max-w-md md:max-w-2xl bg-surface-dark border border-neon-yellow/30 text-text-desaturated">
+            <DialogContent className="w-full max-w-[95vw] md:max-w-2xl bg-surface-dark border border-neon-yellow/30 text-text-desaturated">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-headline text-neon-yellow">
                         {editingProject ? 'Editar Proyecto' : 'Añadir Nuevo Proyecto'}
@@ -274,11 +288,11 @@ export default function PortfolioAdminPage() {
                            </div>
                         )}
                     </div>
-                    <DialogFooter className="mt-4">
+                    <DialogFooter className="mt-4 flex-col sm:flex-row gap-2">
                         <DialogClose asChild>
-                            <Button type="button" variant="secondary">Cancelar</Button>
+                            <Button type="button" variant="secondary" className="w-full sm:w-auto">Cancelar</Button>
                         </DialogClose>
-                        <Button type="submit" variant="hero">
+                        <Button type="submit" variant="hero" className="w-full sm:w-auto">
                             {editingProject ? 'Guardar Cambios' : 'Crear Proyecto'}
                         </Button>
                     </DialogFooter>
@@ -291,6 +305,7 @@ export default function PortfolioAdminPage() {
     
 
     
+
 
 
 
