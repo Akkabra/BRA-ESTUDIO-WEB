@@ -1,14 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Navigation from '@/components/navigation';
 import HeroSection from '@/components/hero-section';
 import ServicesSection from '@/components/services-section';
-import PortfolioSection from '@/components/portfolio-section';
-import ContactSection from '@/components/contact-section';
 import Footer from '@/components/footer';
 import LoadingScreen from '@/components/loading-screen';
 import ScrollspySection from '@/components/scrollspy-section';
+
+// Lazy load a los componentes más pesados
+const PortfolioSection = dynamic(() => import('@/components/portfolio-section'));
+const ContactSection = dynamic(() => import('@/components/contact-section'));
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
