@@ -147,40 +147,21 @@ const HeroSection = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="
-                relative inline-block px-4 py-2 mt-4
+                relative inline-block px-8 py-3 mt-4
                 font-headline text-sm font-bold tracking-widest uppercase 
-                transition-colors duration-200 ease-in-out
                 
                 // Estilo Base Neón
-                text-cyber-black bg-gradient-neon shadow-[0_0_15px_rgba(246,190,15,0.5)] 
+                text-cyber-black bg-gradient-neon shadow-[0_0_15px_hsl(var(--neon-yellow)/0.5)] 
                 border-2 border-neon-yellow
                 
                 // Efecto Hover
-                hover:shadow-[0_0_25px_rgba(246,190,15,1),_0_0_100px_rgba(246,190,15,0.7)] 
-                
-                // Contenedor para Pseudoelementos
-                group
+                transition-all duration-300
+                hover:shadow-[0_0_25px_hsl(var(--neon-yellow)/1),_0_0_50px_hsl(var(--neon-yellow)/0.7)] 
+                hover:text-white hover:scale-105
+                hover:glitch-text
               "
             >
               INICIAR PROYECTO
-              
-              {/* Capa de Borde Superior/Inferior (Efecto de Línea de Falla) */}
-              <span 
-                  className="
-                      absolute inset-0 
-                      border-t-2 border-b-2 border-neon-yellow opacity-0 
-                      group-hover:opacity-100 group-hover:animate-[glitch-line-1_0.2s_infinite]
-                  " 
-              ></span>
-              
-              {/* Capa de Borde Izquierdo/Derecho (Efecto de Desplazamiento) */}
-              <span 
-                  className="
-                      absolute inset-0 
-                      border-l-2 border-r-2 border-neon-yellow opacity-0 
-                      group-hover:opacity-100 group-hover:animate-[glitch-line-2_0.2s_infinite]
-                  " 
-              ></span>
             </a>
           </div>
         </div>
