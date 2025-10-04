@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Navigation from '@/components/navigation';
 import HeroSection from '@/components/hero-section';
+import ManifestoSection from '@/components/manifesto-section';
 import ServicesSection from '@/components/services-section';
 import Footer from '@/components/footer';
 import LoadingScreen from '@/components/loading-screen';
@@ -48,6 +49,12 @@ export default function Home() {
           onInViewChange={(inView) => handleInViewChange(inView, 'inicio')}
         >
           <HeroSection />
+        </ScrollspySection>
+        <ScrollspySection
+          id="manifiesto"
+          onInViewChange={(inView) => handleInViewChange(inView, 'manifiesto')}
+        >
+          <ManifestoSection />
         </ScrollspySection>
         <ScrollspySection
           id="servicios"

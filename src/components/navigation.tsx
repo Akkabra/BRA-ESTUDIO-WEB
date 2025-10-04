@@ -38,12 +38,14 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
 
   const mainLinks = [
     { name: 'Inicio', href: '#inicio' },
+    { name: 'Manifiesto', href: '#manifiesto' },
     { name: 'Portafolio', href: '#portafolio' },
     { name: 'Contacto', href: '#contacto' },
   ];
   
   const allNavLinks = [
     { name: 'Inicio', href: '#inicio' },
+    { name: 'Manifiesto', href: '#manifiesto' },
     { name: 'Servicios', href: '#servicios' },
     { name: 'Portafolio', href: '#portafolio' },
     { name: 'Contacto', href: '#contacto' },
@@ -86,6 +88,16 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
                   <span className="link-text">{link.name}</span>
                 </a>
             ))}
+             <a
+                  key="Manifiesto"
+                  href="#manifiesto"
+                  onClick={(e) => handleLinkClick(e, "#manifiesto")}
+                  className={cn("font-headline text-text-desaturated transition-all duration-300 relative pixel-nav-link", {
+                    'active-link': activeSection === "manifiesto"
+                  })}
+                >
+                  <span className="link-text">Manifiesto</span>
+                </a>
 
             <DropdownMenu open={isServicesMenuOpen} onOpenChange={setServicesMenuOpen}>
               <DropdownMenuTrigger asChild>
@@ -128,7 +140,7 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {mainLinks.slice(1).map((link) => (
+            {mainLinks.slice(2).map((link) => (
                <a
                   key={link.name}
                   href={link.href}
