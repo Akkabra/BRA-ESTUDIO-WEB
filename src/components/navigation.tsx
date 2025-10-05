@@ -64,7 +64,7 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
           <div className="hidden md:block flex-shrink-0 z-50">
              <a href="#inicio" onClick={(e) => handleLinkClick(e, '#inicio')}>
               <Image
-                src="/LOGODOS.png"
+                src="/logodos.png"
                 alt="BRA ESTUDIO WEB Logo"
                 width={150}
                 height={40}

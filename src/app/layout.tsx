@@ -1,59 +1,40 @@
-import type { Metadata } from 'next';
 import './globals.css';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { Toaster } from '@/components/ui/toaster';
-import { AuthProvider } from '@/hooks/useAuth.tsx';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google'; // Si usas la fuente Inter
+import { AuthProvider } from '@/hooks/useAuth'; // La ruta corregida
+import { TooltipProvider } from '@/components/ui/tooltip'; // Asumiendo que es la ruta correcta
+import { Toaster } from '@/components/ui/toaster'; // Asumiendo que es la ruta correcta
+
+// Si no usas la fuente Inter, puedes eliminar esto y usar tu fuente personalizada
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title:
-    'BRA ESTUDIO WEB - Diseño Web Sin Plantillas | Experiencias Digitales Únicas',
+  title: 'BRA ESTUDIO WEB - Diseño Web Sin Plantillas',
   description:
-    'Transformamos tu visión digital en realidad. Especialistas en desarrollo web, branding y apps móviles. Diseño personalizado sin plantillas. ¡Contáctanos!',
-  authors: [{ name: 'BRA ESTUDIO WEB' }],
+    'Transformamos tu visión digital en realidad. Especialistas en diseño web moderno y funcional.',
   openGraph: {
     title: 'BRA ESTUDIO WEB - Diseño Web Sin Plantillas',
     description:
-      'Transformamos tu visión digital en realidad. Especialistas en desarrollo web, branding y apps móviles.',
+      'Transformamos tu visión digital en realidad. Especialistas en diseño web moderno y funcional.',
     type: 'website',
-    images: ['https://lovable.dev/opengraph-image-p98pqg.png'],
+    // Asegúrate de reemplazar esta URL con una imagen tuya, o subir la imagen al directorio /public
+    images: ['https://lovable.dev/opengraph-image-p98png.png'], 
   },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@braestudioweb',
-    images: ['https://lovable.dev/opengraph-image-p98pqg.png'],
+  // La configuración de icons le dice a Next.js dónde buscar el favicon.ico
+  icons: {
+    icon: '/favicon.ico', 
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cyberjunkies&family=Orbitron:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="font-body antialiased cyber-grain">
-        <a href="#main-content" className="skip-to-content-link">
-          Saltar al Contenido Principal
-        </a>
+    <html lang="es" className={inter.className}>
+      <body>
+        {/* Aquí envolvemos toda la app con los Providers */}
         <AuthProvider>
           <TooltipProvider>
             {children}

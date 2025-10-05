@@ -73,7 +73,7 @@ const Footer = () => {
 
         {/* Slogan */}
         <p className="text-neon-yellow font-body mb-6 text-sm md:text-base">
-          tu marca, sin ataduras de plantillas, así nace tu web
+          Tu marca, sin ataduras de plantillas, así nace tu web
         </p>
 
         {/* Divider */}
