@@ -1,13 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
-// 🛑 IMPORTANTE: Eliminamos la importación de 'Inter' para que use tu fuente original.
-// import { Inter } from 'next/font/google'; 
 import { AuthProvider } from '@/hooks/useAuth';
 import { TooltipProvider } from '@/components/ui/tooltip'; 
 import { Toaster } from '@/components/ui/toaster'; 
-
-// 🛑 Eliminamos la inicialización de la fuente 'Inter'.
-// const inter = Inter({ subsets: ['latin'] }); 
 
 export const metadata: Metadata = {
   title: 'BRA ESTUDIO WEB - Diseño Web Sin Plantillas',
@@ -33,7 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // 🛑 Eliminamos 'className={inter.className}' para que tu fuente personalizada se aplique
+    // ¡IMPORTANTE! Hemos eliminado cualquier 'className' o referencia a fuentes externas. 
+    // Esto fuerza al navegador a usar la fuente que tienes configurada en globals.css.
     <html lang="es">
       <body>
         <AuthProvider>
