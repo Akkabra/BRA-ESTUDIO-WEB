@@ -1,12 +1,13 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google'; // Si usas la fuente Inter
-import { AuthProvider } from '@/hooks/useAuth'; // La ruta corregida
-import { TooltipProvider } from '@/components/ui/tooltip'; // Asumiendo que es la ruta correcta
-import { Toaster } from '@/components/ui/toaster'; // Asumiendo que es la ruta correcta
+// 🛑 IMPORTANTE: Eliminamos la importación de 'Inter' para que use tu fuente original.
+// import { Inter } from 'next/font/google'; 
+import { AuthProvider } from '@/hooks/useAuth';
+import { TooltipProvider } from '@/components/ui/tooltip'; 
+import { Toaster } from '@/components/ui/toaster'; 
 
-// Si no usas la fuente Inter, puedes eliminar esto y usar tu fuente personalizada
-const inter = Inter({ subsets: ['latin'] });
+// 🛑 Eliminamos la inicialización de la fuente 'Inter'.
+// const inter = Inter({ subsets: ['latin'] }); 
 
 export const metadata: Metadata = {
   title: 'BRA ESTUDIO WEB - Diseño Web Sin Plantillas',
@@ -32,9 +33,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={inter.className}>
+    // 🛑 Eliminamos 'className={inter.className}' para que tu fuente personalizada se aplique
+    <html lang="es">
       <body>
-        {/* Aquí envolvemos toda la app con los Providers */}
         <AuthProvider>
           <TooltipProvider>
             {children}
