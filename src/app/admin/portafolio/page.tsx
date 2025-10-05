@@ -67,7 +67,7 @@ export default function PortfolioAdminPage() {
     const router = useRouter();
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
-    const [isDialogOpen, setIsDialogOpen] useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProject, setEditingProject] = useState<Project | null>(null);
     const [formData, setFormData] = useState<Partial<Project>>({});
     const { toast } = useToast();
@@ -312,3 +312,7 @@ export default function PortfolioAdminPage() {
 
 
 
+
+
+
+    
