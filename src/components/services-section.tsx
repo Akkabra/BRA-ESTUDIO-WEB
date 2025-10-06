@@ -18,8 +18,8 @@ const ServicesSection = () => {
     web: [
       {
         title: 'Plan Básico',
-        price: '$1,200',
-        priceDetails: 'USD / pago único',
+        price: '$700.000',
+        priceDetails: 'COP / pago único',
         icon: Package,
         features: [
           'Landing Page (hasta 4 secciones)',
@@ -33,30 +33,29 @@ const ServicesSection = () => {
       },
       {
         title: 'Plan Normal',
-        price: '$2,500',
-        priceDetails: 'USD / pago único',
+        price: '$1.400.000',
+        priceDetails: 'COP / pago único',
         icon: Code,
         features: [
-          'Sitio Web (hasta 8 páginas)',
+          'Sitio Web (hasta 7 páginas)',
           'Diseño personalizado y animaciones',
-          'CMS para autogestión de contenido',
-          'Blog integrado',
+          'Integración con analytics',
           'Optimización SEO avanzada',
-          'Integración de API (hasta 2)',
+          ,
         ],
         details:
           'La solución completa para empresas que buscan crecer. Un sitio web robusto y escalable con un sistema de gestión de contenidos para que tengas control total sobre tu plataforma.',
       },
       {
         title: 'Plan Premium',
-        price: '$5,000+',
-        priceDetails: 'USD / según alcance',
+        price: '$2.500.000',
+        priceDetails: 'COP / según alcance',
         icon: Gem,
         features: [
           'Plataforma Web a medida',
           'E-commerce completo',
-          'Panel de administración avanzado',
-          'Integraciones complejas y APIs',
+          'Sitio con panel editable (CMS personalizado o admin básico)',
+          'Microtransacciones',
           'Soporte y mantenimiento prioritario',
           'Arquitectura de alto rendimiento',
         ],
@@ -67,83 +66,51 @@ const ServicesSection = () => {
     branding: [
       {
         title: 'Plan Esencial',
-        price: '$800',
-        priceDetails: 'USD / pago único',
+        price: '$300.000',
+        priceDetails: 'COP / pago único',
         details: 'El punto de partida perfecto para tu marca. Creamos un logotipo memorable y una identidad visual coherente que te diferenciará desde el primer día.',
         features: [
-          'Diseño de Logotipo (3 conceptos)',
+          'Diseño de Logotipo',
           'Paleta de colores y tipografías',
-          'Manual de marca básico',
+          ,
         ],
       },
       {
-        title: 'Plan Estratégico',
-        price: '$1,800',
-        priceDetails: 'USD / pago único',
+        title: 'Plan Profesional',
+        price: '$800.000',
+        priceDetails: 'COP / pago único',
         details: 'Más que un logo, una estrategia. Profundizamos en el ADN de tu marca para construir una identidad sólida y unificada, desde el tono de voz hasta las aplicaciones visuales.',
         features: [
           'Todo del Plan Esencial',
-          'Diseño de papelería (tarjetas, hojas)',
+          'Mockups de presentación',
           'Plantillas para redes sociales (5)',
-          'Manual de marca completo',
+          'Manual básico de marca',
         ],
       },
       {
-        title: 'Plan 360°',
-        price: '$4,000+',
-        priceDetails: 'USD / según alcance',
+        title: 'Plan Premium',
+        price: '$1.500.000',
+        priceDetails: 'COP / según alcance',
         details: 'Una inmersión total en el universo de tu marca. Creamos un ecosistema de marca cohesivo y potente que cautiva y fideliza, desde el producto físico hasta la estrategia digital.',
         features: [
           'Todo del Plan Estratégico',
-          'Diseño de packaging o producto',
-          'Guía de estilo fotográfico',
-          'Estrategia de comunicación visual',
+          'Identidad Completa,Manual de marca completo.',
+          'Logos, paleta extendida, tipografía principal y secundaria.',
+          'Patrón gráfico',
         ],
       },
     ],
     apps: [
       {
         title: 'Plan MVP',
-        price: '$4,000+',
-        priceDetails: 'USD / según alcance',
+        price: '$1.500.000+',
+        priceDetails: 'COP / Desde',
         icon: Smartphone,
         features: [
-          'App para iOS o Android',
-          'Diseño UI/UX funcional',
-          'Hasta 5 pantallas clave',
-          'Backend básico (login, perfiles)',
-          'Publicación en tiendas',
+          '“Desarrollamos tu app a la medida, con presupuesto según las funcionalidades que necesites.',
         ],
         details: 'Perfecto para validar tu idea de negocio. Desarrollamos un Producto Mínimo Viable (MVP) funcional y pulido para obtener feedback de usuarios reales y atraer inversores.'
       },
-      {
-        title: 'Plan Crecimiento',
-        price: '$8,000+',
-        priceDetails: 'USD / según alcance',
-        icon: Rocket,
-        features: [
-          'App nativa para iOS y Android',
-          'Diseño UI/UX personalizado y animado',
-          'Integraciones con APIs (mapas, pagos)',
-          'Notificaciones push',
-          'Panel de administración web',
-        ],
-        details: 'Lleva tu proyecto al siguiente nivel. Una app robusta y escalable con funcionalidades avanzadas para expandir tu base de usuarios y potenciar tu negocio en el ecosistema móvil.'
-      },
-      {
-        title: 'Plan Enterprise',
-        price: '$15,000+',
-        priceDetails: 'USD / según alcance',
-        icon: Network,
-        features: [
-          'Arquitectura de microservicios',
-          'Alta disponibilidad y escalabilidad',
-          'Seguridad avanzada y cifrado',
-          'Sincronización de datos en tiempo real',
-          'Soporte Enterprise 24/7',
-        ],
-        details: 'Soluciones móviles de misión crítica. Diseñamos y construimos aplicaciones complejas de alto rendimiento, preparadas para soportar millones de usuarios y operaciones críticas.'
-      }
     ],
   };
 
