@@ -1,12 +1,13 @@
 import './globals.css';
 import type { Metadata } from 'next';
-// Asegúrate de que esta ruta sea correcta:
 import { AuthProvider } from '@/hooks/useAuth'; 
 import { TooltipProvider } from '@/components/ui/tooltip'; 
 import { Toaster } from '@/components/ui/toaster'; 
+import { Inter, Orbitron } from 'next/font/google';
+import { cn } from '@/lib/utils';
 
-// Se ha eliminado toda importación o referencia a fuentes genéricas como 'Inter'.
-// Tu fuente personalizada se cargará desde 'globals.css'.
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const orbitron = Orbitron({ subsets: ['latin'], variable: '--font-orbitron', weight: ['400', '700'] });
 
 export const metadata: Metadata = {
   title: 'BRA ESTUDIO WEB - Diseño Web Sin Plantillas',
@@ -30,9 +31,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // ¡IMPORTANTE! No hay ninguna clase de fuente aquí. El control está en tu CSS.
     <html lang="es">
-      <body>
+      <body className={cn(inter.variable, orbitron.variable)}>
         <AuthProvider>
           <TooltipProvider>
             {children}

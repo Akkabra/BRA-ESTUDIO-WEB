@@ -69,8 +69,8 @@ export default {
         },
       },
       fontFamily: {
-        headline: ['Cyberjunkies', 'Orbitron', 'monospace'],
-        body: ['Inter', 'sans-serif'],
+        headline: ['Cyberjunkies', 'var(--font-orbitron)', 'monospace'],
+        body: ['var(--font-inter)', 'sans-serif'],
         code: ['monospace'],
       },
       backgroundImage: {
@@ -216,5 +216,3 @@ export default {
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
-
-    
