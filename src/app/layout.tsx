@@ -1,8 +1,12 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { AuthProvider } from '@/hooks/useAuth';
+// Asegúrate de que esta ruta sea correcta:
+import { AuthProvider } from '@/hooks/useAuth'; 
 import { TooltipProvider } from '@/components/ui/tooltip'; 
 import { Toaster } from '@/components/ui/toaster'; 
+
+// Se ha eliminado toda importación o referencia a fuentes genéricas como 'Inter'.
+// Tu fuente personalizada se cargará desde 'globals.css'.
 
 export const metadata: Metadata = {
   title: 'BRA ESTUDIO WEB - Diseño Web Sin Plantillas',
@@ -13,10 +17,8 @@ export const metadata: Metadata = {
     description:
       'Transformamos tu visión digital en realidad. Especialistas en diseño web moderno y funcional.',
     type: 'website',
-    // Asegúrate de reemplazar esta URL con una imagen tuya, o subir la imagen al directorio /public
     images: ['https://lovable.dev/opengraph-image-p98png.png'], 
   },
-  // La configuración de icons le dice a Next.js dónde buscar el favicon.ico
   icons: {
     icon: '/favicon.ico', 
   },
@@ -28,8 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // ¡IMPORTANTE! Hemos eliminado cualquier 'className' o referencia a fuentes externas. 
-    // Esto fuerza al navegador a usar la fuente que tienes configurada en globals.css.
+    // ¡IMPORTANTE! No hay ninguna clase de fuente aquí. El control está en tu CSS.
     <html lang="es">
       <body>
         <AuthProvider>
