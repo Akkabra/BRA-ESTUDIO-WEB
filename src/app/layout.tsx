@@ -21,7 +21,9 @@ export const metadata: Metadata = {
     images: ['https://lovable.dev/opengraph-image-p98png.png'], 
   },
   icons: {
-    icon: '/favicon.ico', 
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
   },
 };
 
