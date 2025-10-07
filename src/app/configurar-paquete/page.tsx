@@ -89,7 +89,7 @@ export default function ConfigurarPaquetePage() {
           <div className="lg:col-span-2 space-y-12">
             {/* Step 1: Web Development */}
             <div>
-              <h2 className="text-2xl font-headline text-neon-cyan mb-6 glitch" data-text="1. Elige tu Plan de Desarrollo Web">1. Elige tu Plan de Desarrollo Web</h2>
+              <h2 className="text-2xl font-headline text-neon-orange mb-6 glitch" data-text="1. Elige tu Plan de Desarrollo Web">1. Elige tu Plan de Desarrollo Web</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {webPlans.map(plan => (
                   <PlanSelectorCard 
@@ -104,7 +104,7 @@ export default function ConfigurarPaquetePage() {
 
             {/* Step 2: Branding */}
             <div>
-              <h2 className="text-2xl font-headline text-neon-cyan mb-6 glitch" data-text="2. Elige tu Plan de Branding">2. Elige tu Plan de Branding</h2>
+              <h2 className="text-2xl font-headline text-neon-orange mb-6 glitch" data-text="2. Elige tu Plan de Branding">2. Elige tu Plan de Branding</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {brandingPlans.map(plan => (
                   <PlanSelectorCard 
@@ -120,8 +120,8 @@ export default function ConfigurarPaquetePage() {
 
           {/* Summary Sidebar */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 bg-surface-dark/90 border-2 border-neon-cyan/30 rounded-lg p-6 backdrop-blur-sm">
-              <h3 className="text-2xl font-headline text-neon-cyan mb-6 text-center">Resumen del Paquete</h3>
+            <div className="sticky top-24 bg-surface-dark/90 border-2 border-neon-orange/30 rounded-lg p-6 backdrop-blur-sm">
+              <h3 className="text-2xl font-headline text-neon-orange mb-6 text-center">Resumen del Paquete</h3>
               
               <div className="space-y-4 mb-6 font-body">
                 <div className="flex justify-between items-center">
@@ -132,7 +132,7 @@ export default function ConfigurarPaquetePage() {
                   <span className="text-text-desaturated">Branding:</span>
                   <span className="font-medium text-white">{selectedBranding?.title || 'No seleccionado'}</span>
                 </div>
-                 <div className="w-full h-px bg-neon-cyan/20 my-4"></div>
+                 <div className="w-full h-px bg-neon-orange/20 my-4"></div>
                 <div className="flex justify-between items-center text-lg">
                   <span className="text-text-desaturated">Subtotal:</span>
                   <span className="font-bold text-white">{formatCurrency(subtotal)}</span>
@@ -143,10 +143,10 @@ export default function ConfigurarPaquetePage() {
                 </div>
               </div>
 
-              <div className="w-full h-px bg-neon-cyan/50 my-6"></div>
+              <div className="w-full h-px bg-neon-orange/50 my-6"></div>
 
               <div className="text-center">
-                <p className="text-lg text-neon-cyan/80 font-headline">PRECIO TOTAL</p>
+                <p className="text-lg text-neon-orange/80 font-headline">PRECIO TOTAL</p>
                 <p className="text-5xl font-bold text-white my-2 animate-text-flicker-fast">
                   {formatCurrency(total)}
                 </p>
