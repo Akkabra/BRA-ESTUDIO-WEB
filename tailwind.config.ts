@@ -160,6 +160,10 @@ export default {
           '50%': { opacity: '0.8' },
           '75%': { opacity: '0.6' },
         },
+        'text-flicker-fast': {
+          '0%, 100%': { opacity: '1', textShadow: '0 0 10px hsl(var(--neon-yellow) / 0.7)' },
+          '50%': { opacity: '0.8', textShadow: '0 0 15px hsl(var(--neon-yellow) / 0.5)' },
+        },
         'binary-glitch': {
           '0%': { content: "'INICIANDO SISTEMA...'" },
           '15%': { content: "'01011100 10011010'" },
@@ -202,6 +206,7 @@ export default {
         'cyber-pulse': 'cyber-pulse 8s ease-in-out infinite alternate',
         'loading-fill': 'loading-fill 2.5s ease-in-out forwards',
         'text-flicker': 'text-flicker 1.5s infinite',
+        'text-flicker-fast': 'text-flicker-fast 0.8s infinite',
         'binary-glitch': 'binary-glitch 2.5s steps(1) infinite',
         'module-enter-1': 'module-enter 0.2s ease-out 0.05s',
         'module-enter-2': 'module-enter 0.2s ease-out 0.1s',

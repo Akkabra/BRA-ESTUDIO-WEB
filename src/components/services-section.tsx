@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { CheckCircle, Code, Gem, Package, Smartphone, Plus } from 'lucide-react';
-import { CombinedServiceCard } from '@/components/CombinedServiceCard';
+import { CheckCircle, Code, Gem, Package, Smartphone, Plus, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 
@@ -12,12 +12,8 @@ const ServicesSection = () => {
   const [isBrandingInteracted, setIsBrandingInteracted] = useState(false);
   const [brandingActiveIndex, setBrandingActiveIndex] = useState(0);
   const [activeAppPlanIndex, setActiveAppPlanIndex] = useState<number>(0);
-  const [selectedServices, setSelectedServices] = useState({
-    desarrollo: false,
-    branding: false,
-  });
 
-  const whatsappNumber = "573000000000";
+  const whatsappNumber = "573145527342";
   
   const mainServices = {
     web: [
@@ -134,35 +130,6 @@ const ServicesSection = () => {
     setActiveAppPlanIndex(index);
   };
 
-  const handleServiceSelection = (service: 'desarrollo' | 'branding') => {
-    setSelectedServices(prev => ({ ...prev, [service]: !prev[service] }));
-  };
-
-  const getPackageInfo = () => {
-    const { desarrollo, branding } = selectedServices;
-    const webNormal = mainServices.web[1]; // Plan Normal
-    const brandingProfessional = mainServices.branding[1]; // Plan Profesional
-
-    if (desarrollo && branding) {
-      const discountedPrice = (webNormal.priceValue + brandingProfessional.priceValue) * 0.9; // 10% discount
-      return {
-        title: 'PAQUETE VISIÓN DIGITAL',
-        price: `$${new Intl.NumberFormat('es-CO').format(discountedPrice)}`,
-        description: 'Web (Plan Normal) + Branding (Plan Profesional)',
-      };
-    }
-    if (desarrollo) {
-      return { title: 'Desarrollo Web', price: webNormal.price, description: 'Plan Normal' };
-    }
-    if (branding) {
-      return { title: 'Branding', price: brandingProfessional.price, description: 'Plan Profesional' };
-    }
-    return { title: 'Selecciona servicios', price: '$0', description: 'para empezar a construir tu paquete' };
-  };
-
-  const packageInfo = getPackageInfo();
-
-
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (activeService === 'branding' && !isBrandingInteracted) {
@@ -208,7 +175,7 @@ const ServicesSection = () => {
                 <p className="text-sm text-text-desaturated/70">{plan.priceDetails}</p>
               </div>
               <ul className="space-y-3 font-body mb-6">
-                {plan.features.map((feature: string, fIndex: number) => (
+                {plan.features.map((feature: string, fIndex: number) => feature && (
                   <li key={fIndex} className="flex items-center">
                     <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-yellow" />
                     <span className="text-sm text-text-desaturated">{feature}</span>
@@ -282,7 +249,7 @@ const ServicesSection = () => {
         </div>
         
         <div className="relative min-h-[600px]">
-        {activeService === 'web' && (
+          {activeService === 'web' && (
              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                 {mainServices.web.map((plan, index) => (
                   <PlanCard 
@@ -291,71 +258,43 @@ const ServicesSection = () => {
                   />
                 ))}
             </div>
-        )}
+          )}
 
-        {activeService === 'web' && (
-          <div className='mt-24'>
-             <div className="text-center mb-16">
-              <h3 className="text-3xl md:text-4xl font-headline font-bold text-neon-cyan mb-4 glitch" data-text="CONFIGURADOR DE PAQUETES">
-                CONFIGURADOR DE PAQUETES
-              </h3>
-              <p className="text-lg text-text-desaturated max-w-2xl mx-auto font-body">
-                Crea tu paquete ideal y obtén un precio especial.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8 items-center bg-surface-dark/50 border-2 border-neon-cyan/20 rounded-lg p-8 backdrop-blur-sm">
-              
-              {/* Service Selection */}
-              <div 
-                onClick={() => handleServiceSelection('desarrollo')}
-                className={cn(
-                  'relative p-6 rounded-lg border-2 cursor-pointer transition-all duration-300 h-full flex flex-col justify-center',
-                  selectedServices.desarrollo ? 'border-neon-yellow shadow-neon-intense animate-pulse-fast' : 'border-neon-yellow/30 hover:border-neon-yellow'
-                )}
-              >
-                <h4 className='text-2xl font-headline text-neon-yellow text-center'>Desarrollo Web</h4>
-                <p className='text-center text-sm text-text-desaturated/80 mt-2'>Plan Normal</p>
-                <div className='text-center mt-4 text-lg font-bold text-white'>{mainServices.web[1].price}</div>
+          {activeService === 'web' && (
+            <div className="mt-24">
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-neon-yellow to-neon-cyan rounded-lg blur-xl opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                <div className="relative p-8 bg-surface-dark rounded-lg leading-none flex flex-col md:flex-row items-center justify-between gap-8 border border-neon-yellow/30">
+                    <div className="md:w-2/3">
+                        <h3 className="text-3xl font-headline text-white mb-2 cyber-title glitch" data-text="CREA TU PAQUETE A MEDIDA">
+                          CREA TU PAQUETE A MEDIDA
+                        </h3>
+                        <p className="text-lg text-text-desaturated font-body mb-4">
+                            Combina nuestros servicios y obtén un descuento exclusivo.
+                        </p>
+                        <div className="flex items-center space-x-4 text-neon-yellow">
+                            <div className="flex items-center space-x-2">
+                                <Code className="w-5 h-5"/>
+                                <span className="font-body">Desarrollo Web</span>
+                            </div>
+                            <Zap className="w-6 h-6 text-neon-cyan animate-pulse"/>
+                            <div className="flex items-center space-x-2">
+                                <Gem className="w-5 h-5"/>
+                                <span className="font-body">Branding</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="md:w-1/3 text-center md:text-right">
+                        <Link href="/configurar-paquete" passHref>
+                          <Button variant="hero" size="lg" className="animate-pulse">
+                              CONFIGURAR PAQUETE
+                          </Button>
+                        </Link>
+                    </div>
+                </div>
               </div>
-
-              <div className="flex justify-center items-center">
-                <Plus className="w-10 h-10 text-neon-cyan animate-pulse" />
-              </div>
-
-              <div 
-                onClick={() => handleServiceSelection('branding')}
-                className={cn(
-                  'relative p-6 rounded-lg border-2 cursor-pointer transition-all duration-300 h-full flex flex-col justify-center',
-                  selectedServices.branding ? 'border-neon-yellow shadow-neon-intense animate-pulse-fast' : 'border-neon-yellow/30 hover:border-neon-yellow'
-                )}
-              >
-                <h4 className='text-2xl font-headline text-neon-yellow text-center'>Branding</h4>
-                <p className='text-center text-sm text-text-desaturated/80 mt-2'>Plan Profesional</p>
-                <div className='text-center mt-4 text-lg font-bold text-white'>{mainServices.branding[1].price}</div>
-              </div>
-
             </div>
-
-             {/* Package Summary & CTA */}
-             <div className="mt-8 p-8 bg-black/50 border border-neon-cyan/30 rounded-lg text-center">
-                <h4 className="text-2xl font-headline text-neon-cyan mb-2">{packageInfo.title}</h4>
-                <p className="text-sm text-text-desaturated mb-4">{packageInfo.description}</p>
-                <div className="text-4xl font-bold text-white mb-6">{packageInfo.price}</div>
-                <Button
-                  variant="hero"
-                  size="lg"
-                  disabled={!selectedServices.desarrollo || !selectedServices.branding}
-                  onClick={() => window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en el Paquete Visión Digital.`)}`, '_blank')}
-                  className={cn(
-                    'transition-all duration-300',
-                    (!selectedServices.desarrollo || !selectedServices.branding) && 'opacity-50 cursor-not-allowed filter grayscale'
-                  )}
-                >
-                  INICIAR PROYECTO
-                </Button>
-            </div>
-          </div>
-        )}
+          )}
         
         {activeService === 'branding' ? (
              <div className="relative flex h-[500px] w-full items-center justify-center">
@@ -412,7 +351,7 @@ const ServicesSection = () => {
                                       <p className="text-sm text-text-desaturated/60">{plan.priceDetails}</p>
                                   </div>
                                   <ul className="space-y-3 font-body text-left mb-6">
-                                    {plan.features.map((feature, fIndex) => (
+                                    {plan.features.map((feature, fIndex) => feature && (
                                       <li key={fIndex} className="flex items-start">
                                         <CheckCircle className="mr-2 mt-1 h-4 w-4 flex-shrink-0 text-neon-orange" />
                                         <span className="text-sm text-text-desaturated">{feature}</span>
@@ -450,7 +389,7 @@ const ServicesSection = () => {
                 <div className="absolute top-4 right-4 w-12 h-12 border-r-2 border-t-2 border-neon-orange/50"></div>
                 <div className="absolute bottom-4 left-4 w-12 h-12 border-l-2 border-b-2 border-neon-orange/50"></div>
                 <div className="absolute bottom-4 right-4 w-12 h-12 border-r-2 border-b-2 border-neon-orange/50"></div>
-                <div className="absolute inset-0 scanline-vertical" style={{'--scanline-color': 'hsl(var(--neon-orange) / 0.05)'}}></div>
+                <div className="absolute inset-0 scanline-vertical" style={{'--scanline-color': 'hsl(var(--neon-orange) / 0.05)'} as React.CSSProperties}></div>
 
                 {/* Plan Selectors */}
                 <div className="md:col-span-1 flex flex-col justify-center space-y-4">
@@ -499,7 +438,7 @@ const ServicesSection = () => {
 
                           {/* Features */}
                           <ul className="space-y-3 font-body mb-6">
-                            {plan.features.map((feature, fIndex) => (
+                            {plan.features.map((feature, fIndex) => feature && (
                               <li key={fIndex} className="flex items-center">
                                 <CheckCircle className="mr-3 h-4 w-4 flex-shrink-0 text-neon-orange" />
                                 <span className="text-sm text-text-desaturated">{feature}</span>

@@ -462,4 +462,9 @@ All colors MUST be HSL.
       opacity: 1;
     }
   }
+
+  @keyframes text-flicker-fast {
+    0%, 100% { opacity: 1; text-shadow: 0 0 10px hsl(var(--neon-yellow) / 0.7); }
+    50% { opacity: 0.8; text-shadow: 0 0 15px hsl(var(--neon-yellow) / 0.5); }
+  }
 }
