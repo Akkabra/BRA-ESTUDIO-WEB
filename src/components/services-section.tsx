@@ -263,7 +263,7 @@ const ServicesSection = () => {
           {activeService === 'web' && (
             <div className="mt-24">
               <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-neon-yellow to-neon-cyan rounded-lg blur-xl opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-neon-yellow to-neon-orange rounded-lg blur-xl opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
                 <div className="relative p-8 bg-surface-dark rounded-lg leading-none flex flex-col md:flex-row items-center justify-between gap-8 border border-neon-yellow/30">
                     <div className="md:w-2/3">
                         <h3 className="text-3xl font-headline text-white mb-2 cyber-title glitch" data-text="CREA TU PAQUETE A MEDIDA">
@@ -277,7 +277,7 @@ const ServicesSection = () => {
                                 <Code className="w-5 h-5"/>
                                 <span className="font-body">Desarrollo Web</span>
                             </div>
-                            <Zap className="w-6 h-6 text-neon-cyan animate-pulse"/>
+                            <Zap className="w-6 h-6 text-neon-orange animate-pulse"/>
                             <div className="flex items-center space-x-2">
                                 <Gem className="w-5 h-5"/>
                                 <span className="font-body">Branding</span>
