@@ -90,7 +90,7 @@ export default function ConfigurarPaquetePage() {
             {/* Step 1: Web Development */}
             <div>
               <h2 className="text-2xl font-headline text-neon-orange mb-6 glitch" data-text="1. Elige tu Plan de Desarrollo Web">1. Elige tu Plan de Desarrollo Web</h2>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {webPlans.map(plan => (
                   <PlanSelectorCard 
                     key={plan.id}
@@ -105,7 +105,7 @@ export default function ConfigurarPaquetePage() {
             {/* Step 2: Branding */}
             <div>
               <h2 className="text-2xl font-headline text-neon-orange mb-6 glitch" data-text="2. Elige tu Plan de Branding">2. Elige tu Plan de Branding</h2>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {brandingPlans.map(plan => (
                   <PlanSelectorCard 
                     key={plan.id}
@@ -120,17 +120,17 @@ export default function ConfigurarPaquetePage() {
 
           {/* Summary Sidebar */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 bg-surface-dark/90 border-2 border-neon-orange/30 rounded-lg p-6 backdrop-blur-sm">
+            <div className="lg:sticky top-24 bg-surface-dark/90 border-2 border-neon-orange/30 rounded-lg p-6 backdrop-blur-sm">
               <h3 className="text-2xl font-headline text-neon-orange mb-6 text-center">Resumen del Paquete</h3>
               
               <div className="space-y-4 mb-6 font-body">
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                   <span className="text-text-desaturated">Desarrollo Web:</span>
-                  <span className="font-medium text-white">{selectedWeb?.title || 'No seleccionado'}</span>
+                  <span className="font-medium text-white text-right">{selectedWeb?.title || 'No seleccionado'}</span>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                   <span className="text-text-desaturated">Branding:</span>
-                  <span className="font-medium text-white">{selectedBranding?.title || 'No seleccionado'}</span>
+                  <span className="font-medium text-white text-right">{selectedBranding?.title || 'No seleccionado'}</span>
                 </div>
                  <div className="w-full h-px bg-neon-orange/20 my-4"></div>
                 <div className="flex justify-between items-center text-lg">
@@ -147,7 +147,7 @@ export default function ConfigurarPaquetePage() {
 
               <div className="text-center">
                 <p className="text-lg text-neon-orange/80 font-headline">PRECIO TOTAL</p>
-                <p className="text-5xl font-bold text-white my-2 animate-text-flicker-fast">
+                <p className="text-4xl md:text-5xl font-bold text-white my-2 animate-text-flicker-fast">
                   {formatCurrency(total)}
                 </p>
                 <p className="text-sm text-text-desaturated/70">Impuestos no incluidos</p>
