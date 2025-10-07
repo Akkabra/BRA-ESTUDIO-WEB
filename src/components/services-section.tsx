@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { CheckCircle, Code, Gem, Package, Smartphone } from 'lucide-react';
+import { CheckCircle, Code, Gem, Package, Smartphone, Plus } from 'lucide-react';
 import { CombinedServiceCard } from '@/components/CombinedServiceCard';
 
 
@@ -11,6 +11,10 @@ const ServicesSection = () => {
   const [isBrandingInteracted, setIsBrandingInteracted] = useState(false);
   const [brandingActiveIndex, setBrandingActiveIndex] = useState(0);
   const [activeAppPlanIndex, setActiveAppPlanIndex] = useState<number>(0);
+  const [selectedServices, setSelectedServices] = useState({
+    desarrollo: false,
+    branding: false,
+  });
 
   const whatsappNumber = "573000000000";
   
@@ -19,6 +23,7 @@ const ServicesSection = () => {
       {
         title: 'Plan Básico',
         price: '$700.000',
+        priceValue: 700000,
         priceDetails: 'COP / pago único',
         icon: Package,
         features: [
@@ -34,6 +39,7 @@ const ServicesSection = () => {
       {
         title: 'Plan Normal',
         price: '$1.400.000',
+        priceValue: 1400000,
         priceDetails: 'COP / pago único',
         icon: Code,
         features: [
@@ -49,6 +55,7 @@ const ServicesSection = () => {
       {
         title: 'Plan Premium',
         price: '$2.500.000',
+        priceValue: 2500000,
         priceDetails: 'COP / según alcance',
         icon: Gem,
         features: [
@@ -67,6 +74,7 @@ const ServicesSection = () => {
       {
         title: 'Plan Esencial',
         price: '$300.000',
+        priceValue: 300000,
         priceDetails: 'COP / pago único',
         details: 'El punto de partida perfecto para tu marca. Creamos un logotipo memorable y una identidad visual coherente que te diferenciará desde el primer día.',
         features: [
@@ -78,6 +86,7 @@ const ServicesSection = () => {
       {
         title: 'Plan Profesional',
         price: '$800.000',
+        priceValue: 800000,
         priceDetails: 'COP / pago único',
         details: 'Más que un logo, una estrategia. Profundizamos en el ADN de tu marca para construir una identidad sólida y unificada, desde el tono de voz hasta las aplicaciones visuales.',
         features: [
@@ -90,6 +99,7 @@ const ServicesSection = () => {
       {
         title: 'Plan Premium',
         price: '$1.500.000',
+        priceValue: 1500000,
         priceDetails: 'COP / según alcance',
         details: 'Una inmersión total en el universo de tu marca. Creamos un ecosistema de marca cohesivo y potente que cautiva y fideliza, desde el producto físico hasta la estrategia digital.',
         features: [
@@ -122,6 +132,35 @@ const ServicesSection = () => {
   const handleAppPlanSelect = (index: number) => {
     setActiveAppPlanIndex(index);
   };
+
+  const handleServiceSelection = (service: 'desarrollo' | 'branding') => {
+    setSelectedServices(prev => ({ ...prev, [service]: !prev[service] }));
+  };
+
+  const getPackageInfo = () => {
+    const { desarrollo, branding } = selectedServices;
+    const webNormal = mainServices.web[1]; // Plan Normal
+    const brandingProfessional = mainServices.branding[1]; // Plan Profesional
+
+    if (desarrollo && branding) {
+      const discountedPrice = (webNormal.priceValue + brandingProfessional.priceValue) * 0.9; // 10% discount
+      return {
+        title: 'PAQUETE VISIÓN DIGITAL',
+        price: `$${new Intl.NumberFormat('es-CO').format(discountedPrice)}`,
+        description: 'Web (Plan Normal) + Branding (Plan Profesional)',
+      };
+    }
+    if (desarrollo) {
+      return { title: 'Desarrollo Web', price: webNormal.price, description: 'Plan Normal' };
+    }
+    if (branding) {
+      return { title: 'Branding', price: brandingProfessional.price, description: 'Plan Profesional' };
+    }
+    return { title: 'Selecciona servicios', price: '$0', description: 'para empezar a construir tu paquete' };
+  };
+
+  const packageInfo = getPackageInfo();
+
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -254,8 +293,66 @@ const ServicesSection = () => {
         )}
 
         {activeService === 'web' && (
-          <div className='mt-16'>
-            <CombinedServiceCard />
+          <div className='mt-24'>
+             <div className="text-center mb-16">
+              <h3 className="text-3xl md:text-4xl font-headline font-bold text-neon-cyan mb-4 glitch" data-text="CONFIGURADOR DE PAQUETES">
+                CONFIGURADOR DE PAQUETES
+              </h3>
+              <p className="text-lg text-text-desaturated max-w-2xl mx-auto font-body">
+                Crea tu paquete ideal y obtén un precio especial.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8 items-center bg-surface-dark/50 border-2 border-neon-cyan/20 rounded-lg p-8 backdrop-blur-sm">
+              
+              {/* Service Selection */}
+              <div 
+                onClick={() => handleServiceSelection('desarrollo')}
+                className={cn(
+                  'relative p-6 rounded-lg border-2 cursor-pointer transition-all duration-300 h-full flex flex-col justify-center',
+                  selectedServices.desarrollo ? 'border-neon-yellow shadow-neon-intense animate-pulse-fast' : 'border-neon-yellow/30 hover:border-neon-yellow'
+                )}
+              >
+                <h4 className='text-2xl font-headline text-neon-yellow text-center'>Desarrollo Web</h4>
+                <p className='text-center text-sm text-text-desaturated/80 mt-2'>Plan Normal</p>
+                <div className='text-center mt-4 text-lg font-bold text-white'>{mainServices.web[1].price}</div>
+              </div>
+
+              <div className="flex justify-center items-center">
+                <Plus className="w-10 h-10 text-neon-cyan animate-pulse" />
+              </div>
+
+              <div 
+                onClick={() => handleServiceSelection('branding')}
+                className={cn(
+                  'relative p-6 rounded-lg border-2 cursor-pointer transition-all duration-300 h-full flex flex-col justify-center',
+                  selectedServices.branding ? 'border-neon-yellow shadow-neon-intense animate-pulse-fast' : 'border-neon-yellow/30 hover:border-neon-yellow'
+                )}
+              >
+                <h4 className='text-2xl font-headline text-neon-yellow text-center'>Branding</h4>
+                <p className='text-center text-sm text-text-desaturated/80 mt-2'>Plan Profesional</p>
+                <div className='text-center mt-4 text-lg font-bold text-white'>{mainServices.branding[1].price}</div>
+              </div>
+
+            </div>
+
+             {/* Package Summary & CTA */}
+             <div className="mt-8 p-8 bg-black/50 border border-neon-cyan/30 rounded-lg text-center">
+                <h4 className="text-2xl font-headline text-neon-cyan mb-2">{packageInfo.title}</h4>
+                <p className="text-sm text-text-desaturated mb-4">{packageInfo.description}</p>
+                <div className="text-4xl font-bold text-white mb-6">{packageInfo.price}</div>
+                <Button
+                  variant="hero"
+                  size="lg"
+                  disabled={!selectedServices.desarrollo || !selectedServices.branding}
+                  onClick={() => window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en el Paquete Visión Digital.`)}`, '_blank')}
+                  className={cn(
+                    'transition-all duration-300',
+                    (!selectedServices.desarrollo || !selectedServices.branding) && 'opacity-50 cursor-not-allowed filter grayscale'
+                  )}
+                >
+                  INICIAR PROYECTO
+                </Button>
+            </div>
           </div>
         )}
         
