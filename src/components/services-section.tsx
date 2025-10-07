@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { CheckCircle, Code, Gem, Package, Smartphone, Rocket, Network, ChevronLeft, ChevronRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { CheckCircle, Code, Gem, Package, Smartphone } from 'lucide-react';
+import { CombinedServiceCard } from '@/components/CombinedServiceCard';
 
 
 const ServicesSection = () => {
@@ -204,71 +204,6 @@ const ServicesSection = () => {
     );
   };
 
-  const BrandingCard = ({ plan, isActive, onClick, isFlipped, onMouseEnter, onMouseLeave }: { plan: any, isActive: boolean, onClick: () => void, isFlipped: boolean, onMouseEnter: () => void, onMouseLeave: () => void }) => {
-    return (
-      <div
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        className="absolute w-[320px] h-[480px] transition-all duration-500 ease-in-out cursor-pointer"
-        style={{
-          transform: `translateX(${isActive ? 0 : -50}px) scale(${isActive ? 1 : 0.85}) translateZ(${isActive ? '0' : '-100px'}) rotateY(${isActive ? 0 : 10}deg)`,
-          zIndex: isActive ? 10 : 1,
-          opacity: isActive ? 1 : 0.4,
-        }}
-      >
-        <div
-          className={cn(
-            "relative w-full h-full [transform-style:preserve-3d] transition-transform duration-700 ease-in-out",
-            isFlipped && isActive ? '[transform:rotateY(180deg)]' : '',
-          )}
-        >
-          {/* Front Face */}
-          <div className={cn(
-            "absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 bg-surface-dark/90 p-8 text-center [backface-visibility:hidden]",
-            isActive 
-              ? 'border-neon-orange/80 animate-pulse-fast shadow-[0_0_30px_hsl(var(--neon-orange)/0.5),_inset_0_0_15px_hsl(var(--neon-orange)/0.3)]' 
-              : 'border-neon-orange/30'
-          )}>
-            <h3 className="font-headline text-3xl mb-4 text-neon-orange">{plan.title}</h3>
-            <div className="mt-1 mb-6">
-              <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
-              <p className="text-sm text-text-desaturated/60">{plan.priceDetails}</p>
-            </div>
-            <ul className="space-y-3 font-body text-left mb-6">
-              {plan.features.map((feature: string, fIndex: number) => (
-                <li key={fIndex} className="flex items-start">
-                  <CheckCircle className="mr-2 mt-1 h-4 w-4 flex-shrink-0 text-neon-orange" />
-                  <span className="text-sm text-text-desaturated">{feature}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="text-xs font-body text-center mt-auto text-neon-orange/70">
-              Pasa el cursor para girar
-            </p>
-          </div>
-          {/* Back Face */}
-          <div 
-            className="absolute inset-0 flex h-full w-full flex-col items-center justify-center rounded-lg border-2 border-neon-orange/50 bg-surface-dark/95 p-8 text-center [backface-visibility:hidden] [transform:rotateY(180deg)]"
-            onClick={(e) => {
-              e.stopPropagation();
-              window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`, '_blank')
-            }}
-          >
-            <h4 className="font-headline text-3xl text-neon-orange mb-4">{plan.title}</h4>
-            <p className="mb-6 text-sm leading-relaxed text-text-desaturated">{plan.details}</p>
-            <span
-              className="font-headline mt-auto inline-block px-6 py-2 bg-gradient-neon text-cyber-black text-base rounded-md transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)] hover:scale-105"
-            >
-              CONTRATAR AHORA
-            </span>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-
   return (
     <section id="servicios" className="py-20 cyber-grain relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
@@ -307,24 +242,25 @@ const ServicesSection = () => {
         </div>
         
         <div className="relative min-h-[600px]">
-        {activeService === 'web' ? (
-             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {currentServicePlans.map((plan, index) => (
+        {activeService === 'web' && (
+             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                {mainServices.web.map((plan, index) => (
                   <PlanCard 
                     key={`web-${index}`}
                     plan={plan}
                   />
                 ))}
             </div>
-        ) : activeService === 'branding' ? (
+        )}
+
+        {activeService === 'web' && (
+          <div className='mt-16'>
+            <CombinedServiceCard />
+          </div>
+        )}
+        
+        {activeService === 'branding' ? (
              <div className="relative flex h-[500px] w-full items-center justify-center">
-                <button onClick={() => handleBrandingNav((brandingActiveIndex - 1 + mainServices.branding.length) % mainServices.branding.length)} className="absolute left-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-left-12">
-                  <ChevronLeft size={48} />
-                </button>
-                <button onClick={() => handleBrandingNav((brandingActiveIndex + 1) % mainServices.branding.length)} className="absolute right-0 top-1/2 z-20 -translate-y-1/2 text-neon-orange/70 transition-colors hover:text-neon-orange disabled:opacity-30 md:-right-12">
-                  <ChevronRight size={48} />
-                </button>
-                
                 <div className="relative h-full w-full max-w-sm flex items-center justify-center [transform-style:preserve-3d]">
                     {mainServices.branding.map((plan, index) => {
                         const isActive = index === brandingActiveIndex;
@@ -491,13 +427,15 @@ const ServicesSection = () => {
                   })()}
                 </div>
            </div>
-        ) : (
-             <div className="absolute inset-0 flex items-center justify-center">
+        ) : null}
+
+        {activeService !== 'web' && activeService !== 'branding' && activeService !== 'apps' && (
+            <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-text-desaturated py-16">
                 <p>Cargando servicios...</p>
               </div>
             </div>
-          )}
+        )}
         </div>
       </div>
     </section>
