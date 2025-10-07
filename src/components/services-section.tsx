@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { CheckCircle, Code, Gem, Package, Smartphone, Plus } from 'lucide-react';
 import { CombinedServiceCard } from '@/components/CombinedServiceCard';
+import { Button } from '@/components/ui/button';
 
 
 const ServicesSection = () => {
