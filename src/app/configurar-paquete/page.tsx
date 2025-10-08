@@ -62,7 +62,7 @@ export default function ConfigurarPaquetePage() {
       >
         {isSelected && <div className="absolute top-0 left-0 w-full h-1 bg-neon-yellow animate-glitch-line-1"></div>}
         <div className="flex items-start justify-between mb-4">
-          <h4 className="text-xl font-headline text-neon-yellow">{plan.title}</h4>
+          <h4 className="text-xl font-headline bg-gradient-neon text-transparent bg-clip-text">{plan.title}</h4>
           <Icon className={cn('w-6 h-6', isSelected ? 'text-neon-yellow' : 'text-neon-yellow/60')} />
         </div>
         <p className="text-text-desaturated/80 font-body text-sm mb-4 h-10">{plan.description}</p>
@@ -75,11 +75,11 @@ export default function ConfigurarPaquetePage() {
     <div className="min-h-screen bg-background text-foreground cyber-grain p-4 sm:p-6 lg:p-8">
       <div className="container mx-auto">
         <header className="flex items-center justify-between mb-8">
-          <Button variant="outline" onClick={() => router.back()} className="border-neon-yellow/50 text-neon-yellow/80 hover:bg-neon-yellow/10 hover:text-neon-yellow">
+          <Button variant="outline" onClick={() => router.back()} className="border-neon-orange/50 text-neon-orange/80 hover:bg-neon-orange/10 hover:text-neon-orange">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Volver
           </Button>
-          <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch text-center flex-1" data-text="LABORATORIO DE PAQUETES">
+          <h1 className="text-3xl md:text-4xl font-headline bg-gradient-neon text-transparent bg-clip-text glitch text-center flex-1" data-text="LABORATORIO DE PAQUETES">
             LABORATORIO DE PAQUETES
           </h1>
         </header>

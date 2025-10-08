@@ -6,7 +6,7 @@ export default function NotFound() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground cyber-grain">
       <div className="text-center">
         <h1
-          className="mb-4 text-9xl font-headline font-bold text-primary glitch"
+          className="mb-4 text-9xl font-headline font-bold bg-gradient-neon text-transparent bg-clip-text glitch"
           data-text="404"
         >
           404

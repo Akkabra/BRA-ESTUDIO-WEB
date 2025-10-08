@@ -183,7 +183,7 @@ export default function PortfolioAdminPage() {
             </div>
             
             <div className="flex-1 flex flex-col md:flex-row justify-center items-center gap-4 w-full">
-                <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch text-center" data-text="Admin Portafolio">
+                <h1 className="text-3xl md:text-4xl font-headline bg-gradient-neon text-transparent bg-clip-text glitch text-center" data-text="Admin Portafolio">
                     Admin Portafolio
                 </h1>
                 <Link href="/admin/hero-gallery" passHref>
@@ -243,7 +243,7 @@ export default function PortfolioAdminPage() {
        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogContent className="w-full max-w-[95vw] md:max-w-2xl bg-surface-dark border border-neon-yellow/30 text-text-desaturated">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-headline text-neon-yellow">
+                    <DialogTitle className="text-2xl font-headline bg-gradient-neon text-transparent bg-clip-text">
                         {editingProject ? 'Editar Proyecto' : 'Añadir Nuevo Proyecto'}
                     </DialogTitle>
                 </DialogHeader>

@@ -118,7 +118,7 @@ export default function HeroGalleryAdminPage() {
               <BraLogo className="h-10 w-auto neon-glow-subtle group-hover:neon-glow-intense transition-all" />
               <span className="font-headline hidden md:inline">Admin Portafolio</span>
             </Link>
-          <h1 className="text-3xl md:text-4xl font-headline text-neon-yellow glitch flex-1 text-center" data-text="Galería Hero">
+          <h1 className="text-3xl md:text-4xl font-headline bg-gradient-neon text-transparent bg-clip-text glitch flex-1 text-center" data-text="Galería Hero">
             Galería Hero
           </h1>
           <Button variant="hero" onClick={handleAddNew} className="w-full md:w-auto">
@@ -162,7 +162,7 @@ export default function HeroGalleryAdminPage() {
        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogContent className="w-full max-w-[95vw] md:max-w-md bg-surface-dark border border-neon-yellow/30 text-text-desaturated">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-headline text-neon-yellow">
+                    <DialogTitle className="text-2xl font-headline bg-gradient-neon text-transparent bg-clip-text">
                         Añadir Nueva Imagen al Hero
                     </DialogTitle>
                 </DialogHeader>

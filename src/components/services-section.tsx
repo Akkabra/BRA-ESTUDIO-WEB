@@ -163,7 +163,7 @@ const ServicesSection = () => {
           <div className="absolute inset-0 flex h-full w-full flex-col justify-between rounded-lg bg-surface-dark/90 p-6 shadow-md [backface-visibility:hidden] border border-neon-yellow/30 transition-all duration-300 group-hover:shadow-neon group-hover:scale-105">
             <div>
               <div className="mb-4 flex items-start justify-between">
-                <h3 className="text-2xl font-headline text-neon-yellow">{plan.title}</h3>
+                <h3 className="text-2xl font-headline bg-gradient-neon text-transparent bg-clip-text">{plan.title}</h3>
                 {Icon && (
                   <div className="rounded-full border bg-cyber-black/50 p-2 border-neon-yellow/30">
                     <Icon className="h-6 w-6 text-neon-yellow/70" />
@@ -195,7 +195,7 @@ const ServicesSection = () => {
           >
             <div className="absolute inset-0 bg-gradient-to-br from-neon-orange/10 via-transparent to-transparent scanlines opacity-50"></div>
             <div className="relative">
-              <h4 className="mb-4 text-xl font-headline text-neon-orange glitch-text">
+              <h4 className="mb-4 text-xl font-headline bg-gradient-neon text-transparent bg-clip-text glitch-text">
                 Más sobre {plan.title}
               </h4>
               <p className="font-body text-sm leading-relaxed text-text-desaturated/90 mb-6">{plan.details}</p>
@@ -221,7 +221,7 @@ const ServicesSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-           <h2 className="text-3xl md:text-5xl font-headline font-bold text-neon-yellow mb-6 glitch" data-text="NUESTROS SERVICIOS">
+           <h2 className="text-3xl md:text-5xl font-headline font-bold bg-gradient-neon text-transparent bg-clip-text mb-6 glitch" data-text="NUESTROS SERVICIOS">
               NUESTROS SERVICIOS
           </h2>
           <p className="text-xl text-text-desaturated max-w-3xl mx-auto font-body">
@@ -345,7 +345,7 @@ const ServicesSection = () => {
                                     ? 'border-neon-orange/80 animate-pulse-fast shadow-[0_0_30px_hsl(var(--neon-orange)/0.5),_inset_0_0_15px_hsl(var(--neon-orange)/0.3)]' 
                                     : 'border-neon-orange/30'
                                 )}>
-                                  <h3 className="font-headline text-3xl mb-4 text-neon-orange">{plan.title}</h3>
+                                  <h3 className="font-headline text-3xl mb-4 bg-gradient-neon text-transparent bg-clip-text">{plan.title}</h3>
                                   <div className="mt-1 mb-6">
                                       <span className="text-4xl font-bold text-text-desaturated">{plan.price}</span>
                                       <p className="text-sm text-text-desaturated/60">{plan.priceDetails}</p>
@@ -368,7 +368,7 @@ const ServicesSection = () => {
                                   e.stopPropagation();
                                   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, estoy interesado en contratar el ${plan.title}.`)}`, '_blank')
                                 }}>
-                                  <h4 className="font-headline text-3xl text-neon-orange mb-4">{plan.title}</h4>
+                                  <h4 className="font-headline text-3xl bg-gradient-neon text-transparent bg-clip-text mb-4">{plan.title}</h4>
                                   <p className="mb-6 text-sm leading-relaxed text-text-desaturated">{plan.details}</p>
                                   <span
                                       className="font-headline mt-auto inline-block px-6 py-2 bg-gradient-neon text-cyber-black text-base rounded-md transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--neon-orange)/0.7)] hover:scale-105"
@@ -404,7 +404,7 @@ const ServicesSection = () => {
                           : 'border-transparent hover:bg-neon-yellow/5'
                       )}
                     >
-                      <h3 className="font-headline text-xl text-neon-yellow">{plan.title}</h3>
+                      <h3 className="font-headline text-xl bg-gradient-neon text-transparent bg-clip-text">{plan.title}</h3>
                       <p className="text-sm text-text-desaturated/70">{plan.price}</p>
                       {activeAppPlanIndex === index && (
                         <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-10 bg-neon-orange rounded-r-full shadow-neon"></div>

@@ -130,10 +130,10 @@ const HeroSection = () => {
 
             <div className="relative">
               <h1
-                className="text-3xl sm:text-4xl lg:text-5xl font-headline font-bold glitch"
+                className="text-3xl sm:text-4xl lg:text-5xl font-headline font-bold bg-gradient-neon text-transparent bg-clip-text glitch"
                 data-text="BRA ESTUDIO WEB"
               >
-                <span className="text-neon-yellow">BRA ESTUDIO</span>{' '}
+                <span>BRA ESTUDIO</span>{' '}
                 <span className="text-text-desaturated">WEB</span>
               </h1>
             </div>
@@ -152,7 +152,7 @@ const HeroSection = () => {
                 font-headline text-sm font-bold tracking-widest uppercase 
                 
                 // Estilo Base Neón
-                text-cyber-black bg-gradient-neon shadow-[0_0_15px_hsl(var(--neon-yellow)/0.5)] 
+                text-cyber-black bg-gradient-neon shadow-[0_0_15px_hsl(var(--primary)/0.5)] 
                 border-2 border-neon-yellow
                 
                 // Efecto Hover

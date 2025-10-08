@@ -80,7 +80,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground cyber-grain p-4">
       <div className="w-full max-w-sm text-center flex flex-col items-center">
         <BraLogo className="h-20 w-auto mb-8" />
-        <h1 className="text-3xl font-headline text-neon-yellow mb-4 glitch" data-text="Admin Login">
+        <h1 className="text-3xl font-headline bg-gradient-neon text-transparent bg-clip-text mb-4 glitch" data-text="Admin Login">
           Admin Login
         </h1>
         <p className="text-text-desaturated mb-8">

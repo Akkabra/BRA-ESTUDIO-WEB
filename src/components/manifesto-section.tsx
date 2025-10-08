@@ -30,7 +30,7 @@ const ManifestoSection = () => {
 
       <div className="container mx-auto px-4 text-center relative z-20">
         <h2
-          className="text-4xl md:text-6xl font-headline font-bold text-neon-yellow mb-4 cyber-title glitch"
+          className="text-4xl md:text-6xl font-headline font-bold bg-gradient-neon text-transparent bg-clip-text mb-4 cyber-title glitch"
           data-text="MANIFIESTO"
         >
           MANIFIESTO
@@ -48,7 +48,7 @@ const ManifestoSection = () => {
                 </div>
               </div>
               <div className="pt-8">
-                <h3 className="text-2xl font-headline text-neon-yellow mb-4">{point.title}</h3>
+                <h3 className="text-2xl font-headline bg-gradient-neon text-transparent bg-clip-text mb-4">{point.title}</h3>
                 <p className="text-text-desaturated/80 font-body leading-relaxed">{point.text}</p>
               </div>
             </div>

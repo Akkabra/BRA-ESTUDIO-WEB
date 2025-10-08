@@ -113,7 +113,7 @@ const ContactSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2
-            className="text-4xl md:text-6xl font-headline font-bold text-neon-yellow mb-6 cyber-title glitch"
+            className="text-4xl md:text-6xl font-headline font-bold bg-gradient-neon text-transparent bg-clip-text mb-6 cyber-title glitch"
             data-text="CONTACTO"
           >
             CONTACTO
@@ -127,7 +127,7 @@ const ContactSection = () => {
           {/* Contact Form */}
           <Card className="bg-surface-dark/90 border border-neon-yellow/30 shadow-neon-subtle">
             <CardHeader>
-              <CardTitle className="text-2xl font-headline text-neon-yellow">
+              <CardTitle className="text-2xl font-headline bg-gradient-neon text-transparent bg-clip-text">
                 Envíanos un mensaje
               </CardTitle>
             </CardHeader>
@@ -237,7 +237,7 @@ const ContactSection = () => {
             {/* Contact Details */}
             <Card className="bg-surface-dark/90 border border-neon-yellow/30">
               <CardHeader>
-                <CardTitle className="text-2xl font-headline text-neon-yellow">
+                <CardTitle className="text-2xl font-headline bg-gradient-neon text-transparent bg-clip-text">
                   Información de contacto
                 </CardTitle>
               </CardHeader>
