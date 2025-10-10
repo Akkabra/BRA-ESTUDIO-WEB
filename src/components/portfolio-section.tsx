@@ -4,23 +4,26 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, Code, Search } from 'lucide-react';
-import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
+import { ExternalLink, Code, Search, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { cn, optimizeCloudinaryImage } from '@/lib/utils';
 import { db } from '@/lib/firebase';
 import { collection, getDocs } from "firebase/firestore";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay";
 
 
 interface Project {
-  id: string; // Changed to string to match firestore id
+  id: string;
   title: string;
   type: 'Web' | 'Branding' | 'App';
   description: string;
   longDescription: string;
-  image: string;
+  image: string; // Main thumbnail
+  webThumbnailUrls?: string[];
+  brandingImagesUrls?: string[];
   imageHint: string;
   technologies: string[];
   developmentTime: string;
@@ -28,41 +31,11 @@ interface Project {
   codeUrl?: string;
 }
 
-const AnimatedTitle = ({ text, className }: { text: string, className?: string }) => {
-  const variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.05,
-        duration: 0.5,
-      },
-    }),
-  };
-
-  return (
-    <h2 className={cn("text-4xl md:text-6xl font-headline font-bold text-neon-yellow mb-6", className)}>
-      {text.split('').map((char, i) => (
-        <motion.span
-          key={`${char}-${i}`}
-          custom={i}
-          variants={variants}
-          initial="hidden"
-          animate="visible"
-          className="inline-block"
-        >
-          {char === ' ' ? '\u00A0' : char}
-        </motion.span>
-      ))}
-    </h2>
-  );
-};
-
 const PortfolioSection = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeImage, setActiveImage] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
@@ -288,18 +261,41 @@ const PortfolioSection = () => {
                   </motion.div>
                 </DialogHeader>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 max-h-[80vh] overflow-y-auto">
-                  <div className="relative">
-                    <Image 
-                      src={optimizeCloudinaryImage(selectedProject.image || 'https://picsum.photos/seed/modal/600/400')} 
-                      alt={selectedProject.title}
-                      width={600}
-                      height={400}
-                      data-ai-hint={selectedProject.imageHint || 'project image'}
-                      className="w-full h-auto object-cover rounded-lg border-2 border-neon-yellow/30"
-                    />
-                    <div className="scanlines absolute inset-0 rounded-lg pointer-events-none opacity-20" />
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 max-h-[80vh] overflow-y-auto">
+                    <div className="space-y-6">
+                        {selectedProject.webThumbnailUrls && selectedProject.webThumbnailUrls.length > 0 ? (
+                           <Carousel 
+                             plugins={[Autoplay({ delay: 3000, stopOnInteraction: true })]}
+                             className="w-full relative group"
+                           >
+                                <CarouselContent>
+                                    {selectedProject.webThumbnailUrls.map((url, index) => (
+                                        <CarouselItem key={index}>
+                                            <Image
+                                                src={optimizeCloudinaryImage(url)}
+                                                alt={`${selectedProject.title} - Captura de pantalla ${index + 1}`}
+                                                width={600}
+                                                height={400}
+                                                className="w-full h-auto object-cover rounded-lg border-2 border-neon-yellow/30"
+                                            />
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-neon-yellow border-neon-yellow/50 hover:bg-neon-yellow hover:text-black transition-all opacity-0 group-hover:opacity-100" />
+                                <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-neon-yellow border-neon-yellow/50 hover:bg-neon-yellow hover:text-black transition-all opacity-0 group-hover:opacity-100" />
+                            </Carousel>
+                        ) : (
+                             <Image 
+                                src={optimizeCloudinaryImage(selectedProject.image || 'https://picsum.photos/seed/modal/600/400')} 
+                                alt={selectedProject.title}
+                                width={600}
+                                height={400}
+                                data-ai-hint={selectedProject.imageHint || 'project image'}
+                                className="w-full h-auto object-cover rounded-lg border-2 border-neon-yellow/30"
+                            />
+                        )}
+                         <div className="scanlines absolute inset-0 rounded-lg pointer-events-none opacity-20" />
+                    </div>
                   
                   <div className="space-y-4">
                     <div>
@@ -320,10 +316,12 @@ const PortfolioSection = () => {
                       </div>
                     </div>
                     
-                    <div>
-                      <h4 className="font-semibold text-neon-yellow mb-2 font-body">Tiempo de desarrollo</h4>
-                      <p className="text-text-desaturated font-body">{selectedProject.developmentTime}</p>
-                    </div>
+                    {selectedProject.developmentTime && (
+                      <div>
+                        <h4 className="font-semibold text-neon-yellow mb-2 font-body">Tiempo de desarrollo</h4>
+                        <p className="text-text-desaturated font-body">{selectedProject.developmentTime}</p>
+                      </div>
+                    )}
                     
                     <div className="flex flex-wrap gap-3 pt-4">
                       {selectedProject.liveUrl && (
@@ -348,6 +346,30 @@ const PortfolioSection = () => {
                       )}
                     </div>
                   </div>
+                  {/* Branding Images Grid */}
+                  {selectedProject.brandingImagesUrls && selectedProject.brandingImagesUrls.length > 0 && (
+                        <div className="md:col-span-2 space-y-4">
+                            <h4 className="font-semibold text-neon-yellow mb-2 font-body">Galería de Branding</h4>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {selectedProject.brandingImagesUrls.map((url, index) => (
+                                    <motion.div 
+                                      key={index}
+                                      className="relative group cursor-pointer"
+                                      onClick={() => setActiveImage(url)}
+                                      whileHover={{ scale: 1.05 }}
+                                    >
+                                        <Image
+                                            src={optimizeCloudinaryImage(url)}
+                                            alt={`Branding image ${index + 1}`}
+                                            width={300}
+                                            height={200}
+                                            className="rounded-lg object-cover w-full h-full border border-neon-yellow/20 group-hover:border-neon-yellow transition-all duration-300 shadow-neon-subtle group-hover:shadow-neon-intense"
+                                        />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
               </DialogContent>
             </Dialog>
@@ -355,6 +377,25 @@ const PortfolioSection = () => {
         </motion.div>
       )}
       </AnimatePresence>
+
+      <AnimatePresence>
+            {activeImage && (
+                <Dialog open onOpenChange={() => setActiveImage(null)}>
+                     <DialogContent className="p-0 bg-transparent border-none max-w-4xl w-full">
+                        <Image
+                            src={optimizeCloudinaryImage(activeImage)}
+                            alt="Branding image enlarged"
+                            width={1200}
+                            height={800}
+                            className="w-full h-auto object-contain rounded-lg"
+                        />
+                        <DialogClose className="absolute -top-2 -right-2 bg-surface-dark text-white rounded-full p-1">
+                            <X className="h-5 w-5" />
+                        </DialogClose>
+                    </DialogContent>
+                </Dialog>
+            )}
+        </AnimatePresence>
     </>
   );
 };

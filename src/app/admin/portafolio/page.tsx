@@ -39,7 +39,9 @@ interface Project {
     type: 'Web' | 'Branding' | 'App';
     description: string;
     longDescription?: string;
-    image?: string;
+    image?: string; // Main thumbnail
+    webThumbnailUrls?: string[];
+    brandingImagesUrls?: string[];
     technologies?: string[];
     liveUrl?: string;
     codeUrl?: string;
@@ -92,7 +94,7 @@ export default function PortfolioAdminPage() {
 
     const handleAddNew = () => {
         setEditingProject(null);
-        setFormData({ type: 'Web', technologies: [] });
+        setFormData({ type: 'Web', technologies: [], webThumbnailUrls: [], brandingImagesUrls: [] });
         setIsDialogOpen(true);
     };
 
@@ -117,8 +119,9 @@ export default function PortfolioAdminPage() {
     
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        if (name === 'technologies') {
-            setFormData(prev => ({ ...prev, [name]: value.split(',').map(tech => tech.trim()) }));
+        const arrayFields = ['technologies', 'webThumbnailUrls', 'brandingImagesUrls'];
+        if (arrayFields.includes(name)) {
+            setFormData(prev => ({ ...prev, [name]: value.split(',').map(item => item.trim()).filter(item => item) }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
@@ -281,14 +284,24 @@ export default function PortfolioAdminPage() {
                         <Input id="codeUrl" name="codeUrl" value={formData.codeUrl || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" />
                     </div>
                      <div className='grid gap-2'>
-                        <Label htmlFor="image" className="text-neon-yellow/80">URL de la Imagen</Label>
-                        <Input id="image" name="image" value={formData.image || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="https://ejemplo.com/imagen.png" />
-                        {formData.image && (
-                           <div className="mt-2 relative w-full h-32">
-                             <Image src={optimizeCloudinaryImage(formData.image)} alt="Vista previa" fill className="object-contain rounded-md" />
-                           </div>
-                        )}
+                        <Label htmlFor="image" className="text-neon-yellow/80">URL de la Imagen Principal (Thumbnail)</Label>
+                        <Input id="image" name="image" value={formData.image || ''} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="URL de la imagen de portada" />
                     </div>
+                    <div className='grid gap-2'>
+                        <Label htmlFor="webThumbnailUrls" className="text-neon-yellow/80">URLs de Miniaturas Web (separadas por coma)</Label>
+                        <Textarea id="webThumbnailUrls" name="webThumbnailUrls" value={(formData.webThumbnailUrls || []).join(', ')} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="url1, url2, url3" />
+                    </div>
+                     <div className='grid gap-2'>
+                        <Label htmlFor="brandingImagesUrls" className="text-neon-yellow/80">URLs de Imágenes de Branding (separadas por coma)</Label>
+                        <Textarea id="brandingImagesUrls" name="brandingImagesUrls" value={(formData.brandingImagesUrls || []).join(', ')} onChange={handleFormChange} className="bg-cyber-black/50 border-neon-yellow/30" placeholder="url1, url2, url3" />
+                    </div>
+
+                    {(formData.image || (formData.webThumbnailUrls && formData.webThumbnailUrls[0])) && (
+                        <div className="mt-2 relative w-full h-32">
+                            <Image src={optimizeCloudinaryImage(formData.image || formData.webThumbnailUrls![0])} alt="Vista previa" fill className="object-contain rounded-md" />
+                        </div>
+                    )}
+                    
                     <DialogFooter className="mt-4 flex-col sm:flex-row gap-2">
                         <DialogClose asChild>
                             <Button type="button" variant="secondary" className="w-full sm:w-auto">Cancelar</Button>
@@ -316,3 +329,4 @@ export default function PortfolioAdminPage() {
 
 
     
+
