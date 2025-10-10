@@ -1,5 +1,7 @@
 'use client'
-import { placeholderImages } from '@/lib/placeholder-images';
+import placeholderData from '@/lib/placeholder-images.json';
+
+const { placeholderImages } = placeholderData;
 
 export interface Project {
     id: string;
