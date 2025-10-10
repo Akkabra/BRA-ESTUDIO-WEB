@@ -43,7 +43,7 @@ const Footer = () => {
     { name: 'Inicio', href: '#inicio' },
     { name: 'Servicios', href: '#servicios' },
     { name: 'Portafolio', href: '#portafolio' },
-    { name: 'FAQ', href: '/faq' },
+    { name: 'IA BRA', href: '/ia' },
     { name: 'Contacto', href: '#contacto' },
   ];
 
