@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
-import { Loader2, Send, BrainCircuit, ArrowLeft, Bot, Sparkles, Wand2 } from 'lucide-react';
+import { Loader2, Send, BrainCircuit, ArrowLeft, Bot, Sparkles, Wand2, Rocket } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 import { generateFaqAnswer } from '@/ai/flows/faq-flow';
 import { analyzeProjectBriefing, BriefingOutput } from '@/ai/flows/briefing-analyzer-flow';
@@ -203,6 +203,14 @@ export default function IaPage() {
                                 <h3 className="font-headline text-lg text-neon-yellow mb-2">[3] PASO SIGUIENTE SUGERIDO</h3>
                                 <p className='italic'>{briefingAnalysis.nextStep}</p>
                             </div>
+                             <div className="pt-6 text-center">
+                                <Link href="/#contacto" passHref>
+                                  <Button variant="hero" size="lg" className="animate-pulse">
+                                    <Rocket className="mr-2 h-5 w-5" />
+                                    INICIAR PROYECTO
+                                  </Button>
+                                </Link>
+                              </div>
                         </>
                     )}
                  </div>
