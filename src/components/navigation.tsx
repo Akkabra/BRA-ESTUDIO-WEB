@@ -45,7 +45,7 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
     { name: 'Inicio', href: '#inicio' },
     { name: 'Manifiesto', href: '#manifiesto' },
     { name: 'Portafolio', href: '#portafolio' },
-    { name: 'IA BRA', href: '/ia' },
+    // { name: 'IA BRA', href: '/ia' },
     { name: 'Contacto', href: '#contacto' },
   ];
   
@@ -54,7 +54,7 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
     { name: 'Manifiesto', href: '#manifiesto' },
     { name: 'Servicios', href: '#servicios' },
     { name: 'Portafolio', href: '#portafolio' },
-    { name: 'IA BRA', href: '/ia' },
+    // { name: 'IA BRA', href: '/ia' },
     { name: 'Contacto', href: '#contacto' },
   ];
 
