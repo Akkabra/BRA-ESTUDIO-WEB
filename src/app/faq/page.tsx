@@ -9,6 +9,7 @@ import { generateFaqAnswer } from '@/ai/flows/faq-flow';
 import { useToast } from '@/hooks/use-toast';
 import { Typewriter } from '@/components/typewriter';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function FaqPage() {
   const [question, setQuestion] = useState('');
@@ -39,6 +40,11 @@ export default function FaqPage() {
       setIsLoading(false);
     }
   };
+  
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground cyber-grain">
@@ -51,7 +57,12 @@ export default function FaqPage() {
         </header>
 
       <main className="flex-1 flex items-center justify-center p-4 pt-20">
-        <div className="w-full max-w-2xl text-center">
+        <motion.div 
+            className="w-full max-w-2xl text-center"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+        >
           <div className="mb-8 flex justify-center items-center gap-4">
             <BrainCircuit className="h-12 w-12 text-neon-yellow" />
             <h1
@@ -91,7 +102,7 @@ export default function FaqPage() {
               <p className="text-neon-yellow/50 animate-pulse">Esperando transmisión de datos...</p>
             )}
           </div>
-        </div>
+        </motion.div>
       </main>
     </div>
   );
