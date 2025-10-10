@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -18,13 +19,17 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    if (href === '#inicio') {
+    if (href.startsWith('#')) {
+      if (href === '#inicio') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
+      } else {
         const targetElement = document.querySelector(href);
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth' });
         }
+      }
+    } else {
+        window.location.href = href;
     }
     setIsOpen(false);
   };
@@ -40,6 +45,7 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
     { name: 'Inicio', href: '#inicio' },
     { name: 'Manifiesto', href: '#manifiesto' },
     { name: 'Portafolio', href: '#portafolio' },
+    { name: 'FAQ', href: '/faq' },
     { name: 'Contacto', href: '#contacto' },
   ];
   
@@ -48,6 +54,7 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
     { name: 'Manifiesto', href: '#manifiesto' },
     { name: 'Servicios', href: '#servicios' },
     { name: 'Portafolio', href: '#portafolio' },
+    { name: 'FAQ', href: '/faq' },
     { name: 'Contacto', href: '#contacto' },
   ];
 
@@ -191,7 +198,7 @@ const NavigationContent = ({ activeSection }: { activeSection: string }) => {
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href)}
                 className={cn("text-3xl font-headline text-text-desaturated hover:text-neon-yellow transition-transform duration-300 hover:scale-110 animate-fade-in-up", {
-                  'active-link': activeSection === link.href.substring(1)
+                  'active-link': activeSection === (link.href.startsWith('#') ? link.href.substring(1) : '')
                 })}
                 style={{ animationDelay: `${index * 100 + 300}ms`, animationFillMode: 'backwards' }}
               >

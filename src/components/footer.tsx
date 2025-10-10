@@ -43,6 +43,7 @@ const Footer = () => {
     { name: 'Inicio', href: '#inicio' },
     { name: 'Servicios', href: '#servicios' },
     { name: 'Portafolio', href: '#portafolio' },
+    { name: 'FAQ', href: '/faq' },
     { name: 'Contacto', href: '#contacto' },
   ];
 
@@ -83,9 +84,9 @@ const Footer = () => {
         <nav className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 mb-8 font-body text-sm text-text-desaturated">
           {quickLinks.map((link, index) => (
             <React.Fragment key={link.name}>
-              <a href={link.href} className="hover:text-neon-yellow hover:brightness-125 transition-all duration-300">
+              <Link href={link.href} className="hover:text-neon-yellow hover:brightness-125 transition-all duration-300">
                 {link.name}
-              </a>
+              </Link>
               {index < quickLinks.length - 1 && <span className="text-neon-yellow/50">•</span>}
             </React.Fragment>
           ))}
