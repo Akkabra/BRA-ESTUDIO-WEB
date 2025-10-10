@@ -18,16 +18,31 @@ interface Message {
 
 const LiveChatTerminal = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showButton, setShowButton] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: 'ai',
-      text: 'Conexión de terminal establecida. Soy tu Unidad de Soporte IA. ¿Cómo puedo ayudarte?',
+      text: 'Hola, soy el asistente virtual de BRA ESTUDIO WEB. ¿En qué puedo ayudarte hoy?',
     },
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
 
   const scrollToBottom = () => {
     if (scrollAreaRef.current) {
@@ -71,19 +86,29 @@ const LiveChatTerminal = () => {
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-50">
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Button
-            size="icon"
-            variant="hero"
-            onClick={() => setIsOpen(!isOpen)}
-            className="rounded-full w-14 h-14 shadow-neon-intense animate-pulse"
-            aria-label="Abrir terminal de chat"
-          >
-            {isOpen ? <X size={28} /> : <MessageSquare size={28} />}
-          </Button>
-        </motion.div>
-      </div>
+      <AnimatePresence>
+        {showButton && (
+            <motion.div
+            className="fixed bottom-6 right-6 z-50"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3 }}
+            >
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <Button
+                        size="icon"
+                        variant="hero"
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="rounded-full w-14 h-14 shadow-neon-intense animate-pulse"
+                        aria-label="Abrir terminal de chat"
+                    >
+                        {isOpen ? <X size={28} /> : <MessageSquare size={28} />}
+                    </Button>
+                </motion.div>
+            </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {isOpen && (

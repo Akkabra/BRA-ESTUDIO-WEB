@@ -7,17 +7,19 @@ export const Typewriter = ({ text, speed = 30 }: { text: string, speed?: number 
 
   useEffect(() => {
     setDisplayedText('');
-    let i = 0;
-    const intervalId = setInterval(() => {
-      setDisplayedText((prev) => prev + text.charAt(i));
-      i++;
-      if (i > text.length) {
-        clearInterval(intervalId);
-      }
-    }, speed);
+    if (text) {
+        let i = 0;
+        const intervalId = setInterval(() => {
+        setDisplayedText((prev) => prev + text.charAt(i));
+        i++;
+        if (i >= text.length) {
+            clearInterval(intervalId);
+        }
+        }, speed);
 
-    return () => clearInterval(intervalId);
+        return () => clearInterval(intervalId);
+    }
   }, [text, speed]);
 
-  return <p>{displayedText}<span className="animate-pulse">_</span></p>;
+  return <p>{displayedText}<span className="inline-block w-2 h-4 bg-current animate-pulse ml-1"></span></p>;
 };
