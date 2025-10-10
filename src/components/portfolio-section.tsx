@@ -354,6 +354,7 @@ const PortfolioSection = () => {
             {activeImage && (
                 <Dialog open onOpenChange={() => setActiveImage(null)}>
                      <DialogContent className="p-0 bg-transparent border-none max-w-4xl w-full">
+                        <DialogTitle className="sr-only">Branding Image Enlarged</DialogTitle>
                         <Image
                             src={optimizeCloudinaryImage(activeImage)}
                             alt="Branding image enlarged"
@@ -373,5 +374,3 @@ const PortfolioSection = () => {
 };
 
 export default PortfolioSection;
-
-    
