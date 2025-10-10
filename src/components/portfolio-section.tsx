@@ -1,27 +1,60 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, Code, Search, X } from 'lucide-react';
+import { ExternalLink, Code, Search, X, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { cn, optimizeCloudinaryImage } from '@/lib/utils';
-import { projects as projectsData, Project } from '@/data/projects';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
+import { db } from '@/lib/firebase';
+import { collection, getDocs } from 'firebase/firestore';
+
+export interface Project {
+    id: string;
+    title: string;
+    type: 'Web' | 'Branding' | 'App';
+    description: string;
+    longDescription?: string;
+    image?: string; 
+    webThumbnailUrls?: string[];
+    brandingImagesUrls?: string[];
+    imageHint?: string;
+    technologies?: string[];
+    developmentTime?: string;
+    liveUrl?: string;
+    codeUrl?: string;
+}
 
 
 const PortfolioSection = () => {
-  const [projects] = useState<Project[]>(projectsData);
-  const [loading] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      setLoading(true);
+      try {
+        const querySnapshot = await getDocs(collection(db, "portafolio_proyectos"));
+        const projectsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Project[];
+        setProjects(projectsData);
+      } catch (error) {
+        console.error("Error fetching projects: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   const filteredProjects = projects.filter(project => {
     const matchesFilter = filter === 'all' || project.type === filter;
@@ -111,7 +144,10 @@ const PortfolioSection = () => {
           </div>
           
           {loading ? (
-             <div className="text-center text-neon-yellow font-headline">Cargando proyectos...</div>
+             <div className="flex justify-center items-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin text-neon-yellow"/>
+                <p className="ml-4 text-neon-yellow font-headline">Cargando proyectos...</p>
+            </div>
           ) : (
             <LayoutGroup>
               <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -196,7 +232,7 @@ const PortfolioSection = () => {
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl font-headline text-neon-yellow mb-2">No se encontraron proyectos</h3>
-              <p className="text-text-desaturated">Intenta con otros términos de búsqueda o filtros</p>
+              <p className="text-text-desaturated">Intenta con otros términos de búsqueda o filtros. O añade tu primer proyecto desde el panel de administrador.</p>
             </div>
           )}
         </div>
@@ -251,8 +287,8 @@ const PortfolioSection = () => {
                                 <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-neon-yellow border-neon-yellow/50 hover:bg-neon-yellow hover:text-black transition-all opacity-0 group-hover:opacity-100" />
                             </Carousel>
                         ) : (
-                             <Image 
-                                src={optimizeCloudinaryImage(selectedProject.image || 'https://picsum.photos/seed/modal/600/400')} 
+                             selectedProject.image && <Image 
+                                src={optimizeCloudinaryImage(selectedProject.image)} 
                                 alt={selectedProject.title}
                                 width={600}
                                 height={400}
