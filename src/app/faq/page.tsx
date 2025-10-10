@@ -3,19 +3,22 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2, Send, BrainCircuit } from 'lucide-react';
+import { Loader2, Send, BrainCircuit, ArrowLeft } from 'lucide-react';
 import { BraLogo } from '@/components/bra-logo';
 import { generateFaqAnswer } from '@/ai/flows/faq-flow';
 import { useToast } from '@/hooks/use-toast';
 import { Typewriter } from '@/components/typewriter';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+
 
 export default function FaqPage() {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +56,10 @@ export default function FaqPage() {
                 <Link href="/" aria-label="Volver al inicio">
                     <BraLogo className="h-8 w-auto" />
                 </Link>
+                <Button variant="outline" onClick={() => router.back()} className="border-neon-yellow/50 text-neon-yellow/80 hover:bg-neon-yellow/10 hover:text-neon-yellow">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Volver
+                </Button>
             </div>
         </header>
 
