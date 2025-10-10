@@ -105,6 +105,53 @@ export const projects: Project[] = [
         developmentTime: '16 Semanas',
         liveUrl: '#',
         codeUrl: '#'
+    },
+    {
+      id: '7',
+      title: 'Portfolio Interactivo "Glitch"',
+      type: 'Web',
+      description: 'Sitio web personal para un artista digital con efectos visuales generativos.',
+      longDescription: 'Un portafolio web experimental que utiliza shaders y WebGL para crear una experiencia de navegación única. Cada proyecto se presenta como una "falla" en la matriz, con animaciones generativas que reaccionan a la interacción del usuario. El sitio fue construido con SvelteKit y Three.js para un rendimiento excepcional y una libertad creativa total.',
+      image: "https://picsum.photos/seed/glitch-art/600/338",
+      imageHint: 'generative art',
+      technologies: ['SvelteKit', 'Three.js', 'GLSL', 'Vercel'],
+      developmentTime: '6 Semanas',
+      liveUrl: '#',
+      codeUrl: '#',
+      webThumbnailUrls: [
+        "https://picsum.photos/seed/glitch-1/600/400",
+        "https://picsum.photos/seed/glitch-2/600/400",
+        "https://picsum.photos/seed/glitch-3/600/400"
+      ]
+    },
+    {
+        id: '8',
+        title: 'Identidad para "Vortex Audio"',
+        type: 'Branding',
+        description: 'Branding completo para una marca de auriculares de alta fidelidad.',
+        longDescription: 'Desarrollo de una identidad de marca audaz y moderna para Vortex Audio. El proyecto incluyó el diseño de un logotipo inspirado en las ondas sonoras, un packaging de producto premium y una guía de estilo completa para asegurar la coherencia en todos los puntos de contacto con el cliente, desde la web hasta el punto de venta.',
+        image: 'https://picsum.photos/seed/vortex-audio/600/338',
+        imageHint: 'audio branding',
+        technologies: ['Figma', 'Cinema 4D', 'Illustrator'],
+        developmentTime: '6 Semanas',
+        brandingImagesUrls: [
+            "https://picsum.photos/seed/vortex-1/600/400",
+            "https://picsum.photos/seed/vortex-2/600/400",
+            "https://picsum.photos/seed/vortex-3/600/400"
+        ]
+    },
+    {
+        id: '9',
+        title: 'App de Realidad Aumentada "HoloDeck"',
+        type: 'App',
+        description: 'Aplicación de AR para visualización de muebles en tiempo real.',
+        longDescription: 'Desarrollo de una aplicación para iOS y Android que permite a los usuarios visualizar muebles de un catálogo en su propio espacio utilizando la cámara de su dispositivo. La app fue creada con ARCore y ARKit, ofreciendo una experiencia de compra inmersiva y práctica que reduce la incertidumbre del cliente y aumenta las conversiones.',
+        image: 'https://picsum.photos/seed/holodeck-app/600/338',
+        imageHint: 'augmented reality',
+        technologies: ['Unity', 'ARCore', 'ARKit', 'C#'],
+        developmentTime: '14 Semanas',
+        liveUrl: '#',
+        codeUrl: '#'
     }
   ];
   
