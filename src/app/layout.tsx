@@ -5,6 +5,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster'; 
 import { Inter, Orbitron } from 'next/font/google';
 import { cn } from '@/lib/utils';
+import LiveChatTerminal from '@/components/live-chat-terminal';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const orbitron = Orbitron({ subsets: ['latin'], variable: '--font-orbitron', weight: ['400', '700'] });
@@ -39,6 +40,7 @@ export default function RootLayout({
           <TooltipProvider>
             {children}
             <Toaster />
+            <LiveChatTerminal />
           </TooltipProvider>
         </AuthProvider>
       </body>
