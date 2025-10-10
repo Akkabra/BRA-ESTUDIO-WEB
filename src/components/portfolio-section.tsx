@@ -1,61 +1,27 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, Code, Search, ArrowLeft, ArrowRight, X } from 'lucide-react';
+import { ExternalLink, Code, Search, X } from 'lucide-react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { cn, optimizeCloudinaryImage } from '@/lib/utils';
-import { db } from '@/lib/firebase';
-import { collection, getDocs } from "firebase/firestore";
+import { projects as projectsData, Project } from '@/data/projects';
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@/components/ui/carousel';
 import Autoplay from "embla-carousel-autoplay";
 
 
-interface Project {
-  id: string;
-  title: string;
-  type: 'Web' | 'Branding' | 'App';
-  description: string;
-  longDescription: string;
-  image: string; // Main thumbnail
-  webThumbnailUrls?: string[];
-  brandingImagesUrls?: string[];
-  imageHint: string;
-  technologies: string[];
-  developmentTime: string;
-  liveUrl?: string;
-  codeUrl?: string;
-}
-
 const PortfolioSection = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [projects] = useState<Project[]>(projectsData);
+  const [loading] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "portafolio_proyectos"));
-        const projectsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Project[];
-        setProjects(projectsData);
-      } catch (error) {
-        console.error("Error fetching projects: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
 
   const filteredProjects = projects.filter(project => {
     const matchesFilter = filter === 'all' || project.type === filter;
@@ -371,6 +337,12 @@ const PortfolioSection = () => {
                         </div>
                     )}
                 </div>
+                <DialogClose asChild>
+                  <button className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground z-10">
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">Close</span>
+                  </button>
+                </DialogClose>
               </DialogContent>
             </Dialog>
           </motion.div>
@@ -401,3 +373,5 @@ const PortfolioSection = () => {
 };
 
 export default PortfolioSection;
+
+    
