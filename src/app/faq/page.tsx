@@ -22,9 +22,11 @@ export default function FaqPage() {
 
     setIsLoading(true);
     setAnswer('');
-
+    
     try {
-      const result = await generateFaqAnswer({ question });
+      const currentQuestion = question;
+      setQuestion(''); // Clear input after submit
+      const result = await generateFaqAnswer({ question: currentQuestion });
       setAnswer(result.answer);
     } catch (error) {
       console.error('Error processing query:', error);
