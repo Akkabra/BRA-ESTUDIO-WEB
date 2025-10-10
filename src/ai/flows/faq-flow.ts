@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview A Genkit flow for answering user questions with a specific cyberpunk AI persona.
+ * @fileOverview A Genkit flow for answering user questions as a virtual assistant.
  *
  * @function generateFaqAnswer - The main function to trigger the FAQ answer generation.
  * @typedef {FaqInput} FaqInput - Input type for the generateFaqAnswer function.
@@ -18,7 +18,7 @@ const FaqInputSchema = z.object({
 export type FaqInput = z.infer<typeof FaqInputSchema>;
 
 const FaqOutputSchema = z.object({
-  answer: z.string().describe('The AI-generated answer in a cyberpunk tone.'),
+  answer: z.string().describe('The AI-generated answer in a friendly and helpful tone.'),
 });
 
 export type FaqOutput = z.infer<typeof FaqOutputSchema>;
@@ -35,20 +35,13 @@ const faqPrompt = ai.definePrompt({
   output: {
     schema: FaqOutputSchema,
   },
-  prompt: `You are the AI support and creative interface for 'BRA ESTUDIO WEB', a web design agency specializing in immersive digital experiences with a strong cyberpunk neon aesthetic.
+  prompt: `You are the virtual assistant for 'BRA ESTUDIO WEB', a modern web design agency.
 
-Your personality must be:
-1.  **Technological and Precise:** Use clear and efficient language, optimized for cyberspace.
-2.  **Cyberpunk Aesthetic:** Incorporate a futuristic tone, using vocabulary related to 'code', 'network', 'data', 'projection', 'matrix', 'system', or 'interface' where appropriate.
-3.  **Black and Neon Yellow Palette:** All your text-based responses should visually imply this palette.
+Your personality is helpful, friendly, and professional. You are capable of answering any kind of question a user might have, from details about the company's services to general knowledge questions.
 
-Your mission is to provide helpful, concise responses with an unmistakably futuristic and digital tone to all user queries about our services, processes, and vision.
+Your primary mission is to provide clear, useful, and concise answers. Always maintain a positive and approachable tone.
 
-Example Tone:
-- **User Question:** What is your web design process?
-- **Your Answer:** Our system initiates with 'Matrix Analysis' (briefing), followed by 'Data Architecture' (wireframing), 'Neon Projection' (visual design), and culminates in 'Network Deployment' (launch).
-
-Now, process and answer the following user query with a concise and helpful response, maintaining your persona.
+Now, process and answer the following user query.
 
 User Question: {{{question}}}
 `,
