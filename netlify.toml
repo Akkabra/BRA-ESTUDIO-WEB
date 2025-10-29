@@ -6,6 +6,8 @@
   # Desactiva los warnings de Genkit durante la compilación, ya que no son necesarios en producción.
   GENKIT_TELEMETRY_EXPORT_TIMEOUT = "0"
   GENKIT_TELEMETRY_LOG_LEVEL = "SILENT"
+  # Asegura que la API key de Gemini esté disponible para Genkit en producción.
+  GEMINI_API_KEY = "${GEMINI_API_KEY}"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
