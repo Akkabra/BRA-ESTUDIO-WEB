@@ -1,12 +1,9 @@
 "use client";
 
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
-import { onAuthStateChanged, User, getAuth } from 'firebase/auth';
-import { app } from '@/lib/firebase'; // Import the initialized app
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { auth } from '@/lib/firebase'; // Import the auth instance from your firebase config
 import { useRouter } from 'next/navigation';
-
-// Get auth instance directly
-const auth = getAuth(app);
 
 interface AuthContextType {
   user: User | null;
