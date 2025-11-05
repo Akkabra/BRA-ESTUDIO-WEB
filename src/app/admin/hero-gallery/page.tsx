@@ -51,10 +51,20 @@ export default function HeroGalleryAdminPage() {
 
     const fetchImages = async () => {
         setLoading(true);
-        const querySnapshot = await getDocs(collection(db, "hero_backgrounds"));
-        const imagesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as HeroImage[];
-        setImages(imagesData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)));
-        setLoading(false);
+        try {
+            const querySnapshot = await getDocs(collection(db, "hero_backgrounds"));
+            const imagesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as HeroImage[];
+            setImages(imagesData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)));
+        } catch (error) {
+            console.error("Error fetching images: ", error);
+            toast({
+                variant: "destructive",
+                title: "Error de conexión",
+                description: "No se pudieron cargar las imágenes de Firestore. Verifica la configuración de Firebase.",
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleAddNew = () => {

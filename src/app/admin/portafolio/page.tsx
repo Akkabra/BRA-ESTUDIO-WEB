@@ -86,10 +86,20 @@ export default function PortfolioAdminPage() {
 
     const fetchProjects = async () => {
         setLoading(true);
-        const querySnapshot = await getDocs(collection(db, "portafolio_proyectos"));
-        const projectsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Project[];
-        setProjects(projectsData);
-        setLoading(false);
+        try {
+            const querySnapshot = await getDocs(collection(db, "portafolio_proyectos"));
+            const projectsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Project[];
+            setProjects(projectsData);
+        } catch (error) {
+            console.error("Error fetching projects: ", error);
+            toast({
+                variant: "destructive",
+                title: "Error de conexión",
+                description: "No se pudieron cargar los proyectos de Firestore. Verifica la configuración de Firebase.",
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleAddNew = () => {
@@ -329,4 +339,5 @@ export default function PortfolioAdminPage() {
 
 
     
+
 
