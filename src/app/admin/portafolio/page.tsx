@@ -31,6 +31,8 @@ import Image from 'next/image';
 import { BraLogo } from '@/components/bra-logo';
 import { useToast } from '@/hooks/use-toast';
 import { optimizeCloudinaryImage } from '@/lib/utils';
+import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
+import { errorEmitter } from '@/firebase/error-emitter';
 
 
 interface Project {
@@ -86,20 +88,22 @@ export default function PortfolioAdminPage() {
 
     const fetchProjects = async () => {
         setLoading(true);
-        try {
-            const querySnapshot = await getDocs(collection(db, "portafolio_proyectos"));
+        const projectsCollectionRef = collection(db, "portafolio_proyectos");
+        
+        getDocs(projectsCollectionRef)
+          .then(querySnapshot => {
             const projectsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Project[];
             setProjects(projectsData);
-        } catch (error) {
-            console.error("Error fetching projects: ", error);
-            toast({
-                variant: "destructive",
-                title: "Error de conexión",
-                description: "No se pudieron cargar los proyectos de Firestore. Verifica la configuración de Firebase.",
-            });
-        } finally {
             setLoading(false);
-        }
+          })
+          .catch(serverError => {
+            const permissionError = new FirestorePermissionError({
+                path: projectsCollectionRef.path,
+                operation: 'list',
+            } satisfies SecurityRuleContext);
+            errorEmitter.emit('permission-error', permissionError);
+            setLoading(false);
+          });
     };
 
     const handleAddNew = () => {
@@ -116,14 +120,19 @@ export default function PortfolioAdminPage() {
 
     const handleDelete = async (projectId: string) => {
         if (window.confirm('¿Estás seguro de que quieres eliminar este proyecto? Esta acción no se puede deshacer.')) {
-            try {
-                await deleteDoc(doc(db, "portafolio_proyectos", projectId));
-                await fetchProjects(); // Refresh list
+            const docRef = doc(db, "portafolio_proyectos", projectId);
+            deleteDoc(docRef)
+              .then(() => {
+                fetchProjects();
                 toast({ title: "Proyecto eliminado", description: "El proyecto ha sido eliminado exitosamente." });
-            } catch (error) {
-                console.error("Error deleting project: ", error);
-                toast({ variant: "destructive", title: "Error", description: "No se pudo eliminar el proyecto." });
-            }
+              })
+              .catch(serverError => {
+                const permissionError = new FirestorePermissionError({
+                    path: docRef.path,
+                    operation: 'delete',
+                } satisfies SecurityRuleContext);
+                errorEmitter.emit('permission-error', permissionError);
+              });
         }
     };
     
@@ -141,30 +150,51 @@ export default function PortfolioAdminPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        try {
-            const dataToSave = {
-                ...formData,
-                updatedAt: serverTimestamp()
-            };
-    
-            if (editingProject) {
-                const projectDoc = doc(db, "portafolio_proyectos", editingProject.id);
-                await updateDoc(projectDoc, dataToSave);
+        const dataToSave = {
+            ...formData,
+            updatedAt: serverTimestamp()
+        };
+
+        if (editingProject) {
+            const projectDocRef = doc(db, "portafolio_proyectos", editingProject.id);
+            updateDoc(projectDocRef, dataToSave)
+              .then(() => {
                 toast({ title: "Proyecto actualizado", description: "Los cambios se han guardado exitosamente." });
-            } else {
-                await addDoc(collection(db, "portafolio_proyectos"), { ...dataToSave, createdAt: serverTimestamp() });
+                finishSubmit();
+              })
+              .catch(serverError => {
+                const permissionError = new FirestorePermissionError({
+                    path: projectDocRef.path,
+                    operation: 'update',
+                    requestResourceData: dataToSave
+                } satisfies SecurityRuleContext);
+                errorEmitter.emit('permission-error', permissionError);
+              });
+        } else {
+            const collectionRef = collection(db, "portafolio_proyectos");
+            const finalData = { ...dataToSave, createdAt: serverTimestamp() };
+            addDoc(collectionRef, finalData)
+              .then(() => {
                 toast({ title: "Proyecto creado", description: "El nuevo proyecto se ha añadido al portafolio." });
-            }
-            
-            await fetchProjects();
-            setIsDialogOpen(false);
-            setEditingProject(null);
-            setFormData({});
-        } catch (error) {
-            console.error("Error saving project:", error);
-            toast({ variant: "destructive", title: "Error", description: "No se pudo guardar el proyecto." });
+                finishSubmit();
+              })
+              .catch(serverError => {
+                const permissionError = new FirestorePermissionError({
+                    path: collectionRef.path,
+                    operation: 'create',
+                    requestResourceData: finalData
+                } satisfies SecurityRuleContext);
+                errorEmitter.emit('permission-error', permissionError);
+              });
         }
     };
+
+    const finishSubmit = () => {
+      fetchProjects();
+      setIsDialogOpen(false);
+      setEditingProject(null);
+      setFormData({});
+    }
     
 
     if (authLoading || !user) {
@@ -339,5 +369,6 @@ export default function PortfolioAdminPage() {
 
 
     
+
 
 

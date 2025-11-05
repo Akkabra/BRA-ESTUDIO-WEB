@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Inter, Orbitron } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import LiveChatTerminal from '@/components/live-chat-terminal';
+import FirebaseErrorListener from '@/components/FirebaseErrorListener';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const orbitron = Orbitron({ subsets: ['latin'], variable: '--font-orbitron', weight: ['400', '700'] });
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body className={cn(inter.variable, orbitron.variable)}>
         <AuthProvider>
           <TooltipProvider>
+            <FirebaseErrorListener />
             {children}
             <Toaster />
             <LiveChatTerminal />

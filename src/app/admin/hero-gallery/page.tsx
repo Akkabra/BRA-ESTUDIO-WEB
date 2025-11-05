@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PlusCircle, Trash2, Loader2, Image as ImageIcon } from 'lucide-react';
 import { db } from '@/lib/firebase';
-import { collection, getDocs, addDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -23,6 +23,8 @@ import { BraLogo } from '@/components/bra-logo';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { optimizeCloudinaryImage } from '@/lib/utils';
+import { FirestorePermissionError, type SecurityRuleContext } from '@/firebase/errors';
+import { errorEmitter } from '@/firebase/error-emitter';
 
 interface HeroImage {
     id: string;
@@ -51,20 +53,22 @@ export default function HeroGalleryAdminPage() {
 
     const fetchImages = async () => {
         setLoading(true);
-        try {
-            const querySnapshot = await getDocs(collection(db, "hero_backgrounds"));
+        const heroCollectionRef = collection(db, "hero_backgrounds");
+        
+        getDocs(query(heroCollectionRef, orderBy('createdAt', 'desc')))
+          .then(querySnapshot => {
             const imagesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as HeroImage[];
-            setImages(imagesData.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)));
-        } catch (error) {
-            console.error("Error fetching images: ", error);
-            toast({
-                variant: "destructive",
-                title: "Error de conexión",
-                description: "No se pudieron cargar las imágenes de Firestore. Verifica la configuración de Firebase.",
-            });
-        } finally {
+            setImages(imagesData);
             setLoading(false);
-        }
+          })
+          .catch(serverError => {
+            const permissionError = new FirestorePermissionError({
+                path: heroCollectionRef.path,
+                operation: 'list',
+            } satisfies SecurityRuleContext);
+            errorEmitter.emit('permission-error', permissionError);
+            setLoading(false);
+          });
     };
 
     const handleAddNew = () => {
@@ -74,14 +78,19 @@ export default function HeroGalleryAdminPage() {
 
     const handleDelete = async (imageId: string) => {
         if (window.confirm('¿Estás seguro de que quieres eliminar esta imagen?')) {
-            try {
-                await deleteDoc(doc(db, "hero_backgrounds", imageId));
-                await fetchImages();
+            const docRef = doc(db, "hero_backgrounds", imageId);
+            deleteDoc(docRef)
+              .then(() => {
+                fetchImages();
                 toast({ title: "Imagen eliminada", description: "La imagen ha sido eliminada de la galería." });
-            } catch (error) {
-                console.error("Error deleting image: ", error);
-                toast({ variant: "destructive", title: "Error", description: "No se pudo eliminar la imagen." });
-            }
+              })
+              .catch(serverError => {
+                const permissionError = new FirestorePermissionError({
+                    path: docRef.path,
+                    operation: 'delete',
+                } satisfies SecurityRuleContext);
+                errorEmitter.emit('permission-error', permissionError);
+              });
         }
     };
     
@@ -93,20 +102,27 @@ export default function HeroGalleryAdminPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        try {
-            await addDoc(collection(db, "hero_backgrounds"), { 
-                imageUrl: formData.imageUrl, 
-                createdAt: serverTimestamp() 
-            });
+        const dataToSave = { 
+            imageUrl: formData.imageUrl, 
+            createdAt: serverTimestamp() 
+        };
+
+        const collectionRef = collection(db, "hero_backgrounds");
+        addDoc(collectionRef, dataToSave)
+          .then(() => {
             toast({ title: "Imagen añadida", description: "La nueva imagen se ha añadido a la galería del Hero." });
-            
-            await fetchImages();
+            fetchImages();
             setIsDialogOpen(false);
             setFormData({ imageUrl: '' });
-        } catch (error) {
-            console.error("Error saving image:", error);
-            toast({ variant: "destructive", title: "Error", description: "No se pudo guardar la imagen." });
-        }
+          })
+          .catch(serverError => {
+            const permissionError = new FirestorePermissionError({
+                path: collectionRef.path,
+                operation: 'create',
+                requestResourceData: dataToSave
+            } satisfies SecurityRuleContext);
+            errorEmitter.emit('permission-error', permissionError);
+          });
     };
 
     if (authLoading || !user) {
