@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { 
   signInWithEmailAndPassword, 
   signOut
-} from 'firebase/auth'; // Eliminado: createUserWithEmailAndPassword
+} from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
@@ -23,7 +23,7 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    // Redirigir solo si está cargado Y autenticado con el email de administrador
+    // Redirect only if loading is complete and the correct admin user is authenticated
     if (!loading && user && user.email === 'braestudioweb@gmail.com') {
       router.push('/admin/portafolio');
     }
@@ -35,12 +35,9 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      // 1. Siempre intenta INICIAR SESIÓN para un admin
       await signInWithEmailAndPassword(auth, email, password);
+      // The useEffect will handle redirection upon successful login
     } catch (signInError: any) {
-      // 2. Si hay un error, solo muestra el error de inicio de sesión
-      // NOTA: Eliminamos toda la lógica de registro (createUserWithEmailAndPassword)
-      
       let errorMessage = "Error desconocido al iniciar sesión.";
       
       switch (signInError.code) {
@@ -50,19 +47,15 @@ export default function LoginPage() {
         case 'auth/user-not-found':
         case 'auth/wrong-password':
         case 'auth/invalid-credential':
-          // Mostramos un error genérico para seguridad
-          errorMessage = 'Correo o contraseña incorrectos.';
+          errorMessage = 'Credenciales incorrectas. Verifique el correo y la contraseña.';
           break;
         case 'auth/api-key-not-valid':
-          // Este es el error que ya corregimos, pero lo dejamos por si acaso
-          errorMessage = 'Error de conexión con la API de Firebase. Vuelva a verificar las claves.';
+          errorMessage = 'La clave API de Firebase no es válida. Revisa la configuración del entorno.';
           break;
         default:
-          errorMessage = `Error: ${signInError.message}`;
+          errorMessage = `Error de autenticación. Por favor, inténtelo de nuevo.`;
       }
-      
       setError(errorMessage);
-
     } finally {
       setIsSubmitting(false);
     }

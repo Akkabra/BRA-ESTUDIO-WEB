@@ -13,6 +13,27 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Validate that all required environment variables are present
+const requiredConfig = [
+    firebaseConfig.apiKey,
+    firebaseConfig.authDomain,
+    firebaseConfig.projectId,
+    firebaseConfig.storageBucket,
+    firebaseConfig.messagingSenderId,
+    firebaseConfig.appId
+];
+
+if (requiredConfig.some(value => !value)) {
+    console.error("Firebase config is missing required environment variables.");
+    // In a server-side context, you might throw an error.
+    // In a client-side context, this helps diagnose the issue.
+    if (typeof window !== 'undefined') {
+        // This will be visible in the browser console
+        throw new Error("La configuración de Firebase no es válida. Faltan variables de entorno. Asegúrate de configurarlas en tu plataforma de hosting.");
+    }
+}
+
+
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
